@@ -7,28 +7,6 @@ body {
 	padding: 0;
 }
 
-/* Link */
-
-a {
-	font-weight: bold;
-	border-bottom: 3px solid #ededfd;
-}
-
-a:hover {
-	color: #00e599 !important;
-	border-bottom: 3px solid #eceff1;
-}
-
-a.g-link-no-border {
-	font-weight: bold;
-	border: 0;
-}
-
-a.g-link-no-border:hover {
-	color: #eceff1 !important;
-	border: 0;
-}
-
 /* Table override */
 
 .ant-table-thead > tr > th {
