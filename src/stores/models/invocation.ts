@@ -50,6 +50,7 @@ export const InvocationModel = types
 export const InvocationStoreModel = types
 	.model('InvocationStoreModel', {
 		invocations: types.array(InvocationModel),
+		selectedInvocation: types.reference(InvocationModel),
 	})
 	.actions((self) => ({
 		addInvocation(invocation: Invocation) {

@@ -2,5 +2,9 @@ import { useContext } from 'react';
 import { RootStoreContext } from './root-store-context';
 
 export function useRootStore() {
-	return useContext(RootStoreContext);
+	const store = useContext(RootStoreContext);
+	if (store === null) {
+		throw new Error('Store cannot be null, please add a context provider');
+	}
+	return store;
 }
