@@ -1,5 +1,6 @@
 import { Tabs } from 'antd';
 import cuid from 'cuid';
+import { observer } from 'mobx-react-lite';
 import React, { useCallback, useState } from 'react';
 
 export interface Pane {
@@ -23,7 +24,7 @@ const INITIAL_BOARD_STATE: BoardState = {
 	panes: INITIAL_PANES,
 };
 
-export const Board = React.memo(function Board() {
+export const Board = observer(function Board() {
 	const [boardState, setBoardState] = useState<BoardState>(INITIAL_BOARD_STATE);
 
 	const onChange = useCallback((activeKey) => {
