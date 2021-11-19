@@ -40,7 +40,7 @@ export const ApplicationMenu = React.memo(function ApplicationMenu() {
 
 			<style jsx>{`
 				:global(.a-menu) {
-					border-right: 1px solid #e8e8e8;
+					border-right: 1px solid #eceff1;
 					min-height: 100vh;
 				}
 

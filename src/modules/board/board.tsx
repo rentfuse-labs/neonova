@@ -77,13 +77,13 @@ export const Board = React.memo(function Board() {
 	}, []);
 
 	return (
-		<div className="card-container">
+		<>
 			<Tabs
-				tabBarStyle={{ marginBottom: 0 }}
 				type={'editable-card'}
 				onChange={onChange}
 				activeKey={boardState.activeKey}
 				onEdit={onEdit}
+				className={'m-tabs-container'}
 			>
 				{boardState.panes.map((_pane) => (
 					<Tabs.TabPane tab={_pane.title} key={_pane.key} closable={_pane.closable}>
@@ -93,13 +93,22 @@ export const Board = React.memo(function Board() {
 			</Tabs>
 
 			<style jsx>{`
-				.card-container {
+				:global(.m-tabs-container) {
 				}
 
-				.ant-tabs-content {
+				:global(.m-tabs-container .ant-tabs-nav) {
+					margin-bottom: 0px;
+				}
+
+				:global(.m-tabs-container .ant-tabs-content-holder) {
 					padding: 16px;
+					border-left: 1px solid #eceff1;
+					border-right: 1px solid #eceff1;
+					border-bottom: 1px solid #eceff1;
+					border-radius: 0px 0px 4px 4px;
+					background: #ffffff;
 				}
 			`}</style>
-		</div>
+		</>
 	);
 });

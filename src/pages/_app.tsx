@@ -1,10 +1,10 @@
 import React from 'react';
 import Head from 'next/head';
-import { Application } from '../application';
+import { Application } from '@application';
 import { AppProps } from 'next/app';
 
 // Global css to be applied to the whole app
-import './../styles/global.css';
+import '@styles/global.css';
 
 export default function _App({ Component, pageProps }: AppProps) {
 	return (

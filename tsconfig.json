@@ -1,34 +1,39 @@
 {
-  "compilerOptions": {
-    "target": "es5",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
-    "allowJs": true,
-    "skipLibCheck": true,
-    "strict": true,
-    "forceConsistentCasingInFileNames": true,
-    "noEmit": true,
-    "esModuleInterop": true,
-    "module": "esnext",
-    "moduleResolution": "node",
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "jsx": "preserve",
-    "typeRoots": [
-      "src/@types",
-      "node_modules/@types"
-    ],
-    "incremental": true
-  },
-  "include": [
-    "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx"
-  ],
-  "exclude": [
-    "node_modules"
-  ]
+	"compilerOptions": {
+		"target": "es5",
+		"lib": ["dom", "dom.iterable", "esnext"],
+		"allowJs": true,
+		"skipLibCheck": true,
+		"strict": true,
+		"forceConsistentCasingInFileNames": true,
+		"noEmit": true,
+		"esModuleInterop": true,
+		"module": "esnext",
+		"moduleResolution": "node",
+		"resolveJsonModule": true,
+		"isolatedModules": true,
+		"jsx": "preserve",
+		"typeRoots": ["src/@types", "node_modules/@types"],
+		"incremental": true,
+		"baseUrl": ".",
+		"paths": {
+			"@application/*": ["src/application/*"],
+			"@application": ["src/application"],
+			"@components/*": ["src/common/components/*"],
+			"@components": ["src/common/components"],
+			"@hooks/*": ["src/common/hooks/*"],
+			"@hooks": ["src/common/hooks"],
+			"@modules/*": ["src/modules/*"],
+			"@modules": ["src/modules"],
+			"@public/*": ["public/*"],
+			"@public": ["public"],
+			"@styles/*": ["src/styles/*"],
+			"@styles": ["src/styles"],
+			"@stores/*": ["src/stores/*"],
+			"@stores": ["src/stores"],
+			"@i18n": ["./i18n"]
+		}
+	},
+	"include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+	"exclude": ["node_modules"]
 }
