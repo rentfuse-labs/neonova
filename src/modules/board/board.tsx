@@ -2,6 +2,7 @@ import { useRootStore } from '@stores';
 import { Tabs } from 'antd';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
+import { BoardItem } from './components/board-item';
 
 export const Board = observer(function Board() {
 	const { viewStore, invocationStore } = useRootStore();
@@ -53,8 +54,8 @@ export const Board = observer(function Board() {
 				className={'m-tabs-container'}
 			>
 				{invocationStore.invocations.map((_invocation) => (
-					<Tabs.TabPane tab={_invocation.operation} key={_invocation.id} closable={true}>
-						{'The content is a view that updates the selected invocation'}
+					<Tabs.TabPane tab={_invocation.id} key={_invocation.id} closable={true}>
+						<BoardItem invocation={_invocation} />
 					</Tabs.TabPane>
 				))}
 			</Tabs>
