@@ -1,94 +1,60 @@
+import { useRootStore } from '@stores';
 import { Tabs } from 'antd';
-import cuid from 'cuid';
 import { observer } from 'mobx-react-lite';
-import React, { useCallback, useState } from 'react';
-
-export interface Pane {
-	title: string;
-	content: React.ReactNode;
-	key: string;
-	closable: boolean;
-}
-
-export interface BoardState {
-	activeKey?: string;
-	panes: Pane[];
-}
-
-const INITIAL_PANES: Pane[] = [
-	{ title: 'Starter tab', content: 'Content of starter tab', key: cuid(), closable: true },
-];
-
-const INITIAL_BOARD_STATE: BoardState = {
-	activeKey: INITIAL_PANES[0].key,
-	panes: INITIAL_PANES,
-};
+import React from 'react';
 
 export const Board = observer(function Board() {
-	const [boardState, setBoardState] = useState<BoardState>(INITIAL_BOARD_STATE);
+	const { viewStore, invocationStore } = useRootStore();
 
-	const onChange = useCallback((activeKey) => {
-		setBoardState((_boardState) => ({ ..._boardState, activeKey }));
-	}, []);
+	const onChange = (selectedKey: string) => {
+		viewStore.setSelectedInvocationId(selectedKey);
+	};
 
-	const onEdit = useCallback((targetKey, action) => {
+	const onEdit = (targetKey: any, action: string) => {
 		switch (action) {
 			case 'add':
-				setBoardState((_boardState) => {
-					const newKey = cuid();
-					return {
-						activeKey: newKey,
-						panes: [
-							..._boardState.panes,
-							{ title: 'New Tab', content: 'Content of new Tab', key: newKey, closable: true },
-						],
-					};
-				});
+				invocationStore.addDefaultInvocation();
+				viewStore.setSelectedInvocationId(invocationStore.getLastInvocation()!.id);
 				break;
 			case 'remove':
-				setBoardState((_boardState) => {
-					// If i'm removing last one prompr with a new blank starter to avoid having all empty
-					if (_boardState.panes.length === 1) {
-						return INITIAL_BOARD_STATE;
-					}
+				// Save the index of the target invocation
+				const targetIndex = invocationStore.invocations.findIndex((_invocation) => _invocation.id === targetKey);
 
-					let newActiveKey = _boardState.activeKey;
-					let lastIndex = -1;
-					_boardState.panes.forEach((pane, i) => {
-						if (pane.key === targetKey) {
-							lastIndex = i - 1;
-						}
-					});
+				// Remove the selected invocation
+				invocationStore.removeInvocation(invocationStore.getInvocation(targetKey)!.id);
+				// If i'm removing last one prompt with a new blank starter to avoid having all empty
+				if (!invocationStore.invocations.length) {
+					invocationStore.addDefaultInvocation();
+				}
 
-					const newPanes = _boardState.panes.filter((_pane) => _pane.key !== targetKey);
-					if (newPanes.length && newActiveKey === targetKey) {
-						if (lastIndex >= 0) {
-							newActiveKey = newPanes[lastIndex].key;
-						} else {
-							newActiveKey = newPanes[0].key;
-						}
+				// Calculate the new selected key after removing this one
+				let newSelectedKey = viewStore.selectedInvocationId || invocationStore.invocations[0].id;
+				if (newSelectedKey === targetKey) {
+					if (targetIndex - 1 >= 0) {
+						newSelectedKey = invocationStore.invocations[targetIndex - 1].id;
+					} else {
+						newSelectedKey = invocationStore.invocations[0].id;
 					}
-					return {
-						activeKey: newActiveKey,
-						panes: newPanes,
-					};
-				});
+				}
+
+				// Set the new selected key
+				viewStore.setSelectedInvocationId(newSelectedKey);
 				break;
 		}
-	}, []);
+	};
 
 	return (
 		<>
 			<Tabs
 				type={'editable-card'}
 				onChange={onChange}
-				activeKey={boardState.activeKey}
+				activeKey={viewStore.selectedInvocationId}
 				onEdit={onEdit}
 				className={'m-tabs-container'}
 			>
-				{boardState.panes.map((_pane) => (
-					<Tabs.TabPane tab={_pane.title} key={_pane.key} closable={_pane.closable}>
-						{_pane.content}
+				{invocationStore.invocations.map((_invocation) => (
+					<Tabs.TabPane tab={_invocation.operation} key={_invocation.id} closable={true}>
+						{'The content is a view that updates the selected invocation'}
 					</Tabs.TabPane>
 				))}
 			</Tabs>

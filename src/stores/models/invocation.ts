@@ -1,3 +1,4 @@
+import cuid from 'cuid';
 import { types, cast, Instance } from 'mobx-state-tree';
 
 export type InvocationArgType = Instance<typeof InvocationArgTypeModel>;
@@ -47,11 +48,22 @@ export const InvocationModel = types
 		},
 	}));
 
+// With multiple actions chained for typechecking
 export const InvocationStoreModel = types
 	.model('InvocationStoreModel', {
 		invocations: types.array(InvocationModel),
-		selectedInvocation: types.reference(InvocationModel),
 	})
+	.views((self) => ({
+		getInvocation(id: string) {
+			return self.invocations.find((_invocation) => _invocation.id === id) || null;
+		},
+		getLastInvocation() {
+			if (self.invocations.length) {
+				return self.invocations[self.invocations.length - 1];
+			}
+			return null;
+		},
+	}))
 	.actions((self) => ({
 		addInvocation(invocation: Invocation) {
 			self.invocations.push(invocation);
@@ -61,5 +73,21 @@ export const InvocationStoreModel = types
 			if (index !== -1) {
 				self.invocations.splice(index, 1);
 			}
+		},
+		updateInvocation(invocation: Invocation) {
+			// TODO: update selected invocation by id
+		},
+	}))
+	.actions((self) => ({
+		addDefaultInvocation() {
+			self.addInvocation(
+				cast({
+					id: cuid(),
+					type: 'read',
+					scriptHash: '',
+					operation: '',
+					args: [],
+				}),
+			);
 		},
 	}));
