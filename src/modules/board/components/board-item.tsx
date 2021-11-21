@@ -4,8 +4,11 @@ import { Invocation } from '@stores/models';
 import { Form, Col, Row, Button, Radio, Input, Typography, Badge } from 'antd';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
-import ReactJson from 'react-json-view';
+import dynamic from 'next/dynamic';
 import useDimensions from 'react-cool-dimensions';
+
+// Use this trick to correctly load react-json-view in nextjs
+const DynamicReactJson = dynamic(import('react-json-view'), { ssr: false });
 
 export const BoardItem = observer(function BoardItem({ invocation }: { invocation: Invocation }) {
 	const { invocationStore } = useRootStore();
@@ -115,7 +118,7 @@ export const BoardItem = observer(function BoardItem({ invocation }: { invocatio
 					</Col>
 
 					<Col span={12}>
-						<ReactJson
+						<DynamicReactJson
 							src={{ test: 'asd' }}
 							theme={'google'}
 							style={{ padding: 16, borderRadius: 4, height: '100%' }}
