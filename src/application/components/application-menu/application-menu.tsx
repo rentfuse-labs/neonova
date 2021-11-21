@@ -2,11 +2,7 @@ import { Layout, Button } from 'antd';
 import { WalletOutlined, SettingOutlined } from '@ant-design/icons';
 import React from 'react';
 import { ApplicationLogo } from '../application-logo';
-
-export interface Route {
-	url: string;
-	icon: React.ReactNode;
-}
+import { ApplicationMenuButtonSettings } from './components/application-menu-button-settings';
 
 export const ApplicationMenu = React.memo(function ApplicationMenu() {
 	return (
@@ -26,23 +22,18 @@ export const ApplicationMenu = React.memo(function ApplicationMenu() {
 						padding: 16,
 					}}
 				>
-					<div>
+					<div style={{ marginBottom: 24 }}>
 						<Button
 							type={'default'}
 							shape={'circle'}
 							onClick={() => console.log('clicked')}
 							icon={<WalletOutlined />}
-							style={{ marginBottom: 24 }}
 						/>
 					</div>
 
-					<Button
-						type={'default'}
-						shape={'circle'}
-						onClick={() => console.log('clicked')}
-						icon={<SettingOutlined />}
-						style={{ marginBottom: 24 }}
-					/>
+					<div style={{ marginBottom: 24 }}>
+						<ApplicationMenuButtonSettings />
+					</div>
 				</div>
 			</Layout.Sider>
 
