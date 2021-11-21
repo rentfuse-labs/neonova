@@ -3,6 +3,7 @@ import { WalletOutlined, SettingOutlined } from '@ant-design/icons';
 import React from 'react';
 import { ApplicationLogo } from '../application-logo';
 import { ApplicationMenuButtonSettings } from './components/application-menu-button-settings';
+import { ApplicationMenuButtonWallet } from './components/application-menu-button-wallet';
 
 export const ApplicationMenu = React.memo(function ApplicationMenu() {
 	return (
@@ -23,12 +24,7 @@ export const ApplicationMenu = React.memo(function ApplicationMenu() {
 					}}
 				>
 					<div style={{ marginBottom: 24 }}>
-						<Button
-							type={'default'}
-							shape={'circle'}
-							onClick={() => console.log('clicked')}
-							icon={<WalletOutlined />}
-						/>
+						<ApplicationMenuButtonWallet />
 					</div>
 
 					<div style={{ marginBottom: 24 }}>
