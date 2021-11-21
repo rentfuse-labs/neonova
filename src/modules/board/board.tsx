@@ -51,30 +51,36 @@ export const Board = observer(function Board() {
 				onChange={onChange}
 				activeKey={viewStore.selectedInvocationId}
 				onEdit={onEdit}
-				className={'m-tabs-container'}
+				className={'m-board'}
 			>
 				{invocationStore.invocations.map((_invocation) => (
-					<Tabs.TabPane tab={_invocation.id} key={_invocation.id} closable={true}>
+					<Tabs.TabPane tab={_invocation.operation || 'New'} key={_invocation.id} closable={true}>
 						<BoardItem invocation={_invocation} />
 					</Tabs.TabPane>
 				))}
 			</Tabs>
 
 			<style jsx>{`
-				:global(.m-tabs-container) {
+				:global(.m-board) {
+					height: 100%;
 				}
 
-				:global(.m-tabs-container .ant-tabs-nav) {
+				:global(.m-board .ant-tabs-nav) {
 					margin-bottom: 0px;
 				}
 
-				:global(.m-tabs-container .ant-tabs-content-holder) {
+				:global(.m-board .ant-tabs-content-holder) {
+					height: 100%;
 					padding: 16px;
 					border-left: 1px solid #eceff1;
 					border-right: 1px solid #eceff1;
 					border-bottom: 1px solid #eceff1;
 					border-radius: 0px 0px 4px 4px;
 					background: #ffffff;
+				}
+
+				:global(.m-board .ant-tabs-content) {
+					height: 100%;
 				}
 			`}</style>
 		</>

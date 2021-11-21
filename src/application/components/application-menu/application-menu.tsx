@@ -45,7 +45,7 @@ export const ApplicationMenu = React.memo(function ApplicationMenu() {
 				}
 
 				.a-menu-logo {
-					padding: 16px;
+					padding: 16px 20px 16px 20px;
 				}
 			`}</style>
 		</>
