@@ -4,6 +4,7 @@ import { Invocation } from '@stores/models';
 import { Form, Col, Row, Button, Radio, Input, Typography, Badge } from 'antd';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
+import ReactJson from 'react-json-view';
 import useDimensions from 'react-cool-dimensions';
 
 export const BoardItem = observer(function BoardItem({ invocation }: { invocation: Invocation }) {
@@ -114,7 +115,11 @@ export const BoardItem = observer(function BoardItem({ invocation }: { invocatio
 					</Col>
 
 					<Col span={12}>
-						<div style={{ border: '2px solid #eceff1', borderRadius: 4, height: '100%' }}>col-12</div>
+						<ReactJson
+							src={{ test: 'asd' }}
+							theme={'google'}
+							style={{ padding: 16, borderRadius: 4, height: '100%' }}
+						/>
 					</Col>
 				</Row>
 			</div>
