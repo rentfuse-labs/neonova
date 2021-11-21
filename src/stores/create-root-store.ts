@@ -3,7 +3,13 @@ import { RootStore, RootStoreModel } from './root-store';
 export const createRootStore = (): RootStore => {
 	return RootStoreModel.create({
 		viewStore: {
-			selectedInvocation: '',
+			selectedInvocationId: '',
+		},
+		settingsStore: {
+			network: {
+				type: 'TestNet',
+				rpcUrl: '',
+			},
 		},
 		invocationStore: {
 			invocations: [],
