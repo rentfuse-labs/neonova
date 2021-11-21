@@ -1,9 +1,7 @@
-import { Layout, Menu } from 'antd';
-import { ProjectOutlined } from '@ant-design/icons';
-import React, { useMemo } from 'react';
-import Link from 'next/link';
+import { Layout, Button } from 'antd';
+import { WalletOutlined, SettingOutlined } from '@ant-design/icons';
+import React from 'react';
 import { ApplicationLogo } from '../application-logo';
-import { useMenuNavigation } from './hooks/use-menu-navigation';
 
 export interface Route {
 	url: string;
@@ -11,12 +9,6 @@ export interface Route {
 }
 
 export const ApplicationMenu = React.memo(function ApplicationMenu() {
-	const currentKeys = useMenuNavigation();
-
-	const routes = useMemo(() => {
-		return [] as Route[];
-	}, []);
-
 	return (
 		<>
 			<Layout.Sider className={'a-menu'} theme={'light'} collapsed={true}>
@@ -24,24 +16,45 @@ export const ApplicationMenu = React.memo(function ApplicationMenu() {
 					<ApplicationLogo />
 				</div>
 
-				<Menu selectedKeys={currentKeys} mode={'inline'}>
-					{routes.map((route) => (
-						<Menu.Item
-							key={route.url}
-							icon={
-								<Link href={route.url}>
-									<a className={'g-link-no-border'}>{route.icon}</a>
-								</Link>
-							}
-						></Menu.Item>
-					))}
-				</Menu>
+				<div
+					style={{
+						flex: 1,
+						display: 'flex',
+						flexDirection: 'column',
+						justifyContent: 'flex-start',
+						alignItems: 'center',
+						padding: 16,
+					}}
+				>
+					<div>
+						<Button
+							type={'default'}
+							shape={'circle'}
+							onClick={() => console.log('clicked')}
+							icon={<WalletOutlined />}
+							style={{ marginBottom: 24 }}
+						/>
+					</div>
+
+					<Button
+						type={'default'}
+						shape={'circle'}
+						onClick={() => console.log('clicked')}
+						icon={<SettingOutlined />}
+						style={{ marginBottom: 24 }}
+					/>
+				</div>
 			</Layout.Sider>
 
 			<style jsx>{`
 				:global(.a-menu) {
-					border-right: 1px solid #eceff1;
 					min-height: 100vh;
+					border-right: 1px solid #eceff1;
+				}
+
+				:global(.a-menu .ant-layout-sider-children) {
+					display: flex;
+					flex-direction: column;
 				}
 
 				.a-menu-logo {
