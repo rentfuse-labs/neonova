@@ -23,9 +23,16 @@ export const ApplicationMenuButtonWallet = observer(function ApplicationMenuButt
 		<>
 			<Button type={'default'} shape={'circle'} onClick={showModal} icon={<WalletOutlined />} />
 
-			<Modal title={'Select a wallet'} visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
-				<WalletMultiButton />
-				<WalletDisconnectButton />
+			<Modal title={'Wallet'} visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
+				<div style={{ display: 'flex', flexDirection: 'column' }}>
+					<div style={{ width: '100%', marginBottom: 16 }}>
+						<WalletMultiButton />
+					</div>
+
+					<div style={{ width: '100%', marginBottom: 16 }}>
+						<WalletDisconnectButton />
+					</div>
+				</div>
 			</Modal>
 
 			<style jsx>{``}</style>

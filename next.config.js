@@ -24,13 +24,6 @@ const pluginAntdLess = withAntdLess({
 	},
 });
 
-/*
-const pluginTM = withTM({
-	reactStrictMode: true,
-	webpack5: true,
-});
-*/
-
 module.exports = withPlugins([[pluginAntdLess], withTM], {
 	webpack(config) {
 		return config;

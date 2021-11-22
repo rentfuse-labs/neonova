@@ -7,11 +7,11 @@ import { AppProps } from 'next/app';
 import { WalletProvider } from '@rentfuse-labs/neo-wallet-adapter-react';
 import { WalletModalProvider } from '@rentfuse-labs/neo-wallet-adapter-ant-design';
 
-// Global css import
-import '@styles/global.css';
+// Use require instead of import, and order matters
+require('@styles/global.css');
+require('@rentfuse-labs/neo-wallet-adapter-ant-design/styles.css');
 
 export default function _App({ Component, pageProps }: AppProps) {
-	// The wallets that i can connect to
 	const wallets = useMemo(
 		() => [
 			getNeoLineWallet(),
