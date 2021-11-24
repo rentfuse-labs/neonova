@@ -9,7 +9,6 @@ export const ApplicationPage = React.memo(function ApplicationPage({ children }:
 				.a-page {
 					width: 100%;
 					height: 100%;
-					padding: 16px;
 				}
 			`}</style>
 		</>

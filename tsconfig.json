@@ -32,6 +32,8 @@
 			"@styles": ["src/styles"],
 			"@stores/*": ["src/stores/*"],
 			"@stores": ["src/stores"],
+			"@wallet/*": ["src/wallet/*"],
+			"@wallet": ["src/wallet"],
 			"@i18n": ["./i18n"]
 		}
 	},
