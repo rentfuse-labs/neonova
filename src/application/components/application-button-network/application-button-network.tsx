@@ -1,26 +1,44 @@
 import { ApiOutlined } from '@ant-design/icons';
-import { useRootStore } from '@stores';
-import { Button, Form, Input, Modal, Radio } from 'antd';
-import { autorun } from 'mobx';
+import { NETWORK_DATA_MAP } from '@constants';
+import { SettingsNetworkType, useRootStore } from '@stores';
+import { Button, Form, Input, Modal, Radio, Select } from 'antd';
 import { observer } from 'mobx-react-lite';
 import React, { useEffect, useState } from 'react';
+
+async function fetchRpcAddressList(nodeListUrl: string) {
+	let rpcAddressList = [];
+	try {
+		const response = await fetch(nodeListUrl);
+		const data = await response.json();
+		if (data && data.length) {
+			rpcAddressList = data.map((_: any) => _.url);
+		}
+	} catch (error) {
+		console.error(error);
+	}
+	return rpcAddressList;
+}
 
 export const ApplicationButtonNetwork = observer(function ApplicationButtonNetwork() {
 	const { settingsStore } = useRootStore();
 
 	const [form] = Form.useForm();
-	const [isModalVisible, setIsModalVisible] = useState(false);
-	const [isRpcUrlVisible, setIsRpcUrlVisible] = useState(false);
 
-	useEffect(
-		() =>
-			autorun(() => {
-				if (settingsStore.network.type === 'LocalNet') {
-					setIsRpcUrlVisible(true);
-				}
-			}),
-		[],
-	);
+	const [rpcAddressList, setRpcAddressList] = useState([]);
+
+	const [isModalVisible, setIsModalVisible] = useState(false);
+	const [selectedNetworkType, setSelectedNetworkType] = useState(settingsStore.network.type);
+
+	useEffect(() => {
+		const executeFetchRpcAddressList = async (networkType: SettingsNetworkType) => {
+			const _rpcAddressList = await fetchRpcAddressList(NETWORK_DATA_MAP[networkType].nodeListUrl);
+			setRpcAddressList(_rpcAddressList);
+		};
+
+		if (selectedNetworkType !== 'LocalNet') {
+			executeFetchRpcAddressList(selectedNetworkType);
+		}
+	}, [selectedNetworkType]);
 
 	const showModal = () => {
 		setIsModalVisible(true);
@@ -34,13 +52,32 @@ export const ApplicationButtonNetwork = observer(function ApplicationButtonNetwo
 		setIsModalVisible(false);
 	};
 
-	const onFinish = (values: any) => {
-		settingsStore.setNetwork({ type: values.type, rpcUrl: values.rpcUrl });
-		setIsModalVisible(false);
+	const onChangeNetworkType = (event: any) => {
+		const networkType = event.target.value;
+
+		// Reset to already saved values if selected initial type
+		if (settingsStore.network.type === networkType) {
+			form.setFieldsValue({
+				type: networkType,
+				rpcAddress: settingsStore.network.rpcAddress,
+				networkMagic: settingsStore.network.networkMagic,
+			});
+		} else {
+			// Reset rpcAddress and magic if changed to another one
+			form.setFieldsValue({
+				type: networkType,
+				rpcAddress: '',
+				networkMagic: NETWORK_DATA_MAP[networkType].networkMagic,
+			});
+		}
+
+		// Save the new selected network type to show the correct form items
+		setSelectedNetworkType(networkType);
 	};
 
-	const onChange = (event: any) => {
-		setIsRpcUrlVisible(event.target.value === 'LocalNet');
+	const onFinish = (values: any) => {
+		settingsStore.setNetwork({ type: values.type, rpcAddress: values.rpcAddress, networkMagic: values.networkMagic });
+		setIsModalVisible(false);
 	};
 
 	return (
@@ -50,8 +87,8 @@ export const ApplicationButtonNetwork = observer(function ApplicationButtonNetwo
 			</Button>
 
 			<Modal
-				title={'Network'}
 				visible={isModalVisible}
+				title={'Network'}
 				okText={'Save'}
 				onOk={handleOk}
 				onCancel={handleCancel}
@@ -60,24 +97,38 @@ export const ApplicationButtonNetwork = observer(function ApplicationButtonNetwo
 				<Form
 					form={form}
 					layout={'vertical'}
-					initialValues={{ type: settingsStore.network.type, rpcUrl: settingsStore.network.rpcUrl }}
+					initialValues={{
+						type: settingsStore.network.type,
+						rpcAddress: settingsStore.network.rpcAddress,
+						networkMagic: settingsStore.network.networkMagic,
+					}}
 					onFinish={onFinish}
 					preserve={false}
 				>
 					<Form.Item name={'type'} label={'Network type'}>
-						<Radio.Group onChange={onChange}>
+						<Radio.Group onChange={onChangeNetworkType}>
 							<Radio.Button value={'MainNet'}>{'MainNet'}</Radio.Button>
 							<Radio.Button value={'TestNet'}>{'TestNet'}</Radio.Button>
 							<Radio.Button value={'LocalNet'}>{'LocalNet'}</Radio.Button>
 						</Radio.Group>
 					</Form.Item>
 
-					<Form.Item
-						name={'rpcUrl'}
-						label={'Network RPC URL'}
-						style={!isRpcUrlVisible ? { display: 'none' } : undefined}
-					>
-						<Input />
+					<Form.Item name={'rpcAddress'} label={'RPC Address'}>
+						{selectedNetworkType !== 'LocalNet' ? (
+							<Select>
+								{rpcAddressList.map((_rpcAddress) => (
+									<Select.Option key={_rpcAddress} value={_rpcAddress}>
+										{_rpcAddress}
+									</Select.Option>
+								))}
+							</Select>
+						) : (
+							<Input />
+						)}
+					</Form.Item>
+
+					<Form.Item name={'networkMagic'} label={'Network magic'}>
+						<Input type={'number'} disabled={selectedNetworkType !== 'LocalNet'} />
 					</Form.Item>
 				</Form>
 			</Modal>

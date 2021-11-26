@@ -1,23 +1,103 @@
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
+import Neon, { wallet } from '@cityofzion/neon-js';
+import { waitTx, WitnessScope } from '@rentfuse-labs/neo-wallet-adapter-base';
+import { useWallet } from '@rentfuse-labs/neo-wallet-adapter-react';
 import { useRootStore } from '@stores';
 import { Invocation } from '@stores/models';
-import { Form, Col, Row, Button, Radio, Input, Typography, Badge } from 'antd';
+import { useLocalWallet } from '@wallet';
+import { Badge, Button, Col, Form, Input, message, Radio, Row, Select, Typography } from 'antd';
 import { observer } from 'mobx-react-lite';
-import React from 'react';
 import dynamic from 'next/dynamic';
+import React, { useState } from 'react';
 import useDimensions from 'react-cool-dimensions';
 
 // Use this trick to correctly load react-json-view in nextjs
 const DynamicReactJson = dynamic(import('react-json-view'), { ssr: false });
 
 export const BoardItem = observer(function BoardItem({ invocation }: { invocation: Invocation }) {
-	const { invocationStore } = useRootStore();
+	const { viewStore, settingsStore } = useRootStore();
+	const { address, connected, invoke } = useWallet();
+	const { account } = useLocalWallet();
 
 	const { observe: argsListRef, height: argsListHeight } = useDimensions<HTMLDivElement>();
-	const [form] = Form.useForm();
 
-	const onFinish = (values: any) => {
-		console.log('Received values of form: ', values);
+	const [form] = Form.useForm();
+	const [resultJson, setResultJson] = useState<any | null>(null);
+
+	const onFinish = async (values: any) => {
+		setResultJson(null);
+		viewStore.setLoadingVisible(true);
+
+		const isLocal = settingsStore.network.type === 'LocalNet';
+		const isRead = values.type === 'read';
+
+		try {
+			if (isLocal) {
+				if (isRead) {
+					const contract = new Neon.experimental.SmartContract(Neon.u.HexString.fromHex(values.scriptHash), {
+						networkMagic: settingsStore.network.networkMagic,
+						rpcAddress: settingsStore.network.rpcAddress,
+					});
+					const result = await contract.testInvoke(values.operation, values.args);
+
+					setResultJson(result);
+					console.log(result);
+				} else {
+					if (!account) {
+						message.error('You need to connect a wallet to execute a write invocation');
+						return;
+					}
+
+					const contract = new Neon.experimental.SmartContract(Neon.u.HexString.fromHex(values.scriptHash), {
+						networkMagic: settingsStore.network.networkMagic,
+						rpcAddress: settingsStore.network.rpcAddress,
+						account: account as any,
+					});
+					const result = await contract.invoke(values.operation, values.args);
+
+					await waitTx(settingsStore.network.rpcAddress, result);
+					console.log(result);
+				}
+			} else {
+				if (isRead) {
+					const contract = new Neon.experimental.SmartContract(Neon.u.HexString.fromHex(values.scriptHash), {
+						networkMagic: settingsStore.network.networkMagic,
+						rpcAddress: settingsStore.network.rpcAddress,
+					});
+					const result = await contract.testInvoke(values.operation, values.args);
+
+					setResultJson(result);
+					console.log(result);
+				} else {
+					if (!address || !connected) {
+						message.error('You need to connect a wallet to execute a write invocation');
+						return;
+					}
+
+					const result = await invoke({
+						scriptHash: values.scriptHash,
+						operation: values.operation,
+						args: values.args,
+						signers: [
+							{
+								account: wallet.getScriptHashFromAddress(address),
+								scope: WitnessScope.Global,
+							},
+						],
+					});
+
+					if (result.data?.txId) {
+						await waitTx(settingsStore.network.rpcAddress, result.data?.txId);
+					}
+					console.log(result);
+				}
+			}
+		} catch (error) {
+			console.error(error);
+			message.error('An error occurred while doing the invocation');
+		} finally {
+			viewStore.setLoadingVisible(false);
+		}
 	};
 
 	return (
@@ -79,7 +159,13 @@ export const BoardItem = observer(function BoardItem({ invocation }: { invocatio
 																	rules={[{ required: true }]}
 																	style={{ margin: 0, padding: 0 }}
 																>
-																	<Input placeholder={'Type'} />
+																	<Select placeholder={'Type'}>
+																		{Object.keys(InvocationArgType).map((_key) => (
+																			<Select.Option key={_key} value={_key}>
+																				{_key}
+																			</Select.Option>
+																		))}
+																	</Select>
 																</Form.Item>
 															</div>
 
@@ -119,7 +205,7 @@ export const BoardItem = observer(function BoardItem({ invocation }: { invocatio
 
 					<Col span={12}>
 						<DynamicReactJson
-							src={{ test: 'asd' }}
+							src={resultJson}
 							theme={'google'}
 							style={{ padding: 16, borderRadius: 4, height: '100%' }}
 						/>
@@ -138,3 +224,6 @@ export const BoardItem = observer(function BoardItem({ invocation }: { invocatio
 		</>
 	);
 });
+function InvocationArgType(InvocationArgType: any) {
+	throw new Error('Function not implemented.');
+}

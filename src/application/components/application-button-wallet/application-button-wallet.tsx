@@ -6,6 +6,7 @@ import React, { useState } from 'react';
 import { useLocalWallet } from '@wallet';
 import { observer } from 'mobx-react-lite';
 import { wallet } from '@cityofzion/neon-js';
+import { Account } from '@wallet/interfaces';
 
 export const ApplicationButtonWallet = observer(function ApplicationButtonWallet() {
 	const { settingsStore } = useRootStore();
@@ -16,6 +17,9 @@ export const ApplicationButtonWallet = observer(function ApplicationButtonWallet
 	const [form] = Form.useForm();
 	const [isModalVisible, setIsModalVisible] = useState(false);
 
+	// The imported account that is still encrypted
+	const [encryptedAccount, setEncryptedAccount] = useState<Account | null>(null);
+
 	const handleOk = () => {
 		form.submit();
 	};
@@ -25,26 +29,31 @@ export const ApplicationButtonWallet = observer(function ApplicationButtonWallet
 	};
 
 	const onFinish = async (values: any) => {
-		if (account) {
+		if (encryptedAccount) {
 			try {
-				await account.decrypt(values.password);
+				const decryptedAccount = await encryptedAccount.decrypt(values.password);
+				setAccount(decryptedAccount);
+
 				message.success('Local wallet correctly imported');
 			} catch (e) {
 				message.error('Incorrect password');
-				return;
+			} finally {
+				setEncryptedAccount(null);
 			}
 		}
 		setIsModalVisible(false);
 	};
 
 	const onImportLocalWallet = (info: any) => {
+		setEncryptedAccount(null);
+
 		if (info.file.status === 'done') {
 			// Load the wallet and open a modal to insert wallet password to decrypt it
 			const reader = new FileReader();
 			reader.addEventListener('load', () => {
 				try {
 					const localWallet = JSON.parse(reader.result as string);
-					setAccount(new wallet.Account(localWallet.accounts[0].key));
+					setEncryptedAccount(new wallet.Account(localWallet.accounts[0].key));
 					setIsModalVisible(true);
 				} catch (error) {
 					message.error('An error occurred');
@@ -65,7 +74,7 @@ export const ApplicationButtonWallet = observer(function ApplicationButtonWallet
 					</Upload>
 				) : (
 					<Space>
-						<Button type={'primary'}>{'TODO'}</Button>
+						<Button type={'primary'}>{account.address}</Button>
 						<Button type={'default'} onClick={() => setAccount(null)}>
 							{'Disconnect'}
 						</Button>

@@ -24,6 +24,8 @@
 			"@components": ["src/common/components"],
 			"@hooks/*": ["src/common/hooks/*"],
 			"@hooks": ["src/common/hooks"],
+			"@constants/*": ["src/constants/*"],
+			"@constants": ["src/constants"],
 			"@modules/*": ["src/modules/*"],
 			"@modules": ["src/modules"],
 			"@public/*": ["public/*"],

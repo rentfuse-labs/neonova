@@ -1,4 +1,6 @@
-import { Layout, Menu, Typography } from 'antd';
+import { useRootStore } from '@stores/use-root-store';
+import { Layout, Menu, Modal, Spin, Typography } from 'antd';
+import { observer } from 'mobx-react-lite';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -7,13 +9,15 @@ import { ApplicationButtonNetwork } from './components/application-button-networ
 import { ApplicationButtonWallet } from './components/application-button-wallet';
 import { Page } from './interfaces/page';
 
-export const Application = React.memo(function Application({
+export const Application = observer(function Application({
 	pages,
 	children,
 }: {
 	pages: Page[];
 	children: React.ReactNode;
 }) {
+	const { viewStore } = useRootStore();
+
 	const router = useRouter();
 	const currentPage = pages.find((_page) => _page.url === router.asPath) || null;
 
@@ -66,6 +70,10 @@ export const Application = React.memo(function Application({
 
 				<Layout.Content className={'a-content'}>{children}</Layout.Content>
 			</Layout>
+
+			<Modal visible={viewStore.loadingVisible} closable={false} maskClosable={false} footer={null}>
+				<Spin size={'large'} />
+			</Modal>
 
 			<style jsx>{`
 				:global(.a-layout) {

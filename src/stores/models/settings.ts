@@ -12,7 +12,8 @@ export const SettingsNetworkTypeModel = types.enumeration('SettingsNetworkTypeMo
 
 export const SettingsNetworkModel = types.model('SettingsNetworkModel', {
 	type: SettingsNetworkTypeModel,
-	rpcUrl: types.optional(types.string, ''),
+	rpcAddress: types.optional(types.string, ''),
+	networkMagic: types.optional(types.number, 1234567890),
 });
 
 export const SettingsStoreModel = types
