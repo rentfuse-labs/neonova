@@ -10,7 +10,7 @@ import { observer } from 'mobx-react-lite';
 import dynamic from 'next/dynamic';
 import React, { useState } from 'react';
 import useDimensions from 'react-cool-dimensions';
-import { fromStackItem } from '../utils';
+import { fromStackItem, toInvocationArgument } from '../utils';
 
 // Use this trick to correctly load react-json-view in nextjs
 const DynamicReactJson = dynamic(import('react-json-view'), { ssr: false });
@@ -39,7 +39,10 @@ export const BoardItem = observer(function BoardItem({ invocation }: { invocatio
 						networkMagic: settingsStore.network.networkMagic,
 						rpcAddress: settingsStore.network.rpcAddress,
 					});
-					const result = await contract.testInvoke(values.operation, values.args);
+					const result = await contract.testInvoke(
+						values.operation,
+						values.args.map((_arg: any) => toInvocationArgument(_arg.type, _arg.value)),
+					);
 
 					// With bytestring conversion
 					setResultJson({
@@ -57,7 +60,10 @@ export const BoardItem = observer(function BoardItem({ invocation }: { invocatio
 						rpcAddress: settingsStore.network.rpcAddress,
 						account: account as any,
 					});
-					const result = await contract.invoke(values.operation, values.args);
+					const result = await contract.invoke(
+						values.operation,
+						values.args.map((_arg: any) => toInvocationArgument(_arg.type, _arg.value)),
+					);
 
 					await waitTx(settingsStore.network.rpcAddress, result);
 				}
@@ -67,7 +73,10 @@ export const BoardItem = observer(function BoardItem({ invocation }: { invocatio
 						networkMagic: settingsStore.network.networkMagic,
 						rpcAddress: settingsStore.network.rpcAddress,
 					});
-					const result = await contract.testInvoke(values.operation, values.args);
+					const result = await contract.testInvoke(
+						values.operation,
+						values.args.map((_arg: any) => toInvocationArgument(_arg.type, _arg.value)),
+					);
 
 					// With bytestring conversion
 					setResultJson({
@@ -83,7 +92,7 @@ export const BoardItem = observer(function BoardItem({ invocation }: { invocatio
 					const result = await invoke({
 						scriptHash: values.scriptHash,
 						operation: values.operation,
-						args: values.args,
+						args: values.args.map((_arg: any) => toInvocationArgument(_arg.type, _arg.value)),
 						signers: [
 							{
 								account: wallet.getScriptHashFromAddress(address),
@@ -165,7 +174,9 @@ export const BoardItem = observer(function BoardItem({ invocation }: { invocatio
 																	style={{ margin: 0, padding: 0 }}
 																>
 																	<Select placeholder={'Type'}>
-																		{INVOCATION_ARG_TYPE_LIST.map((_key) => (
+																		{INVOCATION_ARG_TYPE_LIST.filter(
+																			(_key) => !['Signature', 'Map', 'InteropInterface'].includes(_key),
+																		).map((_key) => (
 																			<Select.Option key={_key} value={_key}>
 																				{_key}
 																			</Select.Option>
