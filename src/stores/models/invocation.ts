@@ -26,8 +26,8 @@ export const INVOCATION_ARG_TYPE_LIST = [
 export const InvocationArgTypeModel = types.enumeration('InvocationArgTypeModel', INVOCATION_ARG_TYPE_LIST);
 
 export const InvocationArgModel = types.model('InvocationArgModel', {
-	type: InvocationArgTypeModel,
-	value: types.string,
+	type: types.optional(InvocationArgTypeModel, 'Any'),
+	value: types.optional(types.string, ''),
 });
 
 export const InvocationTypeModel = types.enumeration('InvocationTypeModel', ['read', 'write']);

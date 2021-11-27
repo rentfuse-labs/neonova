@@ -115,12 +115,13 @@ export const BoardItem = observer(function BoardItem({ invocation }: { invocatio
 	};
 
 	const onValuesChange = (changedValues: any, allValues: any) => {
+		console.log(allValues);
 		invocationStore.updateInvocation({
 			id: invocation.id,
 			type: allValues.type,
 			scriptHash: allValues.scriptHash,
 			operation: allValues.operation,
-			args: allValues.args,
+			args: allValues.args.filter((_arg: any) => _arg !== undefined),
 		} as Invocation);
 	};
 
