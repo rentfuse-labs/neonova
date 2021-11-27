@@ -104,7 +104,7 @@ export const BoardItem = observer(function BoardItem({ invocation }: { invocatio
 		<>
 			<div className={'m-board-item'}>
 				<Row gutter={[16, 16]} style={{ height: '100%' }}>
-					<Col span={12} style={{ height: '100%' }}>
+					<Col span={8} style={{ height: '100%' }}>
 						<Form form={form} layout={'vertical'} onFinish={onFinish} style={{ height: '100%' }}>
 							<div style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
 								<div>
@@ -203,9 +203,13 @@ export const BoardItem = observer(function BoardItem({ invocation }: { invocatio
 						</Form>
 					</Col>
 
-					<Col span={12}>
+					<Col span={16}>
 						<DynamicReactJson
-							src={resultJson}
+							src={resultJson || { hint: 'Send an invocation to see some data!' }}
+							name={null}
+							indentWidth={2}
+							displayDataTypes={false}
+							displayObjectSize={false}
 							theme={'google'}
 							style={{ padding: 16, borderRadius: 4, height: '100%' }}
 						/>
