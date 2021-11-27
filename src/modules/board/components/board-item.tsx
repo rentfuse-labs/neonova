@@ -10,6 +10,7 @@ import { observer } from 'mobx-react-lite';
 import dynamic from 'next/dynamic';
 import React, { useState } from 'react';
 import useDimensions from 'react-cool-dimensions';
+import { fromStackItem } from '../utils';
 
 // Use this trick to correctly load react-json-view in nextjs
 const DynamicReactJson = dynamic(import('react-json-view'), { ssr: false });
@@ -40,8 +41,11 @@ export const BoardItem = observer(function BoardItem({ invocation }: { invocatio
 					});
 					const result = await contract.testInvoke(values.operation, values.args);
 
-					setResultJson(result);
-					console.log(result);
+					// With bytestring conversion
+					setResultJson({
+						...result,
+						stack: result.stack.map((_item) => ({ ..._item, value: fromStackItem(_item.type, _item.value) })),
+					});
 				} else {
 					if (!account) {
 						message.error('You need to connect a wallet to execute a write invocation');
@@ -56,7 +60,6 @@ export const BoardItem = observer(function BoardItem({ invocation }: { invocatio
 					const result = await contract.invoke(values.operation, values.args);
 
 					await waitTx(settingsStore.network.rpcAddress, result);
-					console.log(result);
 				}
 			} else {
 				if (isRead) {
@@ -66,8 +69,11 @@ export const BoardItem = observer(function BoardItem({ invocation }: { invocatio
 					});
 					const result = await contract.testInvoke(values.operation, values.args);
 
-					setResultJson(result);
-					console.log(result);
+					// With bytestring conversion
+					setResultJson({
+						...result,
+						stack: result.stack.map((_item) => ({ ..._item, value: fromStackItem(_item.type, _item.value) })),
+					});
 				} else {
 					if (!address || !connected) {
 						message.error('You need to connect a wallet to execute a write invocation');
@@ -89,7 +95,6 @@ export const BoardItem = observer(function BoardItem({ invocation }: { invocatio
 					if (result.data?.txId) {
 						await waitTx(settingsStore.network.rpcAddress, result.data?.txId);
 					}
-					console.log(result);
 				}
 			}
 		} catch (error) {
@@ -210,6 +215,7 @@ export const BoardItem = observer(function BoardItem({ invocation }: { invocatio
 							indentWidth={2}
 							displayDataTypes={false}
 							displayObjectSize={false}
+							enableClipboard={false}
 							theme={'google'}
 							style={{ padding: 16, borderRadius: 4, height: '100%' }}
 						/>

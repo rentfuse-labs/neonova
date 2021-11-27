@@ -2,7 +2,7 @@ import { useRootStore } from '@stores';
 import { Tabs } from 'antd';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
-import { BoardItem } from './components/board-item';
+import { BoardItem } from './components';
 
 export const Board = observer(function Board() {
 	const { viewStore, invocationStore } = useRootStore();
