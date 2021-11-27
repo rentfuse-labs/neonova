@@ -82,7 +82,10 @@ export const InvocationStoreModel = types
 			}
 		},
 		updateInvocation(invocation: Invocation) {
-			// TODO: update selected invocation by id
+			const index = self.invocations.findIndex((_invocation) => _invocation.id === invocation.id);
+			if (index !== -1) {
+				self.invocations[index] = invocation;
+			}
 		},
 	}))
 	.actions((self) => ({

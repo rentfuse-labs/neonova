@@ -16,7 +16,7 @@ import { fromStackItem, toInvocationArgument } from '../utils';
 const DynamicReactJson = dynamic(import('react-json-view'), { ssr: false });
 
 export const BoardItem = observer(function BoardItem({ invocation }: { invocation: Invocation }) {
-	const { viewStore, settingsStore } = useRootStore();
+	const { viewStore, settingsStore, invocationStore } = useRootStore();
 	const { address, connected, invoke } = useWallet();
 	const { account } = useLocalWallet();
 
@@ -114,12 +114,34 @@ export const BoardItem = observer(function BoardItem({ invocation }: { invocatio
 		}
 	};
 
+	const onValuesChange = (changedValues: any, allValues: any) => {
+		invocationStore.updateInvocation({
+			id: invocation.id,
+			type: allValues.type,
+			scriptHash: allValues.scriptHash,
+			operation: allValues.operation,
+			args: allValues.args,
+		} as Invocation);
+	};
+
 	return (
 		<>
 			<div className={'m-board-item'}>
 				<Row gutter={[16, 16]} style={{ height: '100%' }}>
 					<Col span={8} style={{ height: '100%' }}>
-						<Form form={form} layout={'vertical'} onFinish={onFinish} style={{ height: '100%' }}>
+						<Form
+							form={form}
+							initialValues={{
+								type: invocation.type,
+								scriptHash: invocation.scriptHash,
+								operation: invocation.operation,
+								args: invocation.args,
+							}}
+							layout={'vertical'}
+							onFinish={onFinish}
+							onValuesChange={onValuesChange}
+							style={{ height: '100%' }}
+						>
 							<div style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
 								<div>
 									<Form.Item name={'type'} label={'Type'} rules={[{ required: true }]}>
