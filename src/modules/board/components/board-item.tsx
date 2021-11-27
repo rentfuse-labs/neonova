@@ -3,7 +3,7 @@ import Neon, { wallet } from '@cityofzion/neon-js';
 import { waitTx, WitnessScope } from '@rentfuse-labs/neo-wallet-adapter-base';
 import { useWallet } from '@rentfuse-labs/neo-wallet-adapter-react';
 import { useRootStore } from '@stores';
-import { Invocation } from '@stores/models';
+import { Invocation, INVOCATION_ARG_TYPE_LIST } from '@stores/models';
 import { useLocalWallet } from '@wallet';
 import { Badge, Button, Col, Form, Input, message, Radio, Row, Select, Typography } from 'antd';
 import { observer } from 'mobx-react-lite';
@@ -165,7 +165,7 @@ export const BoardItem = observer(function BoardItem({ invocation }: { invocatio
 																	style={{ margin: 0, padding: 0 }}
 																>
 																	<Select placeholder={'Type'}>
-																		{Object.keys(InvocationArgType).map((_key) => (
+																		{INVOCATION_ARG_TYPE_LIST.map((_key) => (
 																			<Select.Option key={_key} value={_key}>
 																				{_key}
 																			</Select.Option>
@@ -234,6 +234,3 @@ export const BoardItem = observer(function BoardItem({ invocation }: { invocatio
 		</>
 	);
 });
-function InvocationArgType(InvocationArgType: any) {
-	throw new Error('Function not implemented.');
-}

@@ -7,16 +7,23 @@ export type InvocationType = Instance<typeof InvocationTypeModel>;
 export type Invocation = Instance<typeof InvocationModel>;
 export type InvocationStore = Instance<typeof InvocationStoreModel>;
 
-export const InvocationArgTypeModel = types.enumeration('InvocationArgTypeModel', [
-	'String',
+export const INVOCATION_ARG_TYPE_LIST = [
+	'Any',
 	'Boolean',
-	'Hash160',
-	'Hash256',
 	'Integer',
 	'ByteArray',
+	'String',
+	'Hash160',
+	'Hash256',
+	'PublicKey',
+	'Signature',
 	'Array',
-	'Address',
-]);
+	'Map',
+	'InteropInterface',
+	'Void',
+];
+
+export const InvocationArgTypeModel = types.enumeration('InvocationArgTypeModel', INVOCATION_ARG_TYPE_LIST);
 
 export const InvocationArgModel = types.model('InvocationArgModel', {
 	type: InvocationArgTypeModel,
