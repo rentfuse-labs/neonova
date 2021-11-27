@@ -71,7 +71,14 @@ export const Application = observer(function Application({
 				<Layout.Content className={'a-content'}>{children}</Layout.Content>
 			</Layout>
 
-			<Modal visible={viewStore.loadingVisible} closable={false} maskClosable={false} footer={null}>
+			<Modal
+				visible={viewStore.loadingVisible}
+				closable={false}
+				maskClosable={false}
+				width={320}
+				footer={null}
+				className={'a-modal'}
+			>
 				<Spin size={'large'} />
 			</Modal>
 
@@ -125,6 +132,11 @@ export const Application = observer(function Application({
 				:global(.a-content) {
 					height: 100%;
 					padding: 0px;
+				}
+
+				:global(.a-modal) {
+					padding: 30px 50px;
+					text-align: center;
 				}
 			`}</style>
 		</Layout>
