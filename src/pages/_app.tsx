@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Head from 'next/head';
 import { getNeoLineWallet, getO3Wallet, getWalletConnectWallet } from '@rentfuse-labs/neo-wallet-adapter-wallets';
 import { Application } from '@application';
-import { RootStoreProvider, createRootStore } from '@stores';
+import { RootStoreProvider, createRootStore, persist } from '@stores';
 import { AppProps } from 'next/app';
 import { WalletProvider } from '@rentfuse-labs/neo-wallet-adapter-react';
 import { WalletModalProvider } from '@rentfuse-labs/neo-wallet-adapter-ant-design';
@@ -37,10 +37,27 @@ export default function _App({ Component, pageProps }: AppProps) {
 		}),
 	];
 
+	// Create the store
+	const store = createRootStore();
+	// Apply persistence to the store
+	useEffect(() => {
+		if (typeof window !== 'undefined') {
+			persist({
+				store,
+				onGetData: () => {
+					return localStorage.getItem('@rentfuse-labs/neonova');
+				},
+				onSaveData: (data) => {
+					localStorage.setItem('@rentfuse-labs/neonova', JSON.stringify(data));
+				},
+			});
+		}
+	}, []);
+
 	// Note that we don't recommend ever replacing the value of a Provider with a different one
 	// Using MobX, there should be no need for that, since the observable that is shared can be updated itself
 	return (
-		<RootStoreProvider value={createRootStore()}>
+		<RootStoreProvider value={store}>
 			<WalletProvider wallets={wallets} autoConnect={false}>
 				<WalletModalProvider centered={false}>
 					<LocalWalletProvider>

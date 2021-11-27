@@ -1,7 +1,7 @@
 import { NETWORK_DATA_MAP } from '@constants';
-import { RootStore, RootStoreModel } from './root-store';
+import { RootStoreModel } from './root-store';
 
-export const createRootStore = (): RootStore => {
+export function createRootStore() {
 	return RootStoreModel.create({
 		viewStore: {
 			loadingVisible: false,
@@ -18,4 +18,4 @@ export const createRootStore = (): RootStore => {
 			invocations: [],
 		},
 	});
-};
+}
