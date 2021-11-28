@@ -89,6 +89,8 @@ export const BoardItem = observer(function BoardItem({ invocation }: { invocatio
 						return;
 					}
 
+					console.log(values.args.map((_arg: any) => toInvocationArgument(_arg.type, _arg.value)));
+
 					const result = await invoke({
 						scriptHash: values.scriptHash,
 						operation: values.operation,
@@ -100,6 +102,8 @@ export const BoardItem = observer(function BoardItem({ invocation }: { invocatio
 							},
 						],
 					});
+
+					console.log(result);
 
 					if (result.data?.txId) {
 						await waitTx(settingsStore.network.rpcAddress, result.data?.txId);
@@ -115,7 +119,6 @@ export const BoardItem = observer(function BoardItem({ invocation }: { invocatio
 	};
 
 	const onValuesChange = (changedValues: any, allValues: any) => {
-		console.log(allValues);
 		invocationStore.updateInvocation({
 			id: invocation.id,
 			type: allValues.type,

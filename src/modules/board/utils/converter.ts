@@ -16,44 +16,58 @@ export function fromStackItem(type: StackItemType, value: any) {
 
 // https://github.com/CityOfZion/neon-js/blob/v5.0.0-next.16/packages/neon-core/src/sc/ContractParam.ts
 export function toInvocationArgument(type: ArgumentType, value: any) {
+	const arg = { type, value };
+
 	switch (type) {
 		case 'Any':
-			return sc.ContractParam.any(value);
+			arg.value = null;
+			break;
 		case 'Boolean':
 			// Does basic checks to convert value into a boolean. Value field will be a boolean.
-			return sc.ContractParam.boolean(value);
+			arg.value = sc.ContractParam.boolean(value).toJson().value;
+			break;
 		case 'Integer':
 			// A value that can be parsed to a BigInteger. Numbers or numeric strings are accepted.
-			return sc.ContractParam.integer(value);
+			arg.value = sc.ContractParam.integer(value).toJson().value;
+			break;
 		case 'ByteArray':
 			// A string or HexString.
-			return sc.ContractParam.byteArray(value);
+			arg.value = sc.ContractParam.byteArray(value).toJson().value;
+			break;
 		case 'String':
 			// UTF8 string.
-			return sc.ContractParam.string(value);
+			arg.value = sc.ContractParam.string(value).toJson().value;
+			break;
 		case 'Hash160':
 			// A 40 character (20 bytes) hexstring. Automatically converts an address to scripthash if provided.
-			return sc.ContractParam.hash160(value);
+			arg.value = sc.ContractParam.hash160(value).toJson().value;
+			break;
 		case 'Hash256':
 			// A 64 character (32 bytes) hexstring.
-			return sc.ContractParam.hash256(value);
+			arg.value = sc.ContractParam.hash256(value).toJson().value;
+			break;
 		case 'PublicKey':
 			// A public key (both encoding formats accepted)
-			return sc.ContractParam.publicKey(value);
+			arg.value = sc.ContractParam.publicKey(value).toJson().value;
+			break;
 		case 'Signature':
 			// TODO: NOT SUPPORTED
-			return sc.ContractParam.any(value);
+			break;
 		case 'Array':
 			// Pass an array as JSON [{type: 'String': value: 'blabla'}]
-			return sc.ContractParam.fromJson(value);
+			arg.value = sc.ContractParam.fromJson(value).toJson().value;
+			break;
 		case 'Map':
 			// TODO: NOT SUPPORTED
-			return sc.ContractParam.any(value);
+			break;
 		case 'InteropInterface':
 			// TODO: NOT SUPPORTED
-			return sc.ContractParam.any(value);
+			break;
 		case 'Void':
 			// Value field will be set to null.
-			return sc.ContractParam.void();
+			arg.value = null;
+			break;
 	}
+
+	return arg;
 }
