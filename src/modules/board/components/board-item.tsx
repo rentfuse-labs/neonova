@@ -89,8 +89,8 @@ export const BoardItem = observer(function BoardItem({ invocation }: { invocatio
 						return;
 					}
 
+					// TOREMOVE
 					console.log(values.args.map((_arg: any) => toInvocationArgument(_arg.type, _arg.value)));
-
 					const result = await invoke({
 						scriptHash: values.scriptHash,
 						operation: values.operation,
@@ -103,6 +103,7 @@ export const BoardItem = observer(function BoardItem({ invocation }: { invocatio
 						],
 					});
 
+					// TOREMOVE
 					console.log(result);
 
 					if (result.data?.txId) {

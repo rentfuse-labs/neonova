@@ -29,14 +29,16 @@ export default function _App({ Component, pageProps }: AppProps) {
 					chainId: 'neo3:testnet',
 					methods: ['invokefunction'],
 					appMetadata: {
-						name: 'MyApplicationName', // your application name to be displayed on the wallet
-						description: 'My Application description', // description to be shown on the wallet
-						url: 'https://myapplicationdescription.app/', // url to be linked on the wallet
-						icons: ['https://myapplicationdescription.app/myappicon.png'], // icon to be shown on the wallet
+						name: 'Neonova',
+						description: 'Like Postman but for NEO N3.',
+						url: 'https://github.com/rentfuse-labs',
+						icons: [
+							'https://raw.githubusercontent.com/rentfuse-labs/neo-wallet-adapter/main/neo-wallet-adapter_icon.png',
+						],
 					},
 				},
 				logger: 'debug',
-				relayProvider: 'wss://relay.walletconnect.org',
+				relayProvider: 'wss://connect.coz.io',
 			}),
 		];
 	}, []);
