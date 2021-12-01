@@ -1,12 +1,12 @@
-import React, { useEffect, useMemo } from 'react';
-import Head from 'next/head';
-import { getNeoLineWallet, getO3Wallet, getWalletConnectWallet } from '@rentfuse-labs/neo-wallet-adapter-wallets';
+import { AuditOutlined, CodeOutlined } from '@ant-design/icons';
 import { Application } from '@application';
-import { RootStoreProvider, createRootStore, persist } from '@stores';
-import { AppProps } from 'next/app';
-import { WalletProvider } from '@rentfuse-labs/neo-wallet-adapter-react';
 import { WalletModalProvider } from '@rentfuse-labs/neo-wallet-adapter-ant-design';
-import { AppstoreOutlined } from '@ant-design/icons';
+import { WalletProvider } from '@rentfuse-labs/neo-wallet-adapter-react';
+import { getNeoLineWallet, getO3Wallet, getWalletConnectWallet } from '@rentfuse-labs/neo-wallet-adapter-wallets';
+import { createRootStore, persist, RootStoreProvider } from '@stores';
+import { AppProps } from 'next/app';
+import Head from 'next/head';
+import React, { useEffect, useMemo } from 'react';
 import { LocalWalletProvider } from 'src/wallet';
 
 // Use require instead of import, and order matters
@@ -16,7 +16,10 @@ require('@rentfuse-labs/neo-wallet-adapter-ant-design/styles.css');
 export default function _App({ Component, pageProps }: AppProps) {
 	// The pages of the application to handle routing and title displaying
 	const pages = useMemo(() => {
-		return [{ url: '/', title: 'Invocations', icon: <AppstoreOutlined /> }];
+		return [
+			{ url: '/', title: 'Invocations', icon: <CodeOutlined /> },
+			{ url: '/contract', title: 'Contracts', icon: <AuditOutlined /> },
+		];
 	}, []);
 
 	// The Neo N3 wallets i can connect to
