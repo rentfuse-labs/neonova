@@ -1,6 +1,7 @@
 import Head from 'next/head';
 import React from 'react';
 import { ApplicationPage } from '@application';
+import { Contract } from '@modules/contract';
 
 export default function ContractPage() {
 	return (
@@ -10,7 +11,8 @@ export default function ContractPage() {
 			</Head>
 
 			<ApplicationPage>
-				test
+				<Contract />
+
 				<style jsx>{``}</style>
 			</ApplicationPage>
 		</>
