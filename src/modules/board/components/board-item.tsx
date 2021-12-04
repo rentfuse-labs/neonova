@@ -10,7 +10,7 @@ import { observer } from 'mobx-react-lite';
 import dynamic from 'next/dynamic';
 import React, { useState } from 'react';
 import useDimensions from 'react-cool-dimensions';
-import { fromStackItem, toInvocationArgument } from '../utils';
+import { fromStackItem, toInvocationArgument } from '@utils';
 
 // Use this trick to correctly load react-json-view in nextjs
 const DynamicReactJson = dynamic(import('react-json-view'), { ssr: false });

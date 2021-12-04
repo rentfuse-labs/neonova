@@ -43,7 +43,13 @@ export const Application = observer(function Application({
 						</Link>
 					</div>
 
-					<Menu onClick={onClickMenuItem} selectedKeys={[currentPage?.url || '']} theme={'light'} mode={'inline'}>
+					<Menu
+						className={'a-menu'}
+						onClick={onClickMenuItem}
+						selectedKeys={[currentPage?.url || '']}
+						theme={'light'}
+						mode={'inline'}
+					>
 						{pages.map((_page) => (
 							<Menu.Item key={_page.url} icon={_page.icon} />
 						))}
@@ -103,6 +109,10 @@ export const Application = observer(function Application({
 				:global(.a-sider .ant-layout-sider-children) {
 					display: flex;
 					flex-direction: column;
+				}
+
+				:global(.a-menu) {
+					border: 0px;
 				}
 
 				.a-sider-logo {
