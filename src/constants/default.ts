@@ -1,7 +1,7 @@
 // Data taken from https://github.com/neo-project/neo-node/releases/tag/v3.0.3 and neo-visual-tracker
 export interface NetworkDataMap {
 	[index: string]: {
-		nodeListUrl: string;
+		seedUrlList: string[];
 		networkMagic: number;
 		nativeContracts: {
 			[index: string]: string;
@@ -9,9 +9,10 @@ export interface NetworkDataMap {
 	};
 }
 
+// NB: Only for V3
 export const NETWORK_DATA_MAP = {
 	LocalNet: {
-		nodeListUrl: '',
+		seedUrlList: [],
 		networkMagic: 1234567890,
 		nativeContracts: {
 			contractManagement: '0xfffdc93764dbaddd97c48f252a53ea4643faa3fd',
@@ -20,7 +21,13 @@ export const NETWORK_DATA_MAP = {
 		},
 	},
 	TestNet: {
-		nodeListUrl: 'https://neoscan-testnet.io/api/main_net/v1/get_all_nodes',
+		seedUrlList: [
+			'http://seed1t4.neo.org:20332',
+			'http://seed2t4.neo.org:20332',
+			'http://seed3t4.neo.org:20332',
+			'http://seed4t4.neo.org:20332',
+			'http://seed5t4.neo.org:20332',
+		],
 		networkMagic: 877933390,
 		nativeContracts: {
 			contractManagement: '0xfffdc93764dbaddd97c48f252a53ea4643faa3fd',
@@ -29,7 +36,13 @@ export const NETWORK_DATA_MAP = {
 		},
 	},
 	MainNet: {
-		nodeListUrl: 'https://api.neoscan.io/api/main_net/v1/get_all_nodes',
+		seedUrlList: [
+			'http://seed1.neo.org:10332',
+			'http://seed2.neo.org:10332',
+			'http://seed3.neo.org:10332',
+			'http://seed4.neo.org:10332',
+			'http://seed5.neo.org:10332',
+		],
 		networkMagic: 860833102,
 		nativeContracts: {
 			contractManagement: '0xfffdc93764dbaddd97c48f252a53ea4643faa3fd',

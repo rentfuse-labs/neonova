@@ -1,43 +1,22 @@
 import { ApiOutlined } from '@ant-design/icons';
 import { NETWORK_DATA_MAP } from '@constants';
-import { SettingsNetworkType, useRootStore } from '@stores';
+import { useRootStore } from '@stores';
 import { Button, Form, Input, Modal, Radio, Select } from 'antd';
 import { observer } from 'mobx-react-lite';
 import React, { useEffect, useState } from 'react';
-
-async function fetchRpcAddressList(nodeListUrl: string) {
-	let rpcAddressList = [];
-	try {
-		const response = await fetch(nodeListUrl);
-		const data = await response.json();
-		if (data && data.length) {
-			rpcAddressList = data.map((_: any) => _.url);
-		}
-	} catch (error) {
-		console.error(error);
-	}
-	return rpcAddressList;
-}
 
 export const ApplicationButtonNetwork = observer(function ApplicationButtonNetwork() {
 	const { settingsStore } = useRootStore();
 
 	const [form] = Form.useForm();
 
-	const [rpcAddressList, setRpcAddressList] = useState([]);
+	const [rpcAddressList, setRpcAddressList] = useState<string[]>([]);
 
-	const [isModalVisible, setIsModalVisible] = useState(false);
+	const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
 	const [selectedNetworkType, setSelectedNetworkType] = useState(settingsStore.network.type);
 
 	useEffect(() => {
-		const executeFetchRpcAddressList = async (networkType: SettingsNetworkType) => {
-			const _rpcAddressList = await fetchRpcAddressList(NETWORK_DATA_MAP[networkType].nodeListUrl);
-			setRpcAddressList(_rpcAddressList);
-		};
-
-		if (selectedNetworkType !== 'LocalNet') {
-			executeFetchRpcAddressList(selectedNetworkType);
-		}
+		setRpcAddressList(NETWORK_DATA_MAP[selectedNetworkType].seedUrlList);
 	}, [selectedNetworkType]);
 
 	const showModal = () => {
