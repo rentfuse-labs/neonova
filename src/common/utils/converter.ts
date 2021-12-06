@@ -1,16 +1,39 @@
 import { StackItemType, ArgumentType } from '@rentfuse-labs/neo-wallet-adapter-base';
-import { u, sc } from '@cityofzion/neon-js';
+import { u, sc, wallet } from '@cityofzion/neon-js';
 
-export function fromStackItem(type: StackItemType, value: any) {
+function isBase64(value: any) {
+	const base64regex = /^([0-9a-zA-Z+/]{4})*(([0-9a-zA-Z+/]{2}==)|([0-9a-zA-Z+/]{3}=))?$/;
+	return base64regex.test(value);
+}
+
+// Make recursive if map, return value of the function
+export function toStackItemValue(type: StackItemType, value: any) {
 	switch (type) {
+		case 'Map':
+			// Value is an array of object with key and value that are stackitems
+			const res: any = [];
+			for (const _value of value) {
+				res.push({key: toStackItemValue(_value.key.type, _value.key.value), value:toStackItemValue(_value.value.type, _value.value.value)});
+			}
+			return res;
 		case 'ByteString':
+			/*
 			// NB: If the value is String or ByteArray, it is encoded by Base64
 			const hexValue = u.base642hex(value);
-			const strValue = u.hexstring2str(hexValue);
-
-			return isNaN(+strValue) ? strValue : +strValue;
+			// if it's an address return it as a scripthash (littleEndian so reverse it)
+			if (wallet.isScriptHash(u.reverseHex(hexValue))) {
+				return wallet.getAddressFromScriptHash(u.reverseHex(hexValue));
+			}
+			if (!isNaN(u.HexString.fromHex(u.reverseHex(hexValue)).toNumber())) {
+				return u.HexString.fromHex(u.reverseHex(hexValue)).toNumber();
+			}
+			// ToString -> u.hexstring2str(hexValue)
+			// ToNumber -> u.HexString.fromHex(u.reverseHex(hexValue)).toNumber()
+			// ToAddress (If scripthash) -> wallet.getAddressFromScriptHash(u.reverseHex(hexValue))
+			*/
+			return value;
 		default:
-			return sc.ContractParam.boolean(value);
+			return value;
 	}
 }
 

@@ -1,5 +1,5 @@
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
-import Neon, { wallet } from '@cityofzion/neon-js';
+import Neon, { u, wallet } from '@cityofzion/neon-js';
 import { waitTx, WitnessScope } from '@rentfuse-labs/neo-wallet-adapter-base';
 import { useWallet } from '@rentfuse-labs/neo-wallet-adapter-react';
 import { useRootStore } from '@stores';
@@ -8,12 +8,19 @@ import { useLocalWallet } from '@wallet';
 import { Badge, Button, Col, Form, Input, message, Radio, Row, Select, Typography } from 'antd';
 import { observer } from 'mobx-react-lite';
 import dynamic from 'next/dynamic';
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import useDimensions from 'react-cool-dimensions';
-import { fromStackItem, toInvocationArgument } from '@utils';
+import { toStackItemValue, toInvocationArgument } from '@utils';
+import { OnSelectProps } from 'react-json-view';
 
 // Use this trick to correctly load react-json-view in nextjs
 const DynamicReactJson = dynamic(import('react-json-view'), { ssr: false });
+
+// Utility function to update a nested object
+function updateNestedData(obj: any, value: any, propPath: string) {
+    const [head, ...rest] = propPath.split('.');
+    !rest.length ? obj[head] = value : updateNestedData(obj[head], value, rest.join('.'));
+}
 
 export const BoardItem = observer(function BoardItem({ invocation }: { invocation: Invocation }) {
 	const { viewStore, settingsStore, invocationStore } = useRootStore();
@@ -25,8 +32,12 @@ export const BoardItem = observer(function BoardItem({ invocation }: { invocatio
 	const [form] = Form.useForm();
 	const [resultJson, setResultJson] = useState<any | null>(null);
 
+	const jsonMutationMap = useRef<any>({});
+
 	const onFinish = async (values: any) => {
 		setResultJson(null);
+		jsonMutationMap.current = {};
+
 		viewStore.setLoadingVisible(true);
 
 		const isLocal = settingsStore.network.type === 'LocalNet';
@@ -47,7 +58,7 @@ export const BoardItem = observer(function BoardItem({ invocation }: { invocatio
 					// With bytestring conversion
 					setResultJson({
 						...result,
-						stack: result.stack.map((_item) => ({ ..._item, value: fromStackItem(_item.type, _item.value) })),
+						stack: result.stack.map((_item) => ({ ..._item, value: toStackItemValue(_item.type, _item.value) })),
 					});
 				} else {
 					if (!account) {
@@ -81,7 +92,7 @@ export const BoardItem = observer(function BoardItem({ invocation }: { invocatio
 					// With bytestring conversion
 					setResultJson({
 						...result,
-						stack: result.stack.map((_item) => ({ ..._item, value: fromStackItem(_item.type, _item.value) })),
+						stack: result.stack.map((_item) => ({ ..._item, value: toStackItemValue(_item.type, _item.value) })),
 					});
 				} else {
 					if (!address || !connected) {
@@ -123,6 +134,48 @@ export const BoardItem = observer(function BoardItem({ invocation }: { invocatio
 			args: allValues.args.filter((_arg: any) => _arg !== undefined),
 		} as Invocation);
 	};
+
+	const onSelectJson = (props: OnSelectProps) => {
+		// Only if something in namespace
+		if (!props.namespace.length) {
+			return;
+		}
+
+		// NB: Default is the direct returned value
+		// Mutations describe how to represent the value: default, string, number, address
+		const mutations = ['default', 'string', 'number', 'address'];
+		// The path taken from the props
+		const path = props.namespace.join('.') + '.' + props.name;
+		// Init mutation and default if not set
+		jsonMutationMap.current[path] = {
+			mutation: (jsonMutationMap.current[path]?.mutation || 0) + 1,
+			default: jsonMutationMap.current[path]?.default !== undefined ? jsonMutationMap.current[path].default : props.value
+		}
+		// Reset mutation if exceed the possible mutations
+		if (jsonMutationMap.current[path]['mutation'] > mutations.length - 1) {
+			jsonMutationMap.current[path]['mutation'] = 0;
+		}
+
+		// Updated resultJson substituting the corresponding mutation
+		setResultJson((_json: any) => {
+			const newJson = {..._json};
+			switch(mutations[jsonMutationMap.current[path]['mutation']]) {
+				case 'default':
+					updateNestedData(newJson, jsonMutationMap.current[path]['default'], path);
+					break;
+				case 'string':
+					updateNestedData(newJson, u.hexstring2str(u.base642hex(jsonMutationMap.current[path]['default'])), path);
+					break;
+				case 'number':
+					updateNestedData(newJson, u.HexString.fromHex(u.reverseHex(u.base642hex(jsonMutationMap.current[path]['default']))).toNumber(), path);
+					break;
+				case 'address':
+					updateNestedData(newJson, wallet.getAddressFromScriptHash(u.reverseHex(u.base642hex(jsonMutationMap.current[path]['default']))), path);
+					break;
+			}
+			return newJson;
+		});
+	}
 
 	return (
 		<>
@@ -249,8 +302,9 @@ export const BoardItem = observer(function BoardItem({ invocation }: { invocatio
 							displayDataTypes={false}
 							displayObjectSize={false}
 							enableClipboard={false}
+							onSelect={onSelectJson}
 							theme={'google'}
-							style={{ padding: 16, borderRadius: 4, height: '100%' }}
+							style={{ padding: 16, borderRadius: 4, maxHeight: '100%' }}
 						/>
 					</Col>
 				</Row>

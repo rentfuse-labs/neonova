@@ -56,7 +56,13 @@ export default function _App({ Component, pageProps }: AppProps) {
 			persist({
 				store,
 				onGetData: () => {
-					return localStorage.getItem('@rentfuse-labs/neonova');
+					const data = localStorage.getItem('@rentfuse-labs/neonova');
+					if (data) {
+						// To remove loading indicator if it was present when saved snapshot
+						const dataJson = JSON.parse(data);
+						return {...dataJson, viewStore: {...dataJson.viewStore, loadingVisible: false}};
+					}
+					return null;
 				},
 				onSaveData: (data) => {
 					localStorage.setItem('@rentfuse-labs/neonova', JSON.stringify(data));

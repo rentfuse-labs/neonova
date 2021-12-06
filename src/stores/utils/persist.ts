@@ -12,10 +12,10 @@ export function persist({
 	onSaveData: (data: any) => void;
 }) {
 	// Take the local storage saved version of the store to apply it
-	const savedSnapshot = onGetData();
-	if (savedSnapshot !== null) {
+	const data = onGetData();
+	if (data !== null) {
 		try {
-			applySnapshot(store, JSON.parse(savedSnapshot));
+			applySnapshot(store, data);
 		} catch (error) {
 			console.error(error);
 		}
