@@ -58,7 +58,7 @@ export const ContractDeployPanel = observer(function ContractDeployPanel() {
 							reject();
 						}
 					});
-					reader.readAsText(values.nefFile.originFileObj);
+					reader.readAsText(values.manifestFile.originFileObj);
 				});
 			} catch (error) {}
 		}
@@ -160,7 +160,7 @@ export const ContractDeployPanel = observer(function ContractDeployPanel() {
 								getValueFromEvent={normalizeFile}
 								rules={[{ required: true }]}
 							>
-								<Upload name={'manifestFile'} accept={'.manifest.json'} showUploadList={true} maxCount={1}>
+								<Upload name={'manifestFile'} accept={'.json'} showUploadList={true} maxCount={1}>
 									<Button type={'default'}>Import Manifest</Button>
 								</Upload>
 							</Form.Item>
