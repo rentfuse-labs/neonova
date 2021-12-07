@@ -1,5 +1,4 @@
-import { sc, u, wallet } from '@cityofzion/neon-js';
-import { deployContract } from '@cityofzion/neon-js/lib/experimental';
+import { sc, u, wallet, experimental } from '@cityofzion/neon-js';
 import { waitTx, WitnessScope } from '@rentfuse-labs/neo-wallet-adapter-base';
 import { useWallet } from '@rentfuse-labs/neo-wallet-adapter-react';
 import { useRootStore } from '@stores';
@@ -84,7 +83,7 @@ export const ContractDeployPanel = observer(function ContractDeployPanel() {
 				}
 
 				// Deploy with neon way to do things
-				const result = await deployContract(sc.NEF.fromBuffer(contractBytecode), contractManifest, {
+				const result = await experimental.deployContract(sc.NEF.fromBuffer(contractBytecode), contractManifest, {
 					networkMagic: settingsStore.network.networkMagic,
 					rpcAddress: settingsStore.network.rpcAddress,
 					account: account as any,
@@ -190,3 +189,4 @@ export const ContractDeployPanel = observer(function ContractDeployPanel() {
 		</>
 	);
 });
+

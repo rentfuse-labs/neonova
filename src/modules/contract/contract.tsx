@@ -1,9 +1,8 @@
 import { useRootStore } from '@stores';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
-import { deployContract } from '@cityofzion/neon-js/lib/experimental';
 import { Col, Row } from 'antd';
-import { ContractDeployPanel } from './components/contract-deploy-panel';
+import { ContractDeployPanel } from './components';
 
 export const Contract = observer(function Contract() {
 	const { viewStore, invocationStore } = useRootStore();
