@@ -3,12 +3,13 @@ import { waitTx, WitnessScope } from '@rentfuse-labs/neo-wallet-adapter-base';
 import { useWallet } from '@rentfuse-labs/neo-wallet-adapter-react';
 import { useRootStore } from '@stores';
 import { useLocalWallet } from '@wallet';
-import { Button, Form, message, Typography, Upload } from 'antd';
+import { Button, Form, message, Result, Typography, Upload } from 'antd';
 import { Buffer } from 'buffer';
 import { observer } from 'mobx-react-lite';
 import { toInvocationArgument } from '@utils';
-import React from 'react';
+import React, { useState } from 'react';
 import { NETWORK_DATA_MAP } from '@constants';
+import { CheckCircleOutlined } from '@ant-design/icons';
 
 export const ContractDeployPanel = observer(function ContractDeployPanel() {
 	const { viewStore, settingsStore } = useRootStore();
@@ -17,6 +18,9 @@ export const ContractDeployPanel = observer(function ContractDeployPanel() {
 	const { account } = useLocalWallet();
 
 	const [form] = Form.useForm();
+
+	// The scripthash of the contract that has been deployed used also to decide result showing
+	const [deployedContract, setDeployedContract] = useState<string | null>(null);
 
 	const normalizeFile = (e: any) => {
 		// Extract file from event and add it to form values
@@ -88,10 +92,18 @@ export const ContractDeployPanel = observer(function ContractDeployPanel() {
 					rpcAddress: settingsStore.network.rpcAddress,
 					account: account as any,
 				});
-				console.log('Contract deployed!');
-				console.log(result);
 
-				//await waitTx(settingsStore.network.rpcAddress, result);
+				await waitTx(settingsStore.network.rpcAddress, result);
+
+				// Get deployed contract scripthash
+				const scriptHash = experimental.getContractHash(
+					u.HexString.fromHex(wallet.getScriptHashFromAddress(account.address)),
+					sc.NEF.fromBuffer(contractBytecode).checksum,
+					contractManifest.name,
+				);
+				console.log(scriptHash);
+				// Set it to show it
+				setDeployedContract(scriptHash);
 			} else {
 				if (!address || !connected) {
 					message.error('You need to connect a wallet to execute a write invocation');
@@ -116,11 +128,20 @@ export const ContractDeployPanel = observer(function ContractDeployPanel() {
 					],
 				});
 
-				// TOREMOVE
-				console.log(result);
-
 				if (result.data?.txId) {
 					await waitTx(settingsStore.network.rpcAddress, result.data?.txId);
+
+					// Get deployed contract scripthash
+					const scriptHash = experimental.getContractHash(
+						u.HexString.fromHex(wallet.getScriptHashFromAddress(address)),
+						sc.NEF.fromBuffer(contractBytecode).checksum,
+						contractManifest.name,
+					);
+					console.log(scriptHash);
+					// Set it to show it
+					setDeployedContract(scriptHash);
+				} else {
+					message.warning('Contract was not deployed due to some problems');
 				}
 			}
 		} catch (error) {
@@ -134,49 +155,72 @@ export const ContractDeployPanel = observer(function ContractDeployPanel() {
 	return (
 		<>
 			<div className={'m-contract-deploy-panel'}>
-				<Form form={form} layout={'vertical'} onFinish={onFinish} style={{ height: '100%' }}>
-					<div style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
-						<Typography.Title level={4}>{'Deploy'}</Typography.Title>
+				{deployedContract === null ? (
+					<Form form={form} layout={'vertical'} onFinish={onFinish} style={{ height: '100%' }}>
+						<div style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
+							<Typography.Title level={4}>{'Deploy'}</Typography.Title>
 
-						<div>
-							<Form.Item
-								name={'nefFile'}
-								label={'Contract NEF'}
-								valuePropName={'nefFile'}
-								getValueFromEvent={normalizeFile}
-								rules={[{ required: true }]}
-							>
-								<Upload name={'nefFile'} accept={'.nef'} showUploadList={true} maxCount={1}>
-									<Button type={'default'}>Import NEF</Button>
-								</Upload>
-							</Form.Item>
+							<div>
+								<Form.Item
+									name={'nefFile'}
+									label={'Contract NEF'}
+									valuePropName={'nefFile'}
+									getValueFromEvent={normalizeFile}
+									rules={[{ required: true }]}
+								>
+									<Upload name={'nefFile'} accept={'.nef'} showUploadList={true} maxCount={1}>
+										<Button type={'default'}>Import NEF</Button>
+									</Upload>
+								</Form.Item>
+							</div>
+
+							<div>
+								<Form.Item
+									name={'manifestFile'}
+									label={'Contract manifest'}
+									valuePropName={'manifestFile'}
+									getValueFromEvent={normalizeFile}
+									rules={[{ required: true }]}
+								>
+									<Upload name={'manifestFile'} accept={'.json'} showUploadList={true} maxCount={1}>
+										<Button type={'default'}>Import Manifest</Button>
+									</Upload>
+								</Form.Item>
+							</div>
+
+							<div style={{ flex: 1 }}></div>
+
+							<div>
+								<Form.Item style={{ marginBottom: 0 }}>
+									<Button htmlType={'submit'} type={'primary'} size={'large'} block={true}>
+										{'Deploy'}
+									</Button>
+								</Form.Item>
+							</div>
 						</div>
-
-						<div>
-							<Form.Item
-								name={'manifestFile'}
-								label={'Contract manifest'}
-								valuePropName={'manifestFile'}
-								getValueFromEvent={normalizeFile}
-								rules={[{ required: true }]}
-							>
-								<Upload name={'manifestFile'} accept={'.json'} showUploadList={true} maxCount={1}>
-									<Button type={'default'}>Import Manifest</Button>
-								</Upload>
-							</Form.Item>
-						</div>
-
-						<div style={{ flex: 1 }}></div>
-
-						<div>
-							<Form.Item style={{ marginBottom: 0 }}>
-								<Button htmlType={'submit'} type={'primary'} size={'large'} block={true}>
-									{'Deploy'}
-								</Button>
-							</Form.Item>
-						</div>
+					</Form>
+				) : (
+					<div
+						style={{
+							height: '100%',
+							display: 'flex',
+							flexDirection: 'column',
+							justifyContent: 'center',
+							alignItems: 'center',
+						}}
+					>
+						<Result
+							icon={<CheckCircleOutlined style={{ color: '#00e599' }} />}
+							title={'Contract succesfully deployed'}
+							subTitle={'Contract scripthash: ' + deployedContract}
+							extra={[
+								<Button type={'primary'} key={'ok'}>
+									{'Ok'}
+								</Button>,
+							]}
+						/>
 					</div>
-				</Form>
+				)}
 			</div>
 
 			<style jsx>{`
@@ -189,4 +233,3 @@ export const ContractDeployPanel = observer(function ContractDeployPanel() {
 		</>
 	);
 });
-
