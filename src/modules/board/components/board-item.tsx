@@ -28,6 +28,7 @@ export const BoardItem = observer(function BoardItem({ invocation }: { invocatio
 	const { account } = useLocalWallet();
 
 	const { observe: argsListRef, height: argsListHeight } = useDimensions<HTMLDivElement>();
+	const { observe: jsonViewRef, height: jsonViewHeight } = useDimensions<HTMLDivElement>();
 
 	const [form] = Form.useForm();
 	const [resultJson, setResultJson] = useState<any | null>(null);
@@ -294,7 +295,7 @@ export const BoardItem = observer(function BoardItem({ invocation }: { invocatio
 						</Form>
 					</Col>
 
-					<Col span={16}>
+					<Col ref={jsonViewRef} span={16}>
 						<DynamicReactJson
 							src={resultJson || { hint: 'Send an invocation to see some data!' }}
 							name={null}
@@ -304,7 +305,7 @@ export const BoardItem = observer(function BoardItem({ invocation }: { invocatio
 							enableClipboard={false}
 							onSelect={onSelectJson}
 							theme={'google'}
-							style={{ padding: 16, borderRadius: 4, maxHeight: '100%' }}
+							style={{ padding: 16, borderRadius: 4, height: jsonViewHeight, overflow: 'auto' }}
 						/>
 					</Col>
 				</Row>
