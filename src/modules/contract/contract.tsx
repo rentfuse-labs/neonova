@@ -23,8 +23,6 @@ export const Contract = observer(function Contract() {
 				.m-contract {
 					width: 100%;
 					height: 100%;
-					background: #ffffff;
-					border-radius: 4px;
 				}
 			`}</style>
 		</>

@@ -158,7 +158,7 @@ export const ContractDeployPanel = observer(function ContractDeployPanel() {
 						<div style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
 							<Typography.Title level={4}>{'Deploy'}</Typography.Title>
 
-							<div>
+							<div style={{ marginTop: 16 }}>
 								<Form.Item
 									name={'nefFile'}
 									label={'Contract NEF'}
@@ -212,7 +212,7 @@ export const ContractDeployPanel = observer(function ContractDeployPanel() {
 							title={'Contract succesfully deployed'}
 							subTitle={'Contract scripthash: 0x' + deployedContract}
 							extra={[
-								<Button type={'primary'} key={'ok'}>
+								<Button type={'primary'} key={'ok'} onClick={() => setDeployedContract(null)}>
 									{'Ok'}
 								</Button>,
 							]}
@@ -226,6 +226,8 @@ export const ContractDeployPanel = observer(function ContractDeployPanel() {
 					width: 100%;
 					height: 100%;
 					padding: 16px;
+					background: #ffffff;
+					border-radius: 4px;
 				}
 			`}</style>
 		</>
