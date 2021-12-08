@@ -101,7 +101,6 @@ export const ContractDeployPanel = observer(function ContractDeployPanel() {
 					sc.NEF.fromBuffer(contractBytecode).checksum,
 					contractManifest.name,
 				);
-				console.log(scriptHash);
 				// Set it to show it
 				setDeployedContract(scriptHash);
 			} else {
@@ -137,7 +136,6 @@ export const ContractDeployPanel = observer(function ContractDeployPanel() {
 						sc.NEF.fromBuffer(contractBytecode).checksum,
 						contractManifest.name,
 					);
-					console.log(scriptHash);
 					// Set it to show it
 					setDeployedContract(scriptHash);
 				} else {
@@ -212,7 +210,7 @@ export const ContractDeployPanel = observer(function ContractDeployPanel() {
 						<Result
 							icon={<CheckCircleOutlined style={{ color: '#00e599' }} />}
 							title={'Contract succesfully deployed'}
-							subTitle={'Contract scripthash: ' + deployedContract}
+							subTitle={'Contract scripthash: 0x' + deployedContract}
 							extra={[
 								<Button type={'primary'} key={'ok'}>
 									{'Ok'}
