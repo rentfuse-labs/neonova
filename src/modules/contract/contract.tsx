@@ -1,12 +1,9 @@
-import { useRootStore } from '@stores';
+import { Col, Row } from 'antd';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
-import { Col, Row } from 'antd';
-import { ContractDeployPanel } from './components';
+import { ContractDeployPanel, ContractUpdatePanel } from './components';
 
 export const Contract = observer(function Contract() {
-	const { viewStore, invocationStore } = useRootStore();
-
 	return (
 		<>
 			<div className={'m-contract'}>
@@ -15,7 +12,9 @@ export const Contract = observer(function Contract() {
 						<ContractDeployPanel />
 					</Col>
 
-					<Col span={12}></Col>
+					<Col span={12} style={{ height: '100%' }}>
+						<ContractUpdatePanel />
+					</Col>
 				</Row>
 			</div>
 
