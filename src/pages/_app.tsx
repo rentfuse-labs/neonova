@@ -1,4 +1,4 @@
-import { CodeOutlined, FormOutlined } from '@ant-design/icons';
+import { CodeOutlined, FormOutlined, MehOutlined } from '@ant-design/icons';
 import { Application } from '@application';
 import { WalletModalProvider } from '@rentfuse-labs/neo-wallet-adapter-ant-design';
 import { WalletProvider } from '@rentfuse-labs/neo-wallet-adapter-react';
@@ -14,6 +14,8 @@ import { AppProps } from 'next/app';
 import Head from 'next/head';
 import React, { useEffect, useMemo, useState } from 'react';
 import { LocalWalletProvider } from 'src/wallet';
+import { useResponsive } from '@hooks';
+import { Result } from 'antd';
 
 // Use require instead of import, and order matters
 require('@styles/global.css');
@@ -69,6 +71,8 @@ const GlobalWalletProvider = observer(function GlobalWalletProvider({ children }
 });
 
 export default function _App({ Component, pageProps }: AppProps) {
+	const { isTabletAndBelow } = useResponsive();
+
 	// The pages of the application to handle routing and title displaying
 	const pages = useMemo(() => {
 		return [
@@ -101,6 +105,35 @@ export default function _App({ Component, pageProps }: AppProps) {
 			});
 		}
 	}, [store]);
+
+	// If is not desktop it's not supported!
+	if (isTabletAndBelow) {
+		return (
+			<div
+				style={{
+					width: '100%',
+					minHeight: '100vh',
+					background: '#ffffff',
+					display: 'flex',
+					flexDirection: 'column',
+					justifyContent: 'center',
+					alignItems: 'center',
+				}}
+			>
+				<Head>
+					<link rel="shortcut icon" href="favicon/favicon.ico" />
+					<title>Neonova</title>
+					<meta name="description" content="Like Postman but for NEO N3." />
+				</Head>
+
+				<Result
+					icon={<MehOutlined style={{ color: '#00e599' }} />}
+					title={"Ops, that's embarassing"}
+					subTitle={'Neonova supports only desktop resolution'}
+				/>
+			</div>
+		);
+	}
 
 	// Note that we don't recommend ever replacing the value of a Provider with a different one
 	// Using MobX, there should be no need for that, since the observable that is shared can be updated itself
