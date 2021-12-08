@@ -1,4 +1,4 @@
-import { AuditOutlined, CodeOutlined } from '@ant-design/icons';
+import { FormOutlined, CodeOutlined } from '@ant-design/icons';
 import { Application } from '@application';
 import { WalletModalProvider } from '@rentfuse-labs/neo-wallet-adapter-ant-design';
 import { WalletProvider } from '@rentfuse-labs/neo-wallet-adapter-react';
@@ -18,7 +18,7 @@ export default function _App({ Component, pageProps }: AppProps) {
 	const pages = useMemo(() => {
 		return [
 			{ url: '/', title: 'Invocations', icon: <CodeOutlined /> },
-			{ url: '/contract', title: 'Contracts', icon: <AuditOutlined /> },
+			{ url: '/contract', title: 'Contracts', icon: <FormOutlined /> },
 		];
 	}, []);
 
