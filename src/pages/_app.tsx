@@ -1,4 +1,4 @@
-import { FormOutlined, CodeOutlined } from '@ant-design/icons';
+import { CodeOutlined, FormOutlined } from '@ant-design/icons';
 import { Application } from '@application';
 import { WalletModalProvider } from '@rentfuse-labs/neo-wallet-adapter-ant-design';
 import { WalletProvider } from '@rentfuse-labs/neo-wallet-adapter-react';
@@ -9,7 +9,6 @@ import {
 	Wallet,
 } from '@rentfuse-labs/neo-wallet-adapter-wallets';
 import { createRootStore, persist, RootStoreProvider, SettingsNetworkType, useRootStore } from '@stores';
-import { autorun } from 'mobx';
 import { observer } from 'mobx-react-lite';
 import { AppProps } from 'next/app';
 import Head from 'next/head';
