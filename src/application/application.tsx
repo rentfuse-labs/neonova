@@ -1,7 +1,9 @@
 import { useRootStore } from '@stores/use-root-store';
 import { Layout, Menu, Modal, Spin, Typography } from 'antd';
 import { observer } from 'mobx-react-lite';
-import Image from 'next/image';
+import GithubIcon from '../assets/github-icon.svg';
+import NeonovaIcon from '../assets/neonova-icon.svg';
+import RentfuseIcon from '../assets/rentfuse-icon.svg';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React from 'react';
@@ -29,16 +31,10 @@ export const Application = observer(function Application({
 		<Layout className={'a-layout'}>
 			<div className={'a-sider-wrapper'}>
 				<Layout.Sider className={'a-sider'} theme={'light'} collapsed={true}>
-					<div className={'a-sider-logo'}>
+					<div className={'a-logo'}>
 						<Link href={'/'}>
 							<a className={'g-link-no-border'}>
-								<Image
-									src={'/assets/neonova-icon_green.svg'}
-									layout={'responsive'}
-									width={100}
-									height={100}
-									alt={'Neonova icon'}
-								/>
+								<NeonovaIcon width={28} height={28} fill={'#00e599'} />
 							</a>
 						</Link>
 					</div>
@@ -54,6 +50,33 @@ export const Application = observer(function Application({
 							<Menu.Item key={_page.url} icon={_page.icon} />
 						))}
 					</Menu>
+
+					<div
+						style={{
+							height: '100%',
+							display: 'flex',
+							flexDirection: 'column',
+							justifyContent: 'flex-end',
+							alignItems: 'center',
+						}}
+					>
+						<div style={{ marginBottom: 16 }}>
+							<a
+								href={'https://github.com/rentfuse-labs/neonova'}
+								target={'_blank'}
+								rel={'noreferrer'}
+								className={'g-link-no-border'}
+							>
+								<GithubIcon width={24} height={24} fill={'#040214'} />
+							</a>
+						</div>
+
+						<div style={{ marginBottom: 16 }}>
+							<a href={'https://rentfuse.com'} target={'_blank'} rel={'noreferrer'} className={'g-link-no-border'}>
+								<RentfuseIcon width={24} height={24} fill={'#040214'} />
+							</a>
+						</div>
+					</div>
 				</Layout.Sider>
 			</div>
 
@@ -113,10 +136,15 @@ export const Application = observer(function Application({
 
 				:global(.a-menu) {
 					border: 0px;
+					margin-top: 16px;
 				}
 
-				.a-sider-logo {
-					padding: 14px 26px 14px 26px;
+				:global(.a-logo) {
+					padding: 16px 26px 6px 26px;
+					display: flex;
+					flex-direction: column;
+					justify-content: center;
+					align-items: center;
 				}
 
 				:global(.a-body) {
