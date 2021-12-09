@@ -60,20 +60,20 @@ export const Application = observer(function Application({
 							alignItems: 'center',
 						}}
 					>
-						<div style={{ marginBottom: 16 }}>
+						<div style={{ marginBottom: 24 }}>
 							<a
 								href={'https://github.com/rentfuse-labs/neonova'}
 								target={'_blank'}
 								rel={'noreferrer'}
 								className={'g-link-no-border'}
 							>
-								<GithubIcon width={24} height={24} fill={'#040214'} />
+								<GithubIcon width={20} height={20} fill={'#040214'} opacity={0.8} />
 							</a>
 						</div>
 
-						<div style={{ marginBottom: 16 }}>
+						<div style={{ marginBottom: 24 }}>
 							<a href={'https://rentfuse.com'} target={'_blank'} rel={'noreferrer'} className={'g-link-no-border'}>
-								<RentfuseIcon width={24} height={24} fill={'#040214'} />
+								<RentfuseIcon width={20} height={20} fill={'#040214'} opacity={0.8} />
 							</a>
 						</div>
 					</div>
