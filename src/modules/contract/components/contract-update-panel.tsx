@@ -21,6 +21,12 @@ export const ContractUpdatePanel = observer(function ContractUpdatePanel() {
 	// The scripthash of the contract that has been updated used also to decide result showing
 	const [updatedContract, setUpdatedContract] = useState<string | null>(null);
 
+	const autoRequest = (request: any) => {
+		setTimeout(() => {
+			request.onSuccess('ok');
+		}, 0);
+	};
+
 	const normalizeFile = (e: any) => {
 		// Extract file from event and add it to form values
 		return e.file;
@@ -159,7 +165,7 @@ export const ContractUpdatePanel = observer(function ContractUpdatePanel() {
 					<Form form={form} layout={'vertical'} onFinish={onFinish} style={{ height: '100%' }}>
 						<div style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
 							<Typography.Title level={4}>{'Update'}</Typography.Title>
-							
+
 							<div style={{ marginTop: 16 }}>
 								<Form.Item name={'scriptHash'} label={'ScriptHash'} rules={[{ required: true }]}>
 									<Input />
@@ -174,7 +180,13 @@ export const ContractUpdatePanel = observer(function ContractUpdatePanel() {
 									getValueFromEvent={normalizeFile}
 									rules={[{ required: true }]}
 								>
-									<Upload name={'nefFile'} accept={'.nef'} showUploadList={true} maxCount={1}>
+									<Upload
+										name={'nefFile'}
+										accept={'.nef'}
+										showUploadList={true}
+										customRequest={autoRequest}
+										maxCount={1}
+									>
 										<Button type={'default'}>Import NEF</Button>
 									</Upload>
 								</Form.Item>
@@ -188,7 +200,13 @@ export const ContractUpdatePanel = observer(function ContractUpdatePanel() {
 									getValueFromEvent={normalizeFile}
 									rules={[{ required: true }]}
 								>
-									<Upload name={'manifestFile'} accept={'.json'} showUploadList={true} maxCount={1}>
+									<Upload
+										name={'manifestFile'}
+										accept={'.json'}
+										showUploadList={true}
+										customRequest={autoRequest}
+										maxCount={1}
+									>
 										<Button type={'default'}>Import Manifest</Button>
 									</Upload>
 								</Form.Item>

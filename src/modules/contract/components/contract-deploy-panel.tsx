@@ -22,6 +22,12 @@ export const ContractDeployPanel = observer(function ContractDeployPanel() {
 	// The scripthash of the contract that has been deployed used also to decide result showing
 	const [deployedContract, setDeployedContract] = useState<string | null>(null);
 
+	const autoRequest = (request: any) => {
+		setTimeout(() => {
+			request.onSuccess('ok');
+		}, 0);
+	};
+
 	const normalizeFile = (e: any) => {
 		// Extract file from event and add it to form values
 		return e.file;
@@ -166,7 +172,13 @@ export const ContractDeployPanel = observer(function ContractDeployPanel() {
 									getValueFromEvent={normalizeFile}
 									rules={[{ required: true }]}
 								>
-									<Upload name={'nefFile'} accept={'.nef'} showUploadList={true} maxCount={1}>
+									<Upload
+										name={'nefFile'}
+										accept={'.nef'}
+										showUploadList={true}
+										customRequest={autoRequest}
+										maxCount={1}
+									>
 										<Button type={'default'}>Import NEF</Button>
 									</Upload>
 								</Form.Item>
@@ -180,7 +192,13 @@ export const ContractDeployPanel = observer(function ContractDeployPanel() {
 									getValueFromEvent={normalizeFile}
 									rules={[{ required: true }]}
 								>
-									<Upload name={'manifestFile'} accept={'.json'} showUploadList={true} maxCount={1}>
+									<Upload
+										name={'manifestFile'}
+										accept={'.json'}
+										showUploadList={true}
+										customRequest={autoRequest}
+										maxCount={1}
+									>
 										<Button type={'default'}>Import Manifest</Button>
 									</Upload>
 								</Form.Item>

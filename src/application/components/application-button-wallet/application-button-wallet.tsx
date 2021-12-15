@@ -28,6 +28,12 @@ export const ApplicationButtonWallet = observer(function ApplicationButtonWallet
 		setIsModalVisible(false);
 	};
 
+	const autoRequest = (request: any) => {
+		setTimeout(() => {
+			request.onSuccess('ok');
+		}, 0);
+	};
+
 	const onFinish = async (values: any) => {
 		if (encryptedAccount) {
 			try {
@@ -69,7 +75,14 @@ export const ApplicationButtonWallet = observer(function ApplicationButtonWallet
 		return (
 			<>
 				{!account ? (
-					<Upload name={'file'} accept={'.json'} showUploadList={false} onChange={onImportLocalWallet}>
+					<Upload
+						name={'file'}
+						accept={'.json'}
+						showUploadList={false}
+						customRequest={autoRequest}
+						maxCount={1}
+						onChange={onImportLocalWallet}
+					>
 						<Button type={'primary'}>{'Import wallet'}</Button>
 					</Upload>
 				) : (
