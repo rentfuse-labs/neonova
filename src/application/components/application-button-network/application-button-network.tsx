@@ -90,7 +90,6 @@ export const ApplicationButtonNetwork = observer(function ApplicationButtonNetwo
 						<Radio.Group onChange={onChangeNetworkType}>
 							<Radio.Button value={'MainNet'}>{'MainNet'}</Radio.Button>
 							<Radio.Button value={'TestNet'}>{'TestNet'}</Radio.Button>
-							<Radio.Button value={'LocalNet'}>{'LocalNet'}</Radio.Button>
 						</Radio.Group>
 					</Form.Item>
 

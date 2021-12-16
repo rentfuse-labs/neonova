@@ -1,5 +1,5 @@
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
-import Neon, { u, wallet } from '@cityofzion/neon-js';
+import Neon, { tx, u, wallet } from '@cityofzion/neon-js';
 import { waitTx, WitnessScope } from '@rentfuse-labs/neo-wallet-adapter-base';
 import { useWallet } from '@rentfuse-labs/neo-wallet-adapter-react';
 import { useRootStore } from '@stores';
@@ -70,12 +70,17 @@ export const BoardItem = observer(function BoardItem({ invocation }: { invocatio
 					const contract = new Neon.experimental.SmartContract(Neon.u.HexString.fromHex(values.scriptHash), {
 						networkMagic: settingsStore.network.networkMagic,
 						rpcAddress: settingsStore.network.rpcAddress,
-						account: account as any,
 					});
 
 					const result = await contract.invoke(
 						values.operation,
 						values.args.map((_arg: any) => toInvocationArgument(_arg.type, _arg.value)),
+						[
+							new tx.Signer({
+								account: account.scriptHash,
+								scopes: WitnessScope.Global,
+							}),
+						],
 					);
 
 					await waitTx(settingsStore.network.rpcAddress, result);
