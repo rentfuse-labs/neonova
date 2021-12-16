@@ -37,7 +37,7 @@ export const ApplicationButtonWallet = observer(function ApplicationButtonWallet
 	const onFinish = async (values: any) => {
 		if (encryptedAccount) {
 			try {
-				setAccount(values.password?.length ? await encryptedAccount.decrypt('values.password') : encryptedAccount);
+				setAccount(values.password?.length ? await encryptedAccount.decrypt(values.password) : encryptedAccount);
 
 				message.success('Local wallet correctly imported');
 			} catch (e) {
@@ -58,7 +58,7 @@ export const ApplicationButtonWallet = observer(function ApplicationButtonWallet
 			reader.addEventListener('load', () => {
 				try {
 					const localWallet = JSON.parse(reader.result as string);
-					setEncryptedAccount(new wallet.Account(localWallet.accounts[0].key));
+					setEncryptedAccount(new wallet.Account(localWallet.accounts[0]['private-key']));
 					setIsModalVisible(true);
 				} catch (error) {
 					message.error('An error occurred');

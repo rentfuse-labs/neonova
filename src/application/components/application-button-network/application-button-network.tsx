@@ -15,6 +15,8 @@ export const ApplicationButtonNetwork = observer(function ApplicationButtonNetwo
 	const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
 	const [selectedNetworkType, setSelectedNetworkType] = useState(settingsStore.network.type);
 
+	useEffect(() => setSelectedNetworkType(settingsStore.network.type), [settingsStore.network.type]);
+
 	useEffect(() => {
 		setRpcAddressList(NETWORK_DATA_MAP[selectedNetworkType].seedUrlList);
 	}, [selectedNetworkType]);
