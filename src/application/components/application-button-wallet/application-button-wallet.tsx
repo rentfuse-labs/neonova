@@ -37,8 +37,7 @@ export const ApplicationButtonWallet = observer(function ApplicationButtonWallet
 	const onFinish = async (values: any) => {
 		if (encryptedAccount) {
 			try {
-				const decryptedAccount = await encryptedAccount.decrypt(values.password);
-				setAccount(decryptedAccount);
+				setAccount(values.password?.length ? await encryptedAccount.decrypt('values.password') : encryptedAccount);
 
 				message.success('Local wallet correctly imported');
 			} catch (e) {
@@ -103,7 +102,7 @@ export const ApplicationButtonWallet = observer(function ApplicationButtonWallet
 					destroyOnClose={true}
 				>
 					<Form form={form} layout={'vertical'} onFinish={onFinish} preserve={false}>
-						<Form.Item name={'password'} label={'Password'} rules={[{ required: true }]}>
+						<Form.Item name={'password'} label={'Password'}>
 							<Input.Password />
 						</Form.Item>
 					</Form>

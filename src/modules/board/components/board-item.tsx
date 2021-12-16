@@ -4,13 +4,13 @@ import { waitTx, WitnessScope } from '@rentfuse-labs/neo-wallet-adapter-base';
 import { useWallet } from '@rentfuse-labs/neo-wallet-adapter-react';
 import { useRootStore } from '@stores';
 import { Invocation, INVOCATION_ARG_TYPE_LIST } from '@stores/models';
+import { toInvocationArgument, toStackItemValue } from '@utils';
 import { useLocalWallet } from '@wallet';
 import { Badge, Button, Col, Form, Input, message, Radio, Row, Select, Typography } from 'antd';
 import { observer } from 'mobx-react-lite';
 import dynamic from 'next/dynamic';
 import React, { useRef, useState } from 'react';
 import useDimensions from 'react-cool-dimensions';
-import { toStackItemValue, toInvocationArgument } from '@utils';
 import { OnSelectProps } from 'react-json-view';
 
 // Use this trick to correctly load react-json-view in nextjs
@@ -18,8 +18,8 @@ const DynamicReactJson = dynamic(import('react-json-view'), { ssr: false });
 
 // Utility function to update a nested object
 function updateNestedData(obj: any, value: any, propPath: string) {
-    const [head, ...rest] = propPath.split('.');
-    !rest.length ? obj[head] = value : updateNestedData(obj[head], value, rest.join('.'));
+	const [head, ...rest] = propPath.split('.');
+	!rest.length ? (obj[head] = value) : updateNestedData(obj[head], value, rest.join('.'));
 }
 
 export const BoardItem = observer(function BoardItem({ invocation }: { invocation: Invocation }) {
@@ -72,6 +72,7 @@ export const BoardItem = observer(function BoardItem({ invocation }: { invocatio
 						rpcAddress: settingsStore.network.rpcAddress,
 						account: account as any,
 					});
+
 					const result = await contract.invoke(
 						values.operation,
 						values.args.map((_arg: any) => toInvocationArgument(_arg.type, _arg.value)),
@@ -150,8 +151,9 @@ export const BoardItem = observer(function BoardItem({ invocation }: { invocatio
 		// Init mutation and default if not set
 		jsonMutationMap.current[path] = {
 			mutation: (jsonMutationMap.current[path]?.mutation || 0) + 1,
-			default: jsonMutationMap.current[path]?.default !== undefined ? jsonMutationMap.current[path].default : props.value
-		}
+			default:
+				jsonMutationMap.current[path]?.default !== undefined ? jsonMutationMap.current[path].default : props.value,
+		};
 		// Reset mutation if exceed the possible mutations
 		if (jsonMutationMap.current[path]['mutation'] > mutations.length - 1) {
 			jsonMutationMap.current[path]['mutation'] = 0;
@@ -159,8 +161,8 @@ export const BoardItem = observer(function BoardItem({ invocation }: { invocatio
 
 		// Updated resultJson substituting the corresponding mutation
 		setResultJson((_json: any) => {
-			const newJson = {..._json};
-			switch(mutations[jsonMutationMap.current[path]['mutation']]) {
+			const newJson = { ..._json };
+			switch (mutations[jsonMutationMap.current[path]['mutation']]) {
 				case 'default':
 					updateNestedData(newJson, jsonMutationMap.current[path]['default'], path);
 					break;
@@ -168,15 +170,23 @@ export const BoardItem = observer(function BoardItem({ invocation }: { invocatio
 					updateNestedData(newJson, u.hexstring2str(u.base642hex(jsonMutationMap.current[path]['default'])), path);
 					break;
 				case 'number':
-					updateNestedData(newJson, u.HexString.fromHex(u.reverseHex(u.base642hex(jsonMutationMap.current[path]['default']))).toNumber(), path);
+					updateNestedData(
+						newJson,
+						u.HexString.fromHex(u.reverseHex(u.base642hex(jsonMutationMap.current[path]['default']))).toNumber(),
+						path,
+					);
 					break;
 				case 'address':
-					updateNestedData(newJson, wallet.getAddressFromScriptHash(u.reverseHex(u.base642hex(jsonMutationMap.current[path]['default']))), path);
+					updateNestedData(
+						newJson,
+						wallet.getAddressFromScriptHash(u.reverseHex(u.base642hex(jsonMutationMap.current[path]['default']))),
+						path,
+					);
 					break;
 			}
 			return newJson;
 		});
-	}
+	};
 
 	return (
 		<>

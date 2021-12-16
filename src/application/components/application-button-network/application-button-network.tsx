@@ -55,7 +55,7 @@ export const ApplicationButtonNetwork = observer(function ApplicationButtonNetwo
 	};
 
 	const onFinish = (values: any) => {
-		settingsStore.setNetwork({ type: values.type, rpcAddress: values.rpcAddress, networkMagic: values.networkMagic });
+		settingsStore.setNetwork({ type: values.type, rpcAddress: values.rpcAddress, networkMagic: +values.networkMagic });
 		setIsModalVisible(false);
 	};
 
