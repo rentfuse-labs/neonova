@@ -22,6 +22,8 @@ export const NETWORK_DATA_MAP = {
 	},
 	TestNet: {
 		seedUrlList: [
+			'https://testnet1.neo.coz.io:443',
+			'https://testnet2.neo.coz.io:443',
 			'http://seed1t4.neo.org:20332',
 			'http://seed2t4.neo.org:20332',
 			'http://seed3t4.neo.org:20332',
@@ -37,6 +39,8 @@ export const NETWORK_DATA_MAP = {
 	},
 	MainNet: {
 		seedUrlList: [
+			'https://mainnet1.neo.coz.io:443',
+			'https://mainnet1.neo.coz.io:443',
 			'http://seed1.neo.org:10332',
 			'http://seed2.neo.org:10332',
 			'http://seed3.neo.org:10332',
