@@ -13,7 +13,10 @@ export function toStackItemValue(type: StackItemType, value: any) {
 			// Value is an array of object with key and value that are stackitems
 			const res: any = [];
 			for (const _value of value) {
-				res.push({key: toStackItemValue(_value.key.type, _value.key.value), value:toStackItemValue(_value.value.type, _value.value.value)});
+				res.push({
+					key: toStackItemValue(_value.key.type, _value.key.value),
+					value: toStackItemValue(_value.value.type, _value.value.value),
+				});
 			}
 			return res;
 		case 'ByteString':
@@ -47,7 +50,11 @@ export function toInvocationArgument(type: ArgumentType, value: any) {
 			break;
 		case 'Boolean':
 			// Does basic checks to convert value into a boolean. Value field will be a boolean.
-			arg.value = sc.ContractParam.boolean(value).toJson().value;
+			let _value = value;
+			if (typeof _value === 'string') {
+				_value = _value === 'true' || _value === '1';
+			}
+			arg.value = sc.ContractParam.boolean(_value).toJson().value;
 			break;
 		case 'Integer':
 			// A value that can be parsed to a BigInteger. Numbers or numeric strings are accepted.
