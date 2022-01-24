@@ -114,7 +114,7 @@ export const BoardItem = observer(function BoardItem({ invocation }: { invocatio
 						signers: [
 							{
 								account: wallet.getScriptHashFromAddress(address),
-								scope: WitnessScope.Global,
+								scopes: WitnessScope.Global,
 							},
 						],
 					});
