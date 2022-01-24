@@ -10,13 +10,13 @@
 		"test": "jest -c test/jest.config.js"
 	},
 	"dependencies": {
-		"@ant-design/icons": "^4.6.4",
+		"@ant-design/icons": "4.6.4",
 		"@cityofzion/neon-js": "^5.0.0-next.16",
 		"@rentfuse-labs/neo-wallet-adapter-ant-design": "^0.2.0",
 		"@rentfuse-labs/neo-wallet-adapter-base": "^0.2.0",
 		"@rentfuse-labs/neo-wallet-adapter-react": "^0.2.0",
 		"@rentfuse-labs/neo-wallet-adapter-wallets": "^0.2.0",
-		"antd": "^4.16.13",
+		"antd": "4.16.13",
 		"buffer": "^6.0.3",
 		"classnames": "^2.3.1",
 		"cuid": "^2.1.8",
