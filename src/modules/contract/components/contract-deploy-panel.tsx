@@ -128,7 +128,7 @@ export const ContractDeployPanel = observer(function ContractDeployPanel() {
 					signers: [
 						{
 							account: wallet.getScriptHashFromAddress(address),
-							scope: WitnessScope.Global,
+							scopes: WitnessScope.CalledByEntry,
 						},
 					],
 				});

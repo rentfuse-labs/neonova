@@ -130,7 +130,7 @@ export const ContractUpdatePanel = observer(function ContractUpdatePanel() {
 					signers: [
 						{
 							account: wallet.getScriptHashFromAddress(address),
-							scope: WitnessScope.CalledByEntry,
+							scopes: WitnessScope.CalledByEntry,
 						},
 					],
 				});

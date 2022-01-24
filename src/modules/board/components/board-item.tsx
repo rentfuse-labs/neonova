@@ -78,7 +78,7 @@ export const BoardItem = observer(function BoardItem({ invocation }: { invocatio
 						[
 							new tx.Signer({
 								account: account.scriptHash,
-								scopes: WitnessScope.Global,
+								scopes: WitnessScope.CalledByEntry,
 							}),
 						],
 					);
@@ -114,7 +114,7 @@ export const BoardItem = observer(function BoardItem({ invocation }: { invocatio
 						signers: [
 							{
 								account: wallet.getScriptHashFromAddress(address),
-								scope: WitnessScope.Global,
+								scopes: WitnessScope.CalledByEntry,
 							},
 						],
 					});
