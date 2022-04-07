@@ -3,7 +3,7 @@ import Neon, { tx, u, wallet } from '@cityofzion/neon-js';
 import { waitTx, WitnessScope } from '@rentfuse-labs/neo-wallet-adapter-base';
 import { useWallet } from '@rentfuse-labs/neo-wallet-adapter-react';
 import { useRootStore } from '@stores';
-import { Invocation, INVOCATION_ARG_TYPE_LIST } from '@stores/models';
+import { Invocation, INVOCATION_ARG_TYPE_LIST, Project } from '@stores/models';
 import { toInvocationArgument, toStackItemValue } from '@utils';
 import { useLocalWallet } from '@wallet';
 import { Badge, Button, Col, Form, Input, message, Radio, Row, Select, Typography } from 'antd';
@@ -22,8 +22,14 @@ function updateNestedData(obj: any, value: any, propPath: string) {
 	!rest.length ? (obj[head] = value) : updateNestedData(obj[head], value, rest.join('.'));
 }
 
-export const BoardItem = observer(function BoardItem({ invocation }: { invocation: Invocation }) {
-	const { viewStore, settingsStore, invocationStore } = useRootStore();
+export const BoardItem = observer(function BoardItem({
+	project,
+	invocation,
+}: {
+	project: Project;
+	invocation: Invocation;
+}) {
+	const { viewStore, settingsStore, projectStore } = useRootStore();
 	const { address, connected, invoke } = useWallet();
 	const { account } = useLocalWallet();
 
@@ -133,7 +139,7 @@ export const BoardItem = observer(function BoardItem({ invocation }: { invocatio
 	};
 
 	const onValuesChange = (changedValues: any, allValues: any) => {
-		invocationStore.updateInvocation({
+		projectStore.updateInvocation(project, {
 			id: invocation.id,
 			type: allValues.type,
 			scriptHash: allValues.scriptHash,

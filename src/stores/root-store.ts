@@ -1,5 +1,5 @@
 import { Instance, types } from 'mobx-state-tree';
-import { ViewStoreModel, InvocationStoreModel, SettingsStoreModel } from './models';
+import { ViewStoreModel, ProjectStoreModel, SettingsStoreModel, getDefaultProject } from './models';
 
 export type RootStore = Instance<typeof RootStoreModel>;
 
@@ -7,11 +7,13 @@ export const RootStoreModel = types
 	.model('RootStoreModel', {
 		viewStore: ViewStoreModel,
 		settingsStore: SettingsStoreModel,
-		invocationStore: InvocationStoreModel,
+		projectStore: ProjectStoreModel,
 	})
 	.actions((self) => ({
 		afterCreate() {
-			self.invocationStore.addDefaultInvocation();
-			self.viewStore.setSelectedInvocationId(self.invocationStore.getLastInvocation()!.id);
+			const projectToAdd = getDefaultProject() as any;
+			self.projectStore.addProject(projectToAdd);
+			self.viewStore.setSelectedProjectId(projectToAdd.id);
+			self.viewStore.setSelectedInvocationId(projectToAdd.invocations[0].id);
 		},
 	}));

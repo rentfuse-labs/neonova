@@ -5,7 +5,6 @@ export type InvocationArgType = Instance<typeof InvocationArgTypeModel>;
 export type InvocationArg = Instance<typeof InvocationArgModel>;
 export type InvocationType = Instance<typeof InvocationTypeModel>;
 export type Invocation = Instance<typeof InvocationModel>;
-export type InvocationStore = Instance<typeof InvocationStoreModel>;
 
 export const INVOCATION_ARG_TYPE_LIST = [
 	'Any',
@@ -40,64 +39,14 @@ export const InvocationModel = types
 		operation: types.string,
 		args: types.array(InvocationArgModel),
 	})
-	.actions((self) => ({
-		setType(type: InvocationType) {
-			self.type = type;
-		},
-		setScriptHash(scriptHash: string) {
-			self.scriptHash = scriptHash;
-		},
-		setOperation(operation: string) {
-			self.operation = operation;
-		},
-		setArgs(args: InvocationArg[]) {
-			self.args = cast(args);
-		},
-	}));
+	.actions((self) => ({}));
 
-// With multiple actions chained for typechecking
-export const InvocationStoreModel = types
-	.model('InvocationStoreModel', {
-		invocations: types.array(InvocationModel),
-	})
-	.views((self) => ({
-		getInvocation(id: string) {
-			return self.invocations.find((_invocation) => _invocation.id === id) || null;
-		},
-		getLastInvocation() {
-			if (self.invocations.length) {
-				return self.invocations[self.invocations.length - 1];
-			}
-			return null;
-		},
-	}))
-	.actions((self) => ({
-		addInvocation(invocation: Invocation) {
-			self.invocations.push(invocation);
-		},
-		removeInvocation(id: string) {
-			const index = self.invocations.findIndex((_invocation) => _invocation.id === id);
-			if (index !== -1) {
-				self.invocations.splice(index, 1);
-			}
-		},
-		updateInvocation(invocation: Invocation) {
-			const index = self.invocations.findIndex((_invocation) => _invocation.id === invocation.id);
-			if (index !== -1) {
-				self.invocations[index] = invocation;
-			}
-		},
-	}))
-	.actions((self) => ({
-		addDefaultInvocation() {
-			self.addInvocation(
-				cast({
-					id: cuid(),
-					type: 'read',
-					scriptHash: '',
-					operation: '',
-					args: [],
-				}),
-			);
-		},
-	}));
+export function getDefaultInvocation() {
+	return {
+		id: cuid(),
+		type: 'read',
+		scriptHash: '',
+		operation: '',
+		args: [],
+	} as any;
+}

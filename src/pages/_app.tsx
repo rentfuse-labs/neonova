@@ -91,7 +91,7 @@ export default function _App({ Component, pageProps }: AppProps) {
 			persist({
 				store,
 				onGetData: () => {
-					const data = localStorage.getItem('@rentfuse-labs/neonova');
+					const data = localStorage.getItem('@rentfuse-labs/neonova-1.1.0');
 					if (data) {
 						// To remove loading indicator if it was present when saved snapshot
 						const dataJson = JSON.parse(data);
@@ -100,7 +100,7 @@ export default function _App({ Component, pageProps }: AppProps) {
 					return null;
 				},
 				onSaveData: (data) => {
-					localStorage.setItem('@rentfuse-labs/neonova', JSON.stringify(data));
+					localStorage.setItem('@rentfuse-labs/neonova-1.1.0', JSON.stringify(data));
 				},
 			});
 		}
