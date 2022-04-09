@@ -27,9 +27,8 @@ export const Board = observer(function Board() {
 
 	const onRemoveProject = (project: Project) => {
 		Modal.confirm({
-			title: 'Delete project ' + project.name,
+			title: 'Delete group ' + project.name,
 			icon: <ExclamationCircleOutlined style={{ color: '#ff4d4f' }} />,
-			content: 'This will delete also project invocations',
 			onOk() {
 				// Remove project
 				projectStore.removeProject(project.id);
