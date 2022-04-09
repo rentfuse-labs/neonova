@@ -1,5 +1,6 @@
-import { getDefaultInvocation, Invocation, Project, useRootStore } from '@stores';
-import { Form, Input, Menu, Tabs } from 'antd';
+import { CloseCircleOutlined, ExclamationCircleOutlined, PlusCircleOutlined } from '@ant-design/icons';
+import { getDefaultInvocation, getDefaultProject, Invocation, Project, useRootStore } from '@stores';
+import { Button, Form, Input, List, Menu, Modal, Tabs } from 'antd';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
 import { BoardItem } from './components';
@@ -8,6 +9,46 @@ export const Board = observer(function Board() {
 	const { viewStore, projectStore } = useRootStore();
 
 	const selectedProject = projectStore.getProject(viewStore.selectedProjectId);
+
+	const onAddProject = () => {
+		const projectToAdd = getDefaultProject() as any;
+		projectStore.addProject(projectToAdd);
+		viewStore.setSelectedProjectId(projectToAdd.id);
+		viewStore.setSelectedInvocationId(projectToAdd.invocations[0].id);
+	};
+
+	const onRemoveProject = (project: Project) => {
+		Modal.confirm({
+			title: 'Delete project ' + project.name,
+			icon: <ExclamationCircleOutlined style={{ color: '#ff4d4f' }} />,
+			content: 'This will delete also project invocations',
+			onOk() {
+				// Remove project
+				projectStore.removeProject(project.id);
+
+				// If after removed there are still other projects find best key to highlight
+				if (projectStore.projects.length) {
+					// Calculate the new selected key after removing this one
+					let newSelectedKey = viewStore.selectedProjectId || projectStore.projects[0].id;
+					if (newSelectedKey === project.id) {
+						const targetIndex = projectStore.projects.findIndex((_project) => _project.id === project.id);
+						if (targetIndex - 1 >= 0) {
+							newSelectedKey = projectStore.projects[targetIndex - 1].id;
+						} else {
+							newSelectedKey = projectStore.projects[0].id;
+						}
+					}
+					// Set the new selected key
+					viewStore.setSelectedProjectId(newSelectedKey);
+					viewStore.setSelectedInvocationId(projectStore.getProject(newSelectedKey)!.invocations[0].id);
+				} else {
+					onAddProject();
+				}
+			},
+			okText: 'Delete',
+			okType: 'danger',
+		});
+	};
 
 	const onChangeTabs = (selectedKey: string) => {
 		viewStore.setSelectedInvocationId(selectedKey);
@@ -59,38 +100,66 @@ export const Board = observer(function Board() {
 		}
 	};
 
-	const onSelectMenuItem = ({ key }: { key: any }) => {
-		viewStore.setSelectedProjectId(key);
+	const onSelectMenuItem = (id: string) => {
+		viewStore.setSelectedProjectId(id);
+		viewStore.setSelectedInvocationId(projectStore.getProject(id)!.invocations[0].id);
 	};
 
 	return (
 		<>
 			<div className={'m-board'}>
-				<Menu
-					selectedKeys={[viewStore.selectedProjectId]}
-					mode={'vertical'}
-					onSelect={onSelectMenuItem}
-					className={'m-board-menu'}
-				>
-					{projectStore.projects.map((project) => (
-						<Menu.Item key={project.id} style={{ marginTop: 0, marginBottom: 8, paddingTop: 2 }}>
-							{
-								<Form
-									name="basic"
-									initialValues={{ name: project.name }}
-									onValuesChange={(_, values) => {
-										const projectToUpdate = { ...project, name: values.name };
+				<List
+					footer={
+						<div
+							style={{
+								display: 'flex',
+								flexDirection: 'row',
+								justifyContent: 'center',
+								alignItems: 'center',
+								margin: 16,
+							}}
+						>
+							<Button onClick={onAddProject} icon={<PlusCircleOutlined />} block={true}>
+								{'Add'}
+							</Button>
+						</div>
+					}
+					itemLayout={'vertical'}
+					dataSource={projectStore.projects}
+					renderItem={(project: Project) => (
+						<List.Item
+							key={project.id}
+							onClick={() => onSelectMenuItem(project.id)}
+							className={'m-board-menu-item'}
+							style={{ background: project.id === viewStore.selectedProjectId ? '#00e599' : '#ffffff' }}
+						>
+							<div
+								style={{
+									display: 'flex',
+									flexDirection: 'row',
+									justifyContent: 'space-between',
+									alignItems: 'center',
+								}}
+							>
+								<Input
+									defaultValue={project.name}
+									onChange={(e) => {
+										const projectToUpdate = { ...project, name: e.target.value };
 										projectStore.updateProject(projectToUpdate);
 									}}
-								>
-									<Form.Item name={'name'} rules={[{ required: true, message: '' }]}>
-										<Input bordered={false} />
-									</Form.Item>
-								</Form>
-							}
-						</Menu.Item>
-					))}
-				</Menu>
+									bordered={project.id === viewStore.selectedProjectId}
+								/>
+
+								<div style={{ marginLeft: 16 }}>
+									{project.id === viewStore.selectedProjectId && (
+										<CloseCircleOutlined onClick={() => onRemoveProject(project)} />
+									)}
+								</div>
+							</div>
+						</List.Item>
+					)}
+					className={'m-board-menu'}
+				/>
 
 				<Tabs
 					type={'editable-card'}
@@ -117,7 +186,15 @@ export const Board = observer(function Board() {
 
 				:global(.m-board-menu) {
 					width: 256px;
+					height: 100%;
+					background: #ffffff;
 					border-radius: 4px;
+				}
+
+				:global(.m-board-menu-item) {
+					cursor: pointer;
+					border-radius: 4px;
+					padding: 16px;
 				}
 
 				:global(.m-board-tabs) {
