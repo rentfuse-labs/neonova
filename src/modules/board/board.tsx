@@ -1,11 +1,19 @@
-import { CloseCircleOutlined, ExclamationCircleOutlined, PlusCircleOutlined } from '@ant-design/icons';
+import {
+	CloseCircleOutlined,
+	CloseOutlined,
+	ExclamationCircleOutlined,
+	PlusCircleOutlined,
+	PlusOutlined,
+} from '@ant-design/icons';
 import { getDefaultInvocation, getDefaultProject, Invocation, Project, useRootStore } from '@stores';
-import { Button, Form, Input, List, Menu, Modal, Tabs } from 'antd';
+import { Button, Input, List, Modal, Tabs } from 'antd';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
+import useDimensions from 'react-cool-dimensions';
 import { BoardItem } from './components';
 
 export const Board = observer(function Board() {
+	const { observe: boardRef, height: boardHeight } = useDimensions<HTMLDivElement>();
 	const { viewStore, projectStore } = useRootStore();
 
 	const selectedProject = projectStore.getProject(viewStore.selectedProjectId);
@@ -107,7 +115,7 @@ export const Board = observer(function Board() {
 
 	return (
 		<>
-			<div className={'m-board'}>
+			<div ref={boardRef} className={'m-board'}>
 				<List
 					footer={
 						<div
@@ -116,10 +124,11 @@ export const Board = observer(function Board() {
 								flexDirection: 'row',
 								justifyContent: 'center',
 								alignItems: 'center',
-								margin: 16,
+								marginLeft: 16,
+								marginRight: 16,
 							}}
 						>
-							<Button onClick={onAddProject} icon={<PlusCircleOutlined />} block={true}>
+							<Button onClick={onAddProject} icon={<PlusOutlined />} block={true}>
 								{'Add'}
 							</Button>
 						</div>
@@ -152,13 +161,14 @@ export const Board = observer(function Board() {
 
 								<div style={{ marginLeft: 16 }}>
 									{project.id === viewStore.selectedProjectId && (
-										<CloseCircleOutlined onClick={() => onRemoveProject(project)} />
+										<CloseOutlined onClick={() => onRemoveProject(project)} />
 									)}
 								</div>
 							</div>
 						</List.Item>
 					)}
 					className={'m-board-menu'}
+					style={{ height: boardHeight }}
 				/>
 
 				<Tabs
@@ -186,10 +196,9 @@ export const Board = observer(function Board() {
 
 				:global(.m-board-menu) {
 					width: 256px;
-					height: 100%;
 					background: #ffffff;
 					border-radius: 4px;
-					overflow: hidden;
+					overflow: auto;
 				}
 
 				:global(.m-board-menu-item) {
