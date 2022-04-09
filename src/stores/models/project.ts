@@ -56,7 +56,7 @@ export const ProjectStoreModel = types
 export function getDefaultProject() {
 	return {
 		id: cuid(),
-		name: 'Default',
+		name: 'Group',
 		invocations: [getDefaultInvocation()],
 	};
 }
