@@ -1,7 +1,8 @@
-import { CodeOutlined, FormOutlined, MehOutlined } from '@ant-design/icons';
+import { CodeOutlined, ExportOutlined, FormOutlined, ImportOutlined, MehOutlined } from '@ant-design/icons';
 import { Application } from '@application';
 import { WalletModalProvider } from '@rentfuse-labs/neo-wallet-adapter-ant-design';
 import { WalletProvider } from '@rentfuse-labs/neo-wallet-adapter-react';
+import { applySnapshot, onSnapshot } from 'mobx-state-tree';
 import {
 	getNeoLineWallet,
 	getO3Wallet,
@@ -15,7 +16,7 @@ import Head from 'next/head';
 import React, { useEffect, useMemo, useState } from 'react';
 import { LocalWalletProvider } from 'src/wallet';
 import { useResponsive } from '@hooks';
-import { Result } from 'antd';
+import { Button, message, Result, Upload } from 'antd';
 
 // Use require instead of import, and order matters
 require('@styles/global.css');
@@ -73,14 +74,6 @@ const GlobalWalletProvider = observer(function GlobalWalletProvider({ children }
 export default function _App({ Component, pageProps }: AppProps) {
 	const { isTabletAndBelow } = useResponsive();
 
-	// The pages of the application to handle routing and title displaying
-	const pages = useMemo(() => {
-		return [
-			{ url: '/', title: 'Invocations', icon: <CodeOutlined /> },
-			{ url: '/contract', title: 'Contracts', icon: <FormOutlined /> },
-		];
-	}, []);
-
 	// Create the store in this way to apply persistence
 	const store = useMemo(() => {
 		return createRootStore();
@@ -104,6 +97,85 @@ export default function _App({ Component, pageProps }: AppProps) {
 				},
 			});
 		}
+	}, [store]);
+
+	// The pages of the application to handle routing and title displaying
+	const pages = useMemo(() => {
+		return [
+			{
+				url: '/',
+				title: 'Invocations',
+				icon: <CodeOutlined />,
+				extra: (
+					<div style={{ display: 'flex', flexDirection: 'row' }}>
+						<div style={{ marginRight: 16 }}>
+							<Upload
+								name={'file'}
+								accept={'.json'}
+								customRequest={(request: any) => {
+									setTimeout(() => {
+										request.onSuccess('ok');
+									}, 0);
+								}}
+								showUploadList={false}
+								onChange={async (info) => {
+									if (info.file.status === 'done') {
+										let dataJson: any = await new Promise((resolve) => {
+											const reader = new FileReader();
+											reader.addEventListener('load', () => resolve(JSON.parse(reader.result as string)));
+											reader.readAsText(info.file.originFileObj as any);
+										});
+										if (dataJson) {
+											console.log(dataJson);
+											try {
+												applySnapshot(store, {
+													...dataJson,
+													viewStore: { ...dataJson.viewStore, loadingVisible: false },
+												});
+											} catch (error) {
+												message.error('Import error');
+												console.error(error);
+											}
+										}
+									}
+								}}
+								maxCount={1}
+							>
+								<Button style={{ background: '#ffffff' }} icon={<ImportOutlined />}>
+									{'Import'}
+								</Button>
+							</Upload>
+						</div>
+
+						<div style={{}}>
+							<Button
+								onClick={() => {
+									const a = document.createElement('a');
+									const file = new Blob(
+										[
+											JSON.stringify({
+												projectStore: store.projectStore,
+												viewStore: store.viewStore,
+												settingsStore: store.settingsStore,
+											}),
+										],
+										{ type: 'text/plain' },
+									);
+									a.href = URL.createObjectURL(file);
+									a.download = Date.now() + '.neonova.json';
+									a.click();
+								}}
+								icon={<ExportOutlined />}
+								style={{ background: '#ffffff' }}
+							>
+								{'Export'}
+							</Button>
+						</div>
+					</div>
+				),
+			},
+			{ url: '/contract', title: 'Contracts', icon: <FormOutlined /> },
+		];
 	}, [store]);
 
 	// If is not desktop it's not supported!
