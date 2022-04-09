@@ -189,11 +189,11 @@ export const Board = observer(function Board() {
 					height: 100%;
 					background: #ffffff;
 					border-radius: 4px;
+					overflow: hidden;
 				}
 
 				:global(.m-board-menu-item) {
 					cursor: pointer;
-					border-radius: 4px;
 					padding: 16px;
 				}
 
