@@ -5,7 +5,6 @@ export function createRootStore() {
 	return RootStoreModel.create({
 		viewStore: {
 			loadingVisible: false,
-			selectedInvocationId: '',
 		},
 		settingsStore: {
 			network: {
@@ -14,8 +13,8 @@ export function createRootStore() {
 				networkMagic: NETWORK_DATA_MAP['TestNet'].networkMagic,
 			},
 		},
-		invocationStore: {
-			invocations: [],
+		projectStore: {
+			projects: [],
 		},
 	});
 }

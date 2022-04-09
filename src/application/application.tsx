@@ -1,5 +1,5 @@
 import { useRootStore } from '@stores/use-root-store';
-import { Layout, Menu, Modal, Spin, Typography } from 'antd';
+import { Divider, Layout, Menu, Modal, Spin, Typography } from 'antd';
 import { observer } from 'mobx-react-lite';
 import GithubIcon from '../assets/github-icon.svg';
 import NeonovaIcon from '../assets/neonova-icon.svg';
@@ -87,6 +87,13 @@ export const Application = observer(function Application({
 					</Typography.Title>
 
 					<div style={{ display: 'flex', flexDirection: 'row' }}>
+						{currentPage?.extra && (
+							<div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+								{currentPage.extra}
+								<Divider type={'vertical'} style={{ marginLeft: 8, marginRight: 8 }} />
+							</div>
+						)}
+
 						<div style={{ marginRight: 16 }}>
 							<ApplicationButtonNetwork key={'application-button-network'} />
 						</div>

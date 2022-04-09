@@ -103,14 +103,8 @@ export const ContractUpdatePanel = observer(function ContractUpdatePanel() {
 
 				await waitTx(settingsStore.network.rpcAddress, result);
 
-				// Get updated contract scripthash
-				const scriptHash = experimental.getContractHash(
-					u.HexString.fromHex(wallet.getScriptHashFromAddress(account.address)),
-					sc.NEF.fromBuffer(contractBytecode).checksum,
-					contractManifest.name,
-				);
-				// Set it to show it
-				setUpdatedContract(scriptHash);
+				// Set it to show it (NB: Just an update, scripthash not changed!)
+				setUpdatedContract(values.scriptHash);
 			} else {
 				if (!address || !connected) {
 					message.error('You need to connect a wallet to execute a write invocation');
@@ -138,14 +132,8 @@ export const ContractUpdatePanel = observer(function ContractUpdatePanel() {
 				if (result.data?.txId) {
 					await waitTx(settingsStore.network.rpcAddress, result.data?.txId);
 
-					// Get updated contract scripthash
-					const scriptHash = experimental.getContractHash(
-						u.HexString.fromHex(wallet.getScriptHashFromAddress(address)),
-						sc.NEF.fromBuffer(contractBytecode).checksum,
-						contractManifest.name,
-					);
-					// Set it to show it
-					setUpdatedContract(scriptHash);
+					// Set it to show it (NB: Just an update, scripthash not changed!)
+					setUpdatedContract(values.scriptHash);
 				} else {
 					message.warning('Contract was not updated due to some problems');
 				}
