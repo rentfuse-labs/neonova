@@ -76,8 +76,7 @@ export const BoardItem = observer(function BoardItem({
 					const contract = new Neon.experimental.SmartContract(Neon.u.HexString.fromHex(values.scriptHash), {
 						networkMagic: settingsStore.network.networkMagic,
 						rpcAddress: settingsStore.network.rpcAddress,
-					});
-
+					});					
 					const result = await contract.invoke(
 						values.operation,
 						values.args.map((_arg: any) => toInvocationArgument(_arg.type, _arg.value)),
@@ -88,8 +87,8 @@ export const BoardItem = observer(function BoardItem({
 							}),
 						],
 					);
-
 					await waitTx(settingsStore.network.rpcAddress, result);
+					setResultJson(result);
 				}
 			} else {
 				if (isRead) {
@@ -101,7 +100,6 @@ export const BoardItem = observer(function BoardItem({
 						values.operation,
 						values.args.map((_arg: any) => toInvocationArgument(_arg.type, _arg.value)),
 					);
-
 					// With bytestring conversion
 					setResultJson({
 						...result,
@@ -124,9 +122,9 @@ export const BoardItem = observer(function BoardItem({
 							},
 						],
 					});
-
 					if (result.data?.txId) {
 						await waitTx(settingsStore.network.rpcAddress, result.data?.txId);
+						setResultJson(result);
 					}
 				}
 			}
