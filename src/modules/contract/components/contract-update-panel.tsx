@@ -224,7 +224,7 @@ export const ContractUpdatePanel = observer(function ContractUpdatePanel() {
 						<Result
 							icon={<CheckCircleOutlined style={{ color: '#00e599' }} />}
 							title={'Contract succesfully updated'}
-							subTitle={'Contract scripthash: 0x' + updatedContract}
+							subTitle={'Contract scripthash: ' + updatedContract}
 							extra={[
 								<Button type={'primary'} key={'ok'} onClick={() => setUpdatedContract(null)}>
 									{'Ok'}
