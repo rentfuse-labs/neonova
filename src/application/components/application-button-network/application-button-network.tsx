@@ -108,7 +108,7 @@ export const ApplicationButtonNetwork = observer(function ApplicationButtonNetwo
 					</Form.Item>
 
 					<Form.Item name={'networkMagic'} label={'Network magic'}>
-						<Input type={'number'} disabled={selectedNetworkType !== 'LocalNet'} />
+						<Input type={'number'} disabled={selectedNetworkType === 'MainNet'} />
 					</Form.Item>
 				</Form>
 			</Modal>
