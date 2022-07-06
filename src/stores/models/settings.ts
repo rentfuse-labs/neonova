@@ -8,6 +8,7 @@ export const SettingsNetworkTypeModel = types.enumeration('SettingsNetworkTypeMo
 	'MainNet',
 	'TestNet',
 	'LocalNet',
+	'Custom',
 ]);
 
 export const SettingsNetworkModel = types.model('SettingsNetworkModel', {
