@@ -24,7 +24,7 @@ require('@rentfuse-labs/neo-wallet-adapter-ant-design/styles.css');
 
 // Return available wallets depending on network type
 function getWallets(networkType: SettingsNetworkType) {
-	if (networkType === 'TestNet' || networkType === 'MainNet'|| networkType === 'Custom') {
+	if (networkType === 'TestNet' || networkType === 'MainNet'|| networkType === 'Other') {
 		return [
 			getNeoLineWallet(),
 			getO3Wallet(),

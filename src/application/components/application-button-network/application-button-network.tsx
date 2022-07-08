@@ -90,13 +90,12 @@ export const ApplicationButtonNetwork = observer(function ApplicationButtonNetwo
 						<Radio.Group onChange={onChangeNetworkType}>
 							<Radio.Button value={'MainNet'}>{'MainNet'}</Radio.Button>
 							<Radio.Button value={'TestNet'}>{'TestNet'}</Radio.Button>
-							<Radio.Button value={'LocalNet'}>{'LocalNet'}</Radio.Button>
-							<Radio.Button value={'Other'}>{'Custom'}</Radio.Button>
+							<Radio.Button value={'Other'}>{'Other'}</Radio.Button>
 						</Radio.Group>
 					</Form.Item>
 
 					<Form.Item name={'rpcAddress'} label={'RPC Address'}>
-						{selectedNetworkType !== 'LocalNet' && selectedNetworkType !== 'Custom' ? (
+						{selectedNetworkType !== 'LocalNet' && selectedNetworkType !== 'Other' ? (
 							<Select>
 								{rpcAddressList.map((_rpcAddress) => (
 									<Select.Option key={_rpcAddress} value={_rpcAddress}>
@@ -110,7 +109,7 @@ export const ApplicationButtonNetwork = observer(function ApplicationButtonNetwo
 					</Form.Item>
 
 					<Form.Item name={'networkMagic'} label={'Network magic'}>
-						<Input type={'number'} disabled={selectedNetworkType !== 'LocalNet' && selectedNetworkType !== 'Custom' } />
+						<Input type={'number'} disabled={selectedNetworkType !== 'LocalNet' && selectedNetworkType !== 'Other' } />
 					</Form.Item>
 				</Form>
 			</Modal>
