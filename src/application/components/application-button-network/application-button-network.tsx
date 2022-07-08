@@ -91,7 +91,7 @@ export const ApplicationButtonNetwork = observer(function ApplicationButtonNetwo
 							<Radio.Button value={'MainNet'}>{'MainNet'}</Radio.Button>
 							<Radio.Button value={'TestNet'}>{'TestNet'}</Radio.Button>
 							<Radio.Button value={'LocalNet'}>{'LocalNet'}</Radio.Button>
-							<Radio.Button value={'Custom'}>{'Custom'}</Radio.Button>
+							<Radio.Button value={'Other'}>{'Custom'}</Radio.Button>
 						</Radio.Group>
 					</Form.Item>
 
