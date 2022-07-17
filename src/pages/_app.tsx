@@ -5,8 +5,8 @@ import { WalletProvider } from '@rentfuse-labs/neo-wallet-adapter-react';
 import { applySnapshot, onSnapshot } from 'mobx-state-tree';
 import {
 	getNeoLineWallet,
+	getNeonWalletConnectWallet,
 	getO3Wallet,
-	getWalletConnectWallet,
 	Wallet,
 } from '@rentfuse-labs/neo-wallet-adapter-wallets';
 import { createRootStore, persist, RootStoreProvider, SettingsNetworkType, useRootStore } from '@stores';
@@ -28,10 +28,10 @@ function getWallets(networkType: SettingsNetworkType) {
 		return [
 			getNeoLineWallet(),
 			getO3Wallet(),
-			getWalletConnectWallet({
+			getNeonWalletConnectWallet({
 				options: {
 					chainId: networkType === 'TestNet' ? 'neo3:testnet' : 'neo3:mainnet',
-					methods: ['invokefunction'],
+					methods: ['invokeFunction'],
 					appMetadata: {
 						name: 'Neonova',
 						description: 'Like Postman but for NEO N3.',

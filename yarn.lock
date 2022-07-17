@@ -363,18 +363,15 @@
   resolved "https://registry.yarnpkg.com/@bcoe/v8-coverage/-/v8-coverage-0.2.3.tgz#75a2e8b51cb758a7553d6804a5932d7aace75c39"
   integrity sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==
 
-"@cityofzion/neon-api@^5.0.0-next.16":
-  version "5.0.0-next.16"
-  resolved "https://registry.yarnpkg.com/@cityofzion/neon-api/-/neon-api-5.0.0-next.16.tgz#83d2f70c43b124424817ce1acf1925c5cb8131b4"
-  integrity sha512-wn7skR+gPvMGUS2GTP9xAW6TP0kwigtLC9+tV7xbl2idaRk3SVGzpI6TrPzCAtZ+mTCqznUjzT/R2jQTSxsCPg==
-  dependencies:
-    isomorphic-ws "4.0.1"
-    ws "7.4.4"
+"@cityofzion/neon-api@^5.0.0":
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/@cityofzion/neon-api/-/neon-api-5.0.0.tgz#7f8e68b14923dfb8c1292836c276b178f5184372"
+  integrity sha512-nvslHi77gv1Vc44rZb2QamQyWhWGhooXDnVCIA6BZUpiArMWZ3TNYaDCXLWQTSvz14UdcYN8WIIt9v/vcD/wqg==
 
-"@cityofzion/neon-core@^5.0.0-next.16":
-  version "5.0.0-next.16"
-  resolved "https://registry.yarnpkg.com/@cityofzion/neon-core/-/neon-core-5.0.0-next.16.tgz#f76224a564592c00b0d50fe5f620fe0dbba2a3d2"
-  integrity sha512-C9YoomPA5JuOh2HpYY99OYicJBRg+LncPbtTQ4WZ8ujQ4w9DA8DIdLJ0cfWCWFPvGxAt3dW2sxYMzWn+5oNWxg==
+"@cityofzion/neon-core@^5.0.0":
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/@cityofzion/neon-core/-/neon-core-5.0.0.tgz#6b242782404df474285ad7760224871444cc1d35"
+  integrity sha512-OJPZsgWxXFCSSFo6WiGmxn+/2XP0w0JXT8oYOqYxKfFYJXNh6/ENuglMs7w5jMpFsYb/Hp6Hy8qdXf/Q3Es9jg==
   dependencies:
     abort-controller "3.0.0"
     bignumber.js "7.2.1"
@@ -384,22 +381,23 @@
     cross-fetch "^3.1.4"
     crypto-js "4.1.1"
     elliptic "6.5.4"
-    loglevel "1.7.1"
+    lodash "4.17.21"
+    loglevel "1.8.0"
     loglevel-plugin-prefix "0.8.4"
     scrypt-js "3.0.1"
 
-"@cityofzion/neon-js@^5.0.0-next.16":
-  version "5.0.0-next.16"
-  resolved "https://registry.yarnpkg.com/@cityofzion/neon-js/-/neon-js-5.0.0-next.16.tgz#fa9b1f8331eb406a278e8883193d749750237e80"
-  integrity sha512-mN/0OHzsCPFJqN1WC/cjHBEoSEvURWRkiQdCQBLAbD71Mo12SXEWOd10858c9MQbfTPovT/pSy+eZdGSCANZwg==
+"@cityofzion/neon-js@^5.0.0", "@cityofzion/neon-js@^5.0.0-next.13":
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/@cityofzion/neon-js/-/neon-js-5.0.0.tgz#018df01d691f0736f5e604f2b87d01ef102bb5cf"
+  integrity sha512-c1c1wkGEn3vGds+T61Ki9Dm5uycrIUmC9UgtwrztkAhuZXxL86QgaAOCARLnJol+/qsHLSUwUmHo7cIrcMVWJA==
   dependencies:
-    "@cityofzion/neon-api" "^5.0.0-next.16"
-    "@cityofzion/neon-core" "^5.0.0-next.16"
+    "@cityofzion/neon-api" "^5.0.0"
+    "@cityofzion/neon-core" "^5.0.0"
 
-"@cityofzion/wallet-connect-sdk-core@^1.6.0":
-  version "1.6.0"
-  resolved "https://registry.yarnpkg.com/@cityofzion/wallet-connect-sdk-core/-/wallet-connect-sdk-core-1.6.0.tgz#b7a6026449e6c3122d9e6a26ca901b525ad2f4ff"
-  integrity sha512-sLIuvyaKsbh6CqYJgu/ooz/5PNYw650svs9DqB0/2qNjPZc8pqEIlo358x5NrwDx4XbG/EeZr5SRSjLkRyTptQ==
+"@cityofzion/wallet-connect-sdk-core@^1.6.1":
+  version "1.6.1"
+  resolved "https://registry.yarnpkg.com/@cityofzion/wallet-connect-sdk-core/-/wallet-connect-sdk-core-1.6.1.tgz#5315108711e33f5ae84ebc0d774514a1c0ac42ef"
+  integrity sha512-YORKvJnj1IRrblopdSWEoNIuhDsVaa5y76WWT8MnN66+k9cdNoCiIDdYdGd5gCSJWLjLZ2HXdNmfwJdR/7JB+g==
   dependencies:
     "@walletconnect/client" "2.0.0-beta.17"
     "@walletconnect/jsonrpc-utils" "^1.0.0"
@@ -636,6 +634,33 @@
     "@types/yargs" "^16.0.0"
     chalk "^4.0.0"
 
+"@neongd/json-rpc@^1.0.1", "@neongd/json-rpc@^1.0.2":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@neongd/json-rpc/-/json-rpc-1.0.2.tgz#62d78099e00f5cdefa823199406237b3688b2640"
+  integrity sha512-Resf4L6Wf+WI9EzlDHrOvUJidNRkTDj4pIwls+BmodVMojUo7HMxe3pLz4dEx+D7FO8UnrsTnfP1Uxo9kUbhsg==
+  dependencies:
+    "@types/websocket" "^1.0.5"
+    axios "^0.21.1"
+    events "^3.3.0"
+    websocket "^1.0.34"
+
+"@neongd/neo-dapi@1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@neongd/neo-dapi/-/neo-dapi-1.0.1.tgz#f45662246a88303ba2407b682cbc163f639eb95a"
+  integrity sha512-YMPFzsM058zMtk2bIIARQV0W93GWlkCW+fMMWVj245KczTt+Eb8bsKHLCuHdsLMeFCO0te1De8Hku3E1ZkhfpA==
+  dependencies:
+    "@cityofzion/neon-js" "^5.0.0-next.13"
+    "@neongd/json-rpc" "^1.0.1"
+    "@neongd/neo-provider" "^1.0.1"
+
+"@neongd/neo-provider@^1.0.1":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@neongd/neo-provider/-/neo-provider-1.0.2.tgz#c5e0314b3b844f2d9fec0a0d7f41a202e14ee492"
+  integrity sha512-ulRVe4m2drmXKBGhrSdIGQ3qNzVRB9hxD/icgg4R3uHYYMaH0qRfdK7e0g+f3q3jWPfXiifl45GueQ3NIIFKgA==
+  dependencies:
+    "@neongd/json-rpc" "^1.0.2"
+    events "^3.3.0"
+
 "@next/env@12.1.5":
   version "12.1.5"
   resolved "https://registry.yarnpkg.com/@next/env/-/env-12.1.5.tgz#a21ba6708022d630402ca2b340316e69a0296dfc"
@@ -745,51 +770,60 @@
     mkdirp "^1.0.4"
     rimraf "^3.0.2"
 
-"@rentfuse-labs/neo-wallet-adapter-ant-design@^0.2.0":
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/@rentfuse-labs/neo-wallet-adapter-ant-design/-/neo-wallet-adapter-ant-design-0.2.0.tgz#69da999bc37bc7e5aa4b735f92ad5be89700b102"
-  integrity sha512-1/YTJV/udk7FwQa5XR6QnYqMmUEDZY/18YHD5XobC/swmee5mYpRznSuDawdxV4R7pUTUkue0oLjUW/CWLt/hA==
+"@rentfuse-labs/neo-wallet-adapter-ant-design@^0.3.1":
+  version "0.3.1"
+  resolved "https://registry.yarnpkg.com/@rentfuse-labs/neo-wallet-adapter-ant-design/-/neo-wallet-adapter-ant-design-0.3.1.tgz#30e10d662c363d8e401689bd09135ef1b97bd013"
+  integrity sha512-DpE84iZqaUbxePfSicQdonESHqdYclFMqopUI6z1dZTmxvmwB8XmUQJgymvMkZIrpc4KuZO5jclXBBO5xNTb7Q==
 
-"@rentfuse-labs/neo-wallet-adapter-base@^0.2.0":
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/@rentfuse-labs/neo-wallet-adapter-base/-/neo-wallet-adapter-base-0.2.0.tgz#51f891b86fbfa85f3036f970136b19131dd3928e"
-  integrity sha512-hZIpHWcej92MYd6lJrXNdEFYt1aVAkvA2s7C1F30lp24FYtrv6ePTpKHCA/vb7qV2SO+kp6Ezocg+s26dD8sCw==
+"@rentfuse-labs/neo-wallet-adapter-base@^0.3.1":
+  version "0.3.1"
+  resolved "https://registry.yarnpkg.com/@rentfuse-labs/neo-wallet-adapter-base/-/neo-wallet-adapter-base-0.3.1.tgz#f01cf627355993e631f1b325604a1420947e2165"
+  integrity sha512-4R2xkUI91Ba/MuWJehCftx8I/SweON24e8ObLcLbaq19N5Ah26pQ5C2BAdyxRTJJigpWZKlBsOwY45QHyAevdQ==
   dependencies:
     eventemitter3 "^4.0.7"
 
-"@rentfuse-labs/neo-wallet-adapter-neoline@^0.2.*":
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/@rentfuse-labs/neo-wallet-adapter-neoline/-/neo-wallet-adapter-neoline-0.2.0.tgz#aa7a80fce82c98e6c1e089938ac3f7cf97a54294"
-  integrity sha512-24lQrzI6W5U19b6MphH82Gbov35BrmjRa3EFi5r0VVt9RC/ZtKslUTF2GXYgTFpIehtRpjRsPOOFNnt8ks3QZA==
+"@rentfuse-labs/neo-wallet-adapter-neoline@^0.3.2":
+  version "0.3.2"
+  resolved "https://registry.yarnpkg.com/@rentfuse-labs/neo-wallet-adapter-neoline/-/neo-wallet-adapter-neoline-0.3.2.tgz#d5b215407f30d92c4d5bcae70bd14e33c93e8024"
+  integrity sha512-Yzxds1IWZqVzkir4RczSxtifU5uQakoCOXIC/Bk++V6e3I4dBwT4BAj2Oa6f6ii4R9bvLNboH+h8pKchiujE/Q==
 
-"@rentfuse-labs/neo-wallet-adapter-o3@^0.2.*":
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/@rentfuse-labs/neo-wallet-adapter-o3/-/neo-wallet-adapter-o3-0.2.0.tgz#7f793e6391d3c7ec3ce85f028aa503b8c82e0b24"
-  integrity sha512-6IiY9uf3UWwmWChOubQjGFpOHm2+2SroVNK1pP4pneGkSH/K9piceqPU362I10O0MWVCY+T59QjBplS7/Q6M7w==
+"@rentfuse-labs/neo-wallet-adapter-o3@^0.3.2":
+  version "0.3.2"
+  resolved "https://registry.yarnpkg.com/@rentfuse-labs/neo-wallet-adapter-o3/-/neo-wallet-adapter-o3-0.3.2.tgz#5190afa69ce60c2f653511bb4463eca064f44ad4"
+  integrity sha512-4zBGJgL5n4uARPsqi19T8MNnvLd+wh9FTAmZaLMeajijMMEGTrzUfvOKSDw5gitsRogkHJ9nMC3XtpZBP63czg==
   dependencies:
     neo3-dapi "^1.0.1"
 
-"@rentfuse-labs/neo-wallet-adapter-react@^0.2.0":
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/@rentfuse-labs/neo-wallet-adapter-react/-/neo-wallet-adapter-react-0.2.0.tgz#db1b1e21a21bb304e0dc0bd44454b544f43144b6"
-  integrity sha512-zoTVCpraFdRF99iQoBgKHrJ7k1BPp4/jk6bzbXDo4O/kBNyoYs0TLZJNAQOc3B++I5KnqlDqtEQ9S+dlkAumfQ==
-
-"@rentfuse-labs/neo-wallet-adapter-walletconnect@^0.2.*":
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/@rentfuse-labs/neo-wallet-adapter-walletconnect/-/neo-wallet-adapter-walletconnect-0.2.0.tgz#326e61c78256f42a7ff63d2c0a79ab045d6168e5"
-  integrity sha512-e8RVcql3g/5mmPEsZFYifMDim05v5AGoKAy3UwSXj/IMQznnTZNZTP9Y2r6Drh+E2RlhJHXmgQoSQf7EwsaZig==
+"@rentfuse-labs/neo-wallet-adapter-onegate@^0.3.2":
+  version "0.3.2"
+  resolved "https://registry.yarnpkg.com/@rentfuse-labs/neo-wallet-adapter-onegate/-/neo-wallet-adapter-onegate-0.3.2.tgz#19746df090225e14f04cc60cc91630404d6ff98d"
+  integrity sha512-pG9G8xO4X7xbcRuHeXZTLQE2WTm69p+hfJGz9jOioUA7Mwy2+fK3w8wtKD7TZ3Jx0awOqiD7XUKK0Y+7mFHyrA==
   dependencies:
-    "@cityofzion/wallet-connect-sdk-core" "^1.6.0"
+    "@neongd/neo-dapi" "1.0.1"
+    "@neongd/neo-provider" "^1.0.1"
+
+"@rentfuse-labs/neo-wallet-adapter-react@^0.3.1":
+  version "0.3.1"
+  resolved "https://registry.yarnpkg.com/@rentfuse-labs/neo-wallet-adapter-react/-/neo-wallet-adapter-react-0.3.1.tgz#3564bdea88416f2da746da9fc21c418ae92e9efb"
+  integrity sha512-YtqDrwW5J+OI+7KhvBA7MdzvFq1ZlMGiVwkITDhEIk+20rV0WygFrQeOrmTQV9IlqtNlbSOYWGLJ0AhxbFjCpQ==
+
+"@rentfuse-labs/neo-wallet-adapter-walletconnect@^0.3.5":
+  version "0.3.5"
+  resolved "https://registry.yarnpkg.com/@rentfuse-labs/neo-wallet-adapter-walletconnect/-/neo-wallet-adapter-walletconnect-0.3.5.tgz#32035c641ca7cebae6aac6e8f0723cee212f54d1"
+  integrity sha512-ymPwsyG6l36U94LmCSwh9D/QA4XukLYWh4PMW5VfpZpVoOtzDaF75jCx17cy7Q2EeKC6DntRGWwc9+W5IpkCLA==
+  dependencies:
+    "@cityofzion/wallet-connect-sdk-core" "^1.6.1"
     "@types/pino" "^6.3.11"
 
-"@rentfuse-labs/neo-wallet-adapter-wallets@^0.2.0":
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/@rentfuse-labs/neo-wallet-adapter-wallets/-/neo-wallet-adapter-wallets-0.2.0.tgz#12cd9c1a98976f075633c05c4ec7ae27f1739170"
-  integrity sha512-gwwW/84j+Syc6YM/I6d0iXMcDvsA9U/De4e9nHTuGw66h7UcmCRoF3HQ0OFzBpPoCmVrA3bXsIs9c3+EUaUTXw==
+"@rentfuse-labs/neo-wallet-adapter-wallets@^0.3.2":
+  version "0.3.2"
+  resolved "https://registry.yarnpkg.com/@rentfuse-labs/neo-wallet-adapter-wallets/-/neo-wallet-adapter-wallets-0.3.2.tgz#b3011e7fb5bdab77d603a2f7a15f8fe8eb5c5172"
+  integrity sha512-d8nMOCHtUPYq9Nhb/Wq38gOaUiuADtfohHmn5ZUBLQ4j3yhU52gzIUsNJL3qyFj5N1FJcuEpzv0JT/p2APF8OQ==
   dependencies:
-    "@rentfuse-labs/neo-wallet-adapter-neoline" "^0.2.*"
-    "@rentfuse-labs/neo-wallet-adapter-o3" "^0.2.*"
-    "@rentfuse-labs/neo-wallet-adapter-walletconnect" "^0.2.*"
+    "@rentfuse-labs/neo-wallet-adapter-neoline" "^0.3.2"
+    "@rentfuse-labs/neo-wallet-adapter-o3" "^0.3.2"
+    "@rentfuse-labs/neo-wallet-adapter-onegate" "^0.3.2"
+    "@rentfuse-labs/neo-wallet-adapter-walletconnect" "^0.3.5"
 
 "@rushstack/eslint-patch@^1.0.8":
   version "1.1.0"
@@ -1062,6 +1096,13 @@
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/@types/stack-utils/-/stack-utils-2.0.1.tgz#20f18294f797f2209b5f65c8e3b5c8e8261d127c"
   integrity sha512-Hl219/BT5fLAaz6NDkSuhzasy49dwQS/DSdu4MdggFB8zcXv7vflBI3xp7FEmkmdDkBUI2bPUNeMttp2knYdxw==
+
+"@types/websocket@^1.0.5":
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/@types/websocket/-/websocket-1.0.5.tgz#3fb80ed8e07f88e51961211cd3682a3a4a81569c"
+  integrity sha512-NbsqiNX9CnEfC1Z0Vf4mE1SgAJ07JnRYcNex7AJ9zAVzmiGHmjKFEk7O4TJIsgv2B1sLEb6owKFZrACwdYngsQ==
+  dependencies:
+    "@types/node" "*"
 
 "@types/yargs-parser@*":
   version "20.2.1"
@@ -1761,6 +1802,13 @@ axe-core@^4.3.5:
   resolved "https://registry.yarnpkg.com/axe-core/-/axe-core-4.3.5.tgz#78d6911ba317a8262bfee292aeafcc1e04b49cc5"
   integrity sha512-WKTW1+xAzhMS5dJsxWkliixlO/PqC4VhmO9T4juNYcaTg9jzWiJsou6m5pxWYGfigWbwzJWeFY6z47a+4neRXA==
 
+axios@^0.21.1:
+  version "0.21.4"
+  resolved "https://registry.yarnpkg.com/axios/-/axios-0.21.4.tgz#c67b90dc0568e5c1cf2b0b858c43ba28e2eda575"
+  integrity sha512-ut5vewkiu8jjGBdqpM44XxjuCjq9LAKeHVmoVfHVzy8eHgxxq8SbAVQNovDA8mVi05kP0Ea/n/UzcSHcTJQfNg==
+  dependencies:
+    follow-redirects "^1.14.0"
+
 axobject-query@2.0.2:
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/axobject-query/-/axobject-query-2.0.2.tgz#ea187abe5b9002b377f925d8bf7d1c561adf38f9"
@@ -2067,6 +2115,13 @@ buffer@~5.2.1:
   dependencies:
     base64-js "^1.0.2"
     ieee754 "^1.1.4"
+
+bufferutil@^4.0.1:
+  version "4.0.6"
+  resolved "https://registry.yarnpkg.com/bufferutil/-/bufferutil-4.0.6.tgz#ebd6c67c7922a0e902f053e5d8be5ec850e48433"
+  integrity sha512-jduaYOYtnio4aIAyc6UbvPCVcgq7nYpVnucyxr6eCYg/Woad9Hf/oxxBRDnGGjPfjUm6j5O/uBWhIu4iLebFaw==
+  dependencies:
+    node-gyp-build "^4.3.0"
 
 cacache@^15.0.5:
   version "15.3.0"
@@ -2498,6 +2553,14 @@ cuid@^2.1.8:
   resolved "https://registry.yarnpkg.com/cuid/-/cuid-2.1.8.tgz#cbb88f954171e0d5747606c0139fb65c5101eac0"
   integrity sha512-xiEMER6E7TlTPnDxrM4eRiC6TRgjNX9xzEZ5U/Se2YJKr7Mq4pJn/2XEHjl3STcSh96GmkHPcBXLES8M29wyyg==
 
+d@1, d@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/d/-/d-1.0.1.tgz#8698095372d58dbee346ffd0c7093f99f8f9eb5a"
+  integrity sha512-m62ShEObQ39CfralilEQRjH6oAMtNCV1xJyEx5LpRYUVN+EviphDgUc/F3hnYbADmkiNs67Y+3ylmlG7Lnu+FA==
+  dependencies:
+    es5-ext "^0.10.50"
+    type "^1.0.1"
+
 damerau-levenshtein@^1.0.4, damerau-levenshtein@^1.0.7:
   version "1.0.8"
   resolved "https://registry.yarnpkg.com/damerau-levenshtein/-/damerau-levenshtein-1.0.8.tgz#b43d286ccbd36bc5b2f7ed41caf2d0aba1f8a6e7"
@@ -2534,7 +2597,7 @@ debug@4, debug@^4.0.1, debug@^4.1.0, debug@^4.1.1, debug@^4.3.1, debug@^4.3.2:
   dependencies:
     ms "2.1.2"
 
-debug@^2.6.9:
+debug@^2.2.0, debug@^2.6.9:
   version "2.6.9"
   resolved "https://registry.yarnpkg.com/debug/-/debug-2.6.9.tgz#5d128515df134ff327e90a4c93f4e077a536341f"
   integrity sha512-bC7ElrdJaJnPbAP+1EotYvqZsb3ecl5wi6Bfi6BJTUcNowp6cvspg0jXznRTKDjm/E7AdgFBVeAPVMNcKGsHMA==
@@ -2850,6 +2913,32 @@ es-to-primitive@^1.2.1:
     is-date-object "^1.0.1"
     is-symbol "^1.0.2"
 
+es5-ext@^0.10.35, es5-ext@^0.10.50:
+  version "0.10.61"
+  resolved "https://registry.yarnpkg.com/es5-ext/-/es5-ext-0.10.61.tgz#311de37949ef86b6b0dcea894d1ffedb909d3269"
+  integrity sha512-yFhIqQAzu2Ca2I4SE2Au3rxVfmohU9Y7wqGR+s7+H7krk26NXhIRAZDgqd6xqjCEFUomDEA3/Bo/7fKmIkW1kA==
+  dependencies:
+    es6-iterator "^2.0.3"
+    es6-symbol "^3.1.3"
+    next-tick "^1.1.0"
+
+es6-iterator@^2.0.3:
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/es6-iterator/-/es6-iterator-2.0.3.tgz#a7de889141a05a94b0854403b2d0a0fbfa98f3b7"
+  integrity sha1-p96IkUGgWpSwhUQDstCg+/qY87c=
+  dependencies:
+    d "1"
+    es5-ext "^0.10.35"
+    es6-symbol "^3.1.1"
+
+es6-symbol@^3.1.1, es6-symbol@^3.1.3:
+  version "3.1.3"
+  resolved "https://registry.yarnpkg.com/es6-symbol/-/es6-symbol-3.1.3.tgz#bad5d3c1bcdac28269f4cb331e431c78ac705d18"
+  integrity sha512-NJ6Yn3FuDinBaBRWl/q5X/s4koRHBrgKAu+yGI6JCBeiu3qrcbJhwT2GeR/EXVfylRk8dpQVJoLEFhK+Mu31NA==
+  dependencies:
+    d "^1.0.1"
+    ext "^1.1.2"
+
 escalade@^3.1.1:
   version "3.1.1"
   resolved "https://registry.yarnpkg.com/escalade/-/escalade-3.1.1.tgz#d8cfdc7000965c5a0174b4a82eaa5c0552742e40"
@@ -3115,7 +3204,7 @@ eventemitter3@^4.0.7:
   resolved "https://registry.yarnpkg.com/eventemitter3/-/eventemitter3-4.0.7.tgz#2de9b68f6528d5644ef5c59526a1b4a07306169f"
   integrity sha512-8guHBZCwKnFhYdHr2ysuRWErTwhoN2X8XELRlrRwpmfeY2jjuUN4taQMsULKUVo1K4DvZl+0pgfyoysHxvmvEw==
 
-events@^3.2.0:
+events@^3.2.0, events@^3.3.0:
   version "3.3.0"
   resolved "https://registry.yarnpkg.com/events/-/events-3.3.0.tgz#31a95ad0a924e2d2c419a813aeb2c4e878ea7400"
   integrity sha512-mQw+2fkQbALzQ7V0MY0IqdnXNOeTtP4r0lN9z7AAawCXgqea7bDii20AYrIBrFd/Hx0M2Ocz6S111CaFkUcb0Q==
@@ -3162,6 +3251,13 @@ expect@^27.4.6:
     jest-get-type "^27.4.0"
     jest-matcher-utils "^27.4.6"
     jest-message-util "^27.4.6"
+
+ext@^1.1.2:
+  version "1.6.0"
+  resolved "https://registry.yarnpkg.com/ext/-/ext-1.6.0.tgz#3871d50641e874cc172e2b53f919842d19db4c52"
+  integrity sha512-sdBImtzkq2HpkdRLtlLWDa6w4DX22ijZLKx8BMPUuKe1c5lbN6xwQDQCxSfxBQnHZ13ls/FH0MQZx/q/gr6FQg==
+  dependencies:
+    type "^2.5.0"
 
 fast-deep-equal@^3.1.1, fast-deep-equal@^3.1.3:
   version "3.1.3"
@@ -3316,6 +3412,11 @@ flux@^4.0.1:
   dependencies:
     fbemitter "^3.0.0"
     fbjs "^3.0.1"
+
+follow-redirects@^1.14.0:
+  version "1.15.0"
+  resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.15.0.tgz#06441868281c86d0dda4ad8bdaead2d02dca89d4"
+  integrity sha512-aExlJShTV4qOUOL7yF1U5tvLCB0xQuudbf6toyYA0E/acBNw71mvjFTnLaRp50aQaYocMR0a/RMMBIHeZnGyjQ==
 
 form-data@^3.0.0:
   version "3.0.1"
@@ -3859,11 +3960,6 @@ isexe@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/isexe/-/isexe-2.0.0.tgz#e8fbf374dc556ff8947a10dcb0572d633f2cfa10"
   integrity sha1-6PvzdNxVb/iUehDcsFctYz8s+hA=
-
-isomorphic-ws@4.0.1:
-  version "4.0.1"
-  resolved "https://registry.yarnpkg.com/isomorphic-ws/-/isomorphic-ws-4.0.1.tgz#55fd4cd6c5e6491e76dc125938dd863f5cd4f2dc"
-  integrity sha512-BhBvN2MBpWTaSHdWRb/bwdZJ1WaehQ2L1KngkCkfLUGF0mAWAT1sQUQacEmQ0jXkFw/czDXPNQSL5u2/Krsz1w==
 
 istanbul-lib-coverage@^3.0.0, istanbul-lib-coverage@^3.2.0:
   version "3.2.0"
@@ -4600,7 +4696,7 @@ lodash.truncate@^4.4.2:
   resolved "https://registry.yarnpkg.com/lodash.truncate/-/lodash.truncate-4.4.2.tgz#5a350da0b1113b837ecfffd5812cbe58d6eae193"
   integrity sha1-WjUNoLERO4N+z//VgSy+WNbq4ZM=
 
-lodash@^4.17.21, lodash@^4.7.0:
+lodash@4.17.21, lodash@^4.17.21, lodash@^4.7.0:
   version "4.17.21"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.21.tgz#679591c564c3bffaae8454cf0b3df370c3d6911c"
   integrity sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==
@@ -4610,10 +4706,10 @@ loglevel-plugin-prefix@0.8.4:
   resolved "https://registry.yarnpkg.com/loglevel-plugin-prefix/-/loglevel-plugin-prefix-0.8.4.tgz#2fe0e05f1a820317d98d8c123e634c1bd84ff644"
   integrity sha512-WpG9CcFAOjz/FtNht+QJeGpvVl/cdR6P0z6OcXSkr8wFJOsV2GRj2j10JLfjuA4aYkcKCNIEqRGCyTife9R8/g==
 
-loglevel@1.7.1:
-  version "1.7.1"
-  resolved "https://registry.yarnpkg.com/loglevel/-/loglevel-1.7.1.tgz#005fde2f5e6e47068f935ff28573e125ef72f197"
-  integrity sha512-Hesni4s5UkWkwCGJMQGAh71PaLUmKFM60dHvq0zi/vDhhrzuk+4GgNbTXJ12YYQJn6ZKBDNIjYcuQGKudvqrIw==
+loglevel@1.8.0:
+  version "1.8.0"
+  resolved "https://registry.yarnpkg.com/loglevel/-/loglevel-1.8.0.tgz#e7ec73a57e1e7b419cb6c6ac06bf050b67356114"
+  integrity sha512-G6A/nJLRgWOuuwdNuA6koovfEV1YpqqAG4pRUlFaz3jj2QNZ8M4vBqnVA+HBTmU/AMNUtlOsMmSpF6NyOjztbA==
 
 loose-envify@^1.0.0, loose-envify@^1.1.0, loose-envify@^1.4.0:
   version "1.4.0"
@@ -4896,6 +4992,11 @@ next-plugin-antd-less@^1.5.2:
     loader-utils "^3.2.0"
     null-loader "^4.0.1"
 
+next-tick@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/next-tick/-/next-tick-1.1.0.tgz#1836ee30ad56d67ef281b22bd199f709449b35eb"
+  integrity sha512-CXdUiJembsNjuToQvxayPZF9Vqht7hewsvy2sOWafLvi2awflj9mOC6bHIg50orX8IJvWKY9wYQ/zB2kogPslQ==
+
 next-transpile-modules@^9.0.0:
   version "9.0.0"
   resolved "https://registry.yarnpkg.com/next-transpile-modules/-/next-transpile-modules-9.0.0.tgz#133b1742af082e61cc76b02a0f12ffd40ce2bf90"
@@ -4940,6 +5041,11 @@ node-fetch@2.6.7:
   integrity sha512-ZjMPFEfVx5j+y2yF35Kzx5sF7kDzxuDj6ziH4FFbOp87zKDZNx8yExJIb05OGF4Nlt9IHFIMBkRl41VdvcNdbQ==
   dependencies:
     whatwg-url "^5.0.0"
+
+node-gyp-build@^4.3.0:
+  version "4.4.0"
+  resolved "https://registry.yarnpkg.com/node-gyp-build/-/node-gyp-build-4.4.0.tgz#42e99687ce87ddeaf3a10b99dc06abc11021f3f4"
+  integrity sha512-amJnQCcgtRVw9SvoebO3BKGESClrfXGCUTX9hSn1OuGQTQBOZmVd0Z0OlecpuRksKvbsUqALE8jls/ErClAPuQ==
 
 node-int64@^0.4.0:
   version "0.4.0"
@@ -6771,6 +6877,16 @@ type-fest@^0.21.3:
   resolved "https://registry.yarnpkg.com/type-fest/-/type-fest-0.21.3.tgz#d260a24b0198436e133fa26a524a6d65fa3b2e37"
   integrity sha512-t0rzBq87m3fVcduHDUFhKmyyX+9eo6WQjZvf51Ea/M0Q7+T374Jp1aUiyUl0GKxp8M/OETVHSDvmkyPgvX+X2w==
 
+type@^1.0.1:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/type/-/type-1.2.0.tgz#848dd7698dafa3e54a6c479e759c4bc3f18847a0"
+  integrity sha512-+5nt5AAniqsCnu2cEQQdpzCAh33kVx8n0VoFidKpB1dVVLAN/F+bgVOqOJqOnEnrhp222clB5p3vUlD+1QAnfg==
+
+type@^2.5.0:
+  version "2.6.0"
+  resolved "https://registry.yarnpkg.com/type/-/type-2.6.0.tgz#3ca6099af5981d36ca86b78442973694278a219f"
+  integrity sha512-eiDBDOmkih5pMbo9OqsqPRGMljLodLcwd5XD5JbtNB0o89xZAwynY9EdCDsJU7LtcVCClu9DvM7/0Ep1hYX3EQ==
+
 typedarray-to-buffer@3.1.5, typedarray-to-buffer@^3.1.5:
   version "3.1.5"
   resolved "https://registry.yarnpkg.com/typedarray-to-buffer/-/typedarray-to-buffer-3.1.5.tgz#a97ee7a9ff42691b9f783ff1bc5112fe3fca9080"
@@ -6840,6 +6956,13 @@ use-latest@^1.0.0:
   integrity sha512-d2TEuG6nSLKQLAfW3By8mKr8HurOlTkul0sOpxbClIv4SQ4iOd7BYr7VIzdbktUCnv7dua/60xzd8igMU6jmyw==
   dependencies:
     use-isomorphic-layout-effect "^1.0.0"
+
+utf-8-validate@^5.0.2:
+  version "5.0.9"
+  resolved "https://registry.yarnpkg.com/utf-8-validate/-/utf-8-validate-5.0.9.tgz#ba16a822fbeedff1a58918f2a6a6b36387493ea3"
+  integrity sha512-Yek7dAy0v3Kl0orwMlvi7TPtiCNrdfHNd7Gcc/pLq4BLXqfAmd0J7OWMizUQnTTJsyjKn02mU7anqwfmUP4J8Q==
+  dependencies:
+    node-gyp-build "^4.3.0"
 
 util-deprecate@^1.0.1, util-deprecate@~1.0.1:
   version "1.0.2"
@@ -6962,6 +7085,18 @@ webpack@5.0.0:
     watchpack "^2.0.0"
     webpack-sources "^2.0.1"
 
+websocket@^1.0.34:
+  version "1.0.34"
+  resolved "https://registry.yarnpkg.com/websocket/-/websocket-1.0.34.tgz#2bdc2602c08bf2c82253b730655c0ef7dcab3111"
+  integrity sha512-PRDso2sGwF6kM75QykIesBijKSVceR6jL2G8NGYyq2XrItNC2P5/qL5XeR056GhA+Ly7JMFvJb9I312mJfmqnQ==
+  dependencies:
+    bufferutil "^4.0.1"
+    debug "^2.2.0"
+    es5-ext "^0.10.50"
+    typedarray-to-buffer "^3.1.5"
+    utf-8-validate "^5.0.2"
+    yaeti "^0.0.6"
+
 whatwg-encoding@^1.0.5:
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/whatwg-encoding/-/whatwg-encoding-1.0.5.tgz#5abacf777c32166a51d085d6b4f3e7d27113ddb0"
@@ -7064,11 +7199,6 @@ write-file-atomic@^3.0.0:
     signal-exit "^3.0.2"
     typedarray-to-buffer "^3.1.5"
 
-ws@7.4.4:
-  version "7.4.4"
-  resolved "https://registry.yarnpkg.com/ws/-/ws-7.4.4.tgz#383bc9742cb202292c9077ceab6f6047b17f2d59"
-  integrity sha512-Qm8k8ojNQIMx7S+Zp8u/uHOx7Qazv3Yv4q68MiWWWOJhiwG5W3x7iqmRtJo8xxrciZUY4vRxUTJCKuRnF28ZZw==
-
 ws@^7.4.6, ws@^7.5.1:
   version "7.5.6"
   resolved "https://registry.yarnpkg.com/ws/-/ws-7.5.6.tgz#e59fc509fb15ddfb65487ee9765c5a51dec5fe7b"
@@ -7105,6 +7235,11 @@ y18n@^5.0.5:
   version "5.0.8"
   resolved "https://registry.yarnpkg.com/y18n/-/y18n-5.0.8.tgz#7f4934d0f7ca8c56f95314939ddcd2dd91ce1d55"
   integrity sha512-0pfFzegeDWJHJIAmTLRP2DwHjdF5s7jo9tuztdQxAhINCdvS+3nGINqPd00AphqJR/0LhANUS6/+7SCb98YOfA==
+
+yaeti@^0.0.6:
+  version "0.0.6"
+  resolved "https://registry.yarnpkg.com/yaeti/-/yaeti-0.0.6.tgz#f26f484d72684cf42bedfb76970aa1608fbf9577"
+  integrity sha1-8m9ITXJoTPQr7ft2lwqhYI+/lXc=
 
 yallist@^4.0.0:
   version "4.0.0"
