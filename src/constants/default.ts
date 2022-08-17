@@ -54,4 +54,14 @@ export const NETWORK_DATA_MAP = {
 			gas: '0xd2a4cff31913016155e38e474a2c06d08be276cf',
 		},
 	},
+	Custom: {
+		seedUrlList: [
+		],
+		networkMagic: 0,
+		nativeContracts: {
+			contractManagement: '0xfffdc93764dbaddd97c48f252a53ea4643faa3fd',
+			neo: '0xef4073a0f2b305a38ec4050e4d3d28bc40ea63f5',
+			gas: '0xd2a4cff31913016155e38e474a2c06d08be276cf',
+		},
+	},
 } as NetworkDataMap;
