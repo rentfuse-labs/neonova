@@ -29,6 +29,11 @@ export const NETWORK_DATA_MAP = {
 			'http://seed3t4.neo.org:20332',
 			'http://seed4t4.neo.org:20332',
 			'http://seed5t4.neo.org:20332',
+			'http://seed1t5.neo.org:20332',
+			'http://seed2t5.neo.org:20332',
+			'http://seed3t5.neo.org:20332',
+			'http://seed4t5.neo.org:20332',
+			'http://seed5t5.neo.org:20332',
 		],
 		networkMagic: 877933390,
 		nativeContracts: {
