@@ -24,18 +24,14 @@ export const NETWORK_DATA_MAP = {
 		seedUrlList: [
 			'https://testnet1.neo.coz.io:443',
 			'https://testnet2.neo.coz.io:443',
-			'http://seed1t4.neo.org:20332',
-			'http://seed2t4.neo.org:20332',
-			'http://seed3t4.neo.org:20332',
-			'http://seed4t4.neo.org:20332',
-			'http://seed5t4.neo.org:20332',
+			'https://rpc.t5.n3.nspcc.ru:20331/',
 			'http://seed1t5.neo.org:20332',
 			'http://seed2t5.neo.org:20332',
 			'http://seed3t5.neo.org:20332',
 			'http://seed4t5.neo.org:20332',
 			'http://seed5t5.neo.org:20332',
 		],
-		networkMagic: 877933390,
+		networkMagic: 894710606,
 		nativeContracts: {
 			contractManagement: '0xfffdc93764dbaddd97c48f252a53ea4643faa3fd',
 			neo: '0xef4073a0f2b305a38ec4050e4d3d28bc40ea63f5',
@@ -60,8 +56,7 @@ export const NETWORK_DATA_MAP = {
 		},
 	},
 	Custom: {
-		seedUrlList: [
-		],
+		seedUrlList: [],
 		networkMagic: 0,
 		nativeContracts: {
 			contractManagement: '0xfffdc93764dbaddd97c48f252a53ea4643faa3fd',
