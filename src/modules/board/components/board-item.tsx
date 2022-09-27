@@ -1,6 +1,6 @@
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import Neon, { tx, u, wallet } from '@cityofzion/neon-js';
-import { waitTx, WitnessScope } from '@rentfuse-labs/neo-wallet-adapter-base';
+import { WitnessScope } from '@rentfuse-labs/neo-wallet-adapter-base';
 import { useWallet } from '@rentfuse-labs/neo-wallet-adapter-react';
 import { useRootStore } from '@stores';
 import { Invocation, INVOCATION_ARG_TYPE_LIST, Project } from '@stores/models';
@@ -76,7 +76,7 @@ export const BoardItem = observer(function BoardItem({
 					const contract = new Neon.experimental.SmartContract(Neon.u.HexString.fromHex(values.scriptHash), {
 						networkMagic: settingsStore.network.networkMagic,
 						rpcAddress: settingsStore.network.rpcAddress,
-					});					
+					});
 					const result = await contract.invoke(
 						values.operation,
 						values.args.map((_arg: any) => toInvocationArgument(_arg.type, _arg.value)),
@@ -87,7 +87,6 @@ export const BoardItem = observer(function BoardItem({
 							}),
 						],
 					);
-					await waitTx(settingsStore.network.rpcAddress, result);
 					setResultJson(result);
 				}
 			} else {
@@ -123,7 +122,6 @@ export const BoardItem = observer(function BoardItem({
 						],
 					});
 					if (result.data?.txId) {
-						await waitTx(settingsStore.network.rpcAddress, result.data?.txId);
 						setResultJson(result);
 					}
 				}

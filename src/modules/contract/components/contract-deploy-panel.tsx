@@ -1,5 +1,5 @@
 import { sc, u, wallet, experimental } from '@cityofzion/neon-js';
-import { waitTx, WitnessScope } from '@rentfuse-labs/neo-wallet-adapter-base';
+import { WitnessScope } from '@rentfuse-labs/neo-wallet-adapter-base';
 import { useWallet } from '@rentfuse-labs/neo-wallet-adapter-react';
 import { useRootStore } from '@stores';
 import { useLocalWallet } from '@wallet';
@@ -99,8 +99,6 @@ export const ContractDeployPanel = observer(function ContractDeployPanel() {
 					account: account as any,
 				});
 
-				await waitTx(settingsStore.network.rpcAddress, result);
-
 				// Get deployed contract scripthash
 				const scriptHash = experimental.getContractHash(
 					u.HexString.fromHex(wallet.getScriptHashFromAddress(account.address)),
@@ -134,8 +132,6 @@ export const ContractDeployPanel = observer(function ContractDeployPanel() {
 				});
 
 				if (result.data?.txId) {
-					await waitTx(settingsStore.network.rpcAddress, result.data?.txId);
-
 					// Get deployed contract scripthash
 					const scriptHash = experimental.getContractHash(
 						u.HexString.fromHex(wallet.getScriptHashFromAddress(address)),

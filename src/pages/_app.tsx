@@ -24,23 +24,28 @@ require('@rentfuse-labs/neo-wallet-adapter-ant-design/styles.css');
 
 // Return available wallets depending on network type
 function getWallets(networkType: SettingsNetworkType) {
-	if (networkType === 'TestNet' || networkType === 'MainNet'|| networkType === 'Custom') {
+	let neonNetworkMap = {
+		MainNet: 'neo3:mainnet',
+		TestNet: 'neo3:testnet',
+		Custom: 'neo3:private',
+	};
+
+	if (networkType === 'TestNet' || networkType === 'MainNet' || networkType === 'Custom') {
 		return [
 			getNeoLineWallet(),
 			getO3Wallet(),
 			getNeonWalletConnectWallet({
 				options: {
-					chainId: networkType === 'TestNet' ? 'neo3:testnet' : 'neo3:mainnet',
-					methods: ['invokeFunction'],
-					appMetadata: {
+					projectId: process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID, // the ID of your project on Wallet Connect website
+					relayUrl: 'wss://relay.walletconnect.com', // we are using walletconnect's official relay server
+					metadata: {
 						name: 'Neonova',
 						description: 'Like Postman but for NEO N3.',
 						url: 'https://neonova.space',
 						icons: ['https://raw.githubusercontent.com/rentfuse-labs/neonova/main/neonova-icon.png'],
 					},
 				},
-				logger: 'debug',
-				relayProvider: 'wss://relay.walletconnect.org',
+				network: neonNetworkMap[networkType] as any,
 			}),
 		];
 	}

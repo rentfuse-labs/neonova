@@ -1,6 +1,6 @@
 import { CheckCircleOutlined } from '@ant-design/icons';
-import Neon, { experimental, sc, u, wallet } from '@cityofzion/neon-js';
-import { waitTx, WitnessScope } from '@rentfuse-labs/neo-wallet-adapter-base';
+import Neon, { sc, u, wallet } from '@cityofzion/neon-js';
+import { WitnessScope } from '@rentfuse-labs/neo-wallet-adapter-base';
 import { useWallet } from '@rentfuse-labs/neo-wallet-adapter-react';
 import { useRootStore } from '@stores';
 import { toInvocationArgument } from '@utils';
@@ -8,7 +8,8 @@ import { useLocalWallet } from '@wallet';
 import { Button, Form, Input, message, Result, Typography, Upload } from 'antd';
 import { Buffer } from 'buffer';
 import { observer } from 'mobx-react-lite';
-import React, { useState } from 'react';
+import { useState } from 'react';
+import { waitTx } from '../../../utils/wait-tx';
 
 export const ContractUpdatePanel = observer(function ContractUpdatePanel() {
 	const { viewStore, settingsStore } = useRootStore();
@@ -101,7 +102,7 @@ export const ContractUpdatePanel = observer(function ContractUpdatePanel() {
 					toInvocationArgument('String', JSON.stringify(contractManifest.toJson())),
 				] as any);
 
-				await waitTx(settingsStore.network.rpcAddress, result);
+				await waitTx(settingsStore.network.rpcAddress, result, '0xfffdc93764dbaddd97c48f252a53ea4643faa3fd', 'Update');
 
 				// Set it to show it (NB: Just an update, scripthash not changed!)
 				setUpdatedContract(values.scriptHash);
@@ -130,7 +131,12 @@ export const ContractUpdatePanel = observer(function ContractUpdatePanel() {
 				});
 
 				if (result.data?.txId) {
-					await waitTx(settingsStore.network.rpcAddress, result.data?.txId);
+					await waitTx(
+						settingsStore.network.rpcAddress,
+						result.data?.txId,
+						'0xfffdc93764dbaddd97c48f252a53ea4643faa3fd',
+						'Update',
+					);
 
 					// Set it to show it (NB: Just an update, scripthash not changed!)
 					setUpdatedContract(values.scriptHash);

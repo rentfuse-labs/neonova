@@ -7,6 +7,8 @@ const withTM = require('next-transpile-modules')([
 	'@rentfuse-labs/neo-wallet-adapter-neoline',
 	'@rentfuse-labs/neo-wallet-adapter-o3',
 	'@rentfuse-labs/neo-wallet-adapter-walletconnect',
+	'@cityofzion/wallet-connect-sdk-core',
+	'@cityofzion/neon-core',
 ]);
 
 const withPlugins = require('next-compose-plugins');
