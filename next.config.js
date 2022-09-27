@@ -7,6 +7,7 @@ const withTM = require('next-transpile-modules')([
 	'@rentfuse-labs/neo-wallet-adapter-neoline',
 	'@rentfuse-labs/neo-wallet-adapter-o3',
 	'@rentfuse-labs/neo-wallet-adapter-walletconnect',
+	'@rentfuse-labs/neo-wallet-adapter-onegate',
 	'@cityofzion/wallet-connect-sdk-core',
 	'@cityofzion/neon-core',
 ]);
