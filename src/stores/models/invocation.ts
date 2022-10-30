@@ -38,6 +38,7 @@ export const InvocationModel = types
 		scriptHash: types.string,
 		operation: types.string,
 		args: types.array(InvocationArgModel),
+		quantity: types.optional(types.number, 1),
 	})
 	.actions((self) => ({}));
 
@@ -48,5 +49,6 @@ export function getDefaultInvocation() {
 		scriptHash: '',
 		operation: '',
 		args: [],
+		quantity: 1,
 	} as any;
 }

@@ -6,7 +6,7 @@ import { useRootStore } from '@stores';
 import { Invocation, INVOCATION_ARG_TYPE_LIST, Project } from '@stores/models';
 import { toInvocationArgument, toStackItemValue } from '@utils';
 import { useLocalWallet } from '@wallet';
-import { Badge, Button, Col, Form, Input, message, Radio, Row, Select, Typography } from 'antd';
+import { Badge, Button, Col, Form, Input, InputNumber, message, Radio, Row, Select, Typography } from 'antd';
 import { observer } from 'mobx-react-lite';
 import dynamic from 'next/dynamic';
 import React, { useRef, useState } from 'react';
@@ -30,7 +30,7 @@ export const BoardItem = observer(function BoardItem({
 	invocation: Invocation;
 }) {
 	const { viewStore, settingsStore, projectStore } = useRootStore();
-	const { address, connected, invoke } = useWallet();
+	const { address, connected, invoke, invokeMulti } = useWallet();
 	const { account } = useLocalWallet();
 
 	const { observe: argsListRef, height: argsListHeight } = useDimensions<HTMLDivElement>();
@@ -51,45 +51,8 @@ export const BoardItem = observer(function BoardItem({
 		const isRead = values.type === 'read';
 
 		try {
-			if (isLocal) {
-				if (isRead) {
-					const contract = new Neon.experimental.SmartContract(Neon.u.HexString.fromHex(values.scriptHash), {
-						networkMagic: settingsStore.network.networkMagic,
-						rpcAddress: settingsStore.network.rpcAddress,
-					});
-					const result = await contract.testInvoke(
-						values.operation,
-						values.args.map((_arg: any) => toInvocationArgument(_arg.type, _arg.value)),
-					);
-
-					// With bytestring conversion
-					setResultJson({
-						...result,
-						stack: result.stack.map((_item) => ({ ..._item, value: toStackItemValue(_item.type, _item.value) })),
-					});
-				} else {
-					if (!account) {
-						message.error('You need to connect a wallet to execute a write invocation');
-						return;
-					}
-
-					const contract = new Neon.experimental.SmartContract(Neon.u.HexString.fromHex(values.scriptHash), {
-						networkMagic: settingsStore.network.networkMagic,
-						rpcAddress: settingsStore.network.rpcAddress,
-					});
-					const result = await contract.invoke(
-						values.operation,
-						values.args.map((_arg: any) => toInvocationArgument(_arg.type, _arg.value)),
-						[
-							new tx.Signer({
-								account: account.scriptHash,
-								scopes: WitnessScope.CalledByEntry,
-							}),
-						],
-					);
-					setResultJson(result);
-				}
-			} else {
+			// NB: Local not supported but left for compatibility
+			if (!isLocal) {
 				if (isRead) {
 					const contract = new Neon.experimental.SmartContract(Neon.u.HexString.fromHex(values.scriptHash), {
 						networkMagic: settingsStore.network.networkMagic,
@@ -110,10 +73,18 @@ export const BoardItem = observer(function BoardItem({
 						return;
 					}
 
-					const result = await invoke({
-						scriptHash: values.scriptHash,
-						operation: values.operation,
-						args: values.args.map((_arg: any) => toInvocationArgument(_arg.type, _arg.value)),
+					// Compose invocations depending on quantity
+					const invocations = [];
+					// Add nft mint with GAS transfer
+					for (let i = 0; i < values.quantity; i++) {
+						invocations.push({
+							scriptHash: values.scriptHash,
+							operation: values.operation,
+							args: values.args.map((_arg: any) => toInvocationArgument(_arg.type, _arg.value)),
+						});
+					}
+					const result = await invokeMulti({
+						invocations,
 						signers: [
 							{
 								account: wallet.getScriptHashFromAddress(address),
@@ -141,6 +112,7 @@ export const BoardItem = observer(function BoardItem({
 			scriptHash: allValues.scriptHash,
 			operation: allValues.operation,
 			args: allValues.args.filter((_arg: any) => _arg !== undefined),
+			quantity: allValues.quantity || 1,
 		} as Invocation);
 	};
 
@@ -207,6 +179,7 @@ export const BoardItem = observer(function BoardItem({
 								scriptHash: invocation.scriptHash,
 								operation: invocation.operation,
 								args: invocation.args,
+								quantity: invocation.quantity,
 							}}
 							layout={'vertical'}
 							onFinish={onFinish}
@@ -215,12 +188,30 @@ export const BoardItem = observer(function BoardItem({
 						>
 							<div style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
 								<div>
-									<Form.Item name={'type'} label={'Type'} rules={[{ required: true }]}>
-										<Radio.Group>
-											<Radio.Button value={'read'}>{'Read'}</Radio.Button>
-											<Radio.Button value={'write'}>{'Write'}</Radio.Button>
-										</Radio.Group>
-									</Form.Item>
+									<div
+										style={{ width: '100%', display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}
+									>
+										<div style={{ flex: 1 }}>
+											<Form.Item name={'type'} label={'Type'} rules={[{ required: true }]}>
+												<Radio.Group>
+													<Radio.Button value={'read'}>{'Read'}</Radio.Button>
+													<Radio.Button value={'write'}>{'Write'}</Radio.Button>
+												</Radio.Group>
+											</Form.Item>
+										</div>
+
+										{invocation.type === 'write' && (
+											<div style={{ flex: 1, display: 'flex', flexDirection: 'row', justifyContent: 'flex-end' }}>
+												<Form.Item
+													name={'quantity'}
+													label={'Quantity'}
+													rules={[{ required: true, type: 'number', min: 1 }]}
+												>
+													<InputNumber />
+												</Form.Item>
+											</div>
+										)}
+									</div>
 
 									<Form.Item name={'scriptHash'} label={'ScriptHash'} rules={[{ required: true }]}>
 										<Input />
