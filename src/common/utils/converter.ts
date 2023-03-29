@@ -84,8 +84,11 @@ export function toInvocationArgument(type: ArgumentType, value: any) {
 			// TODO: NOT SUPPORTED
 			break;
 		case 'Array':
-			// Pass an array as JSON [{type: 'String': value: 'blabla'}]
-			arg.value = sc.ContractParam.fromJson(value).toJson().value;
+			// Pass an array as JSON
+			/*
+			{"type": "Array", "value":[{"type":"String", "value": "Yes"},{"type":"String", "value": "No"}]}
+			*/
+			arg.value = sc.ContractParam.fromJson(JSON.parse(value)).toJson().value;
 			break;
 		case 'Map':
 			// TODO: NOT SUPPORTED
