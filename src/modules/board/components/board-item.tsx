@@ -1,15 +1,14 @@
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
-import Neon, { tx, u, wallet } from '@cityofzion/neon-js';
+import Neon, { u, wallet } from '@cityofzion/neon-js';
 import { WitnessScope } from '@rentfuse-labs/neo-wallet-adapter-base';
 import { useWallet } from '@rentfuse-labs/neo-wallet-adapter-react';
 import { useRootStore } from '@stores';
-import { Invocation, INVOCATION_ARG_TYPE_LIST, Project } from '@stores/models';
+import { INVOCATION_ARG_TYPE_LIST, Invocation, Project } from '@stores/models';
 import { toInvocationArgument, toStackItemValue } from '@utils';
-import { useLocalWallet } from '@wallet';
-import { Badge, Button, Col, Form, Input, InputNumber, message, Radio, Row, Select, Typography } from 'antd';
+import { Badge, Button, Col, Form, Input, InputNumber, Radio, Row, Select, Typography, message } from 'antd';
 import { observer } from 'mobx-react-lite';
 import dynamic from 'next/dynamic';
-import React, { useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import useDimensions from 'react-cool-dimensions';
 import { OnSelectProps } from 'react-json-view';
 
@@ -161,27 +160,31 @@ export const BoardItem = observer(function BoardItem({
 		// Updated resultJson substituting the corresponding mutation
 		setResultJson((_json: any) => {
 			const newJson = { ..._json };
-			switch (mutations[jsonMutationMap.current[path]['mutation']]) {
-				case 'default':
-					updateNestedData(newJson, jsonMutationMap.current[path]['default'], path);
-					break;
-				case 'string':
-					updateNestedData(newJson, u.hexstring2str(u.base642hex(jsonMutationMap.current[path]['default'])), path);
-					break;
-				case 'number':
-					updateNestedData(
-						newJson,
-						u.HexString.fromHex(u.reverseHex(u.base642hex(jsonMutationMap.current[path]['default']))).toNumber(),
-						path,
-					);
-					break;
-				case 'address':
-					updateNestedData(
-						newJson,
-						wallet.getAddressFromScriptHash(u.reverseHex(u.base642hex(jsonMutationMap.current[path]['default']))),
-						path,
-					);
-					break;
+			try {
+				switch (mutations[jsonMutationMap.current[path]['mutation']]) {
+					case 'default':
+						updateNestedData(newJson, jsonMutationMap.current[path]['default'], path);
+						break;
+					case 'string':
+						updateNestedData(newJson, u.hexstring2str(u.base642hex(jsonMutationMap.current[path]['default'])), path);
+						break;
+					case 'number':
+						updateNestedData(
+							newJson,
+							u.HexString.fromHex(u.reverseHex(u.base642hex(jsonMutationMap.current[path]['default']))).toNumber(),
+							path,
+						);
+						break;
+					case 'address':
+						updateNestedData(
+							newJson,
+							wallet.getAddressFromScriptHash(u.reverseHex(u.base642hex(jsonMutationMap.current[path]['default']))),
+							path,
+						);
+						break;
+				}
+			} catch (error) {
+				console.error('An error occurred trying to decode selected value', error);
 			}
 			return newJson;
 		});
@@ -382,7 +385,7 @@ export const BoardItem = observer(function BoardItem({
 							indentWidth={2}
 							displayDataTypes={false}
 							displayObjectSize={false}
-							enableClipboard={false}
+							enableClipboard={true}
 							onSelect={onSelectJson}
 							theme={'google'}
 							style={{ padding: 16, borderRadius: 4, height: jsonViewHeight, overflow: 'auto' }}
