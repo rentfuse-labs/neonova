@@ -127,12 +127,11 @@ export const Application = observer(function Application({
 
 				:global(.a-sider-wrapper) {
 					min-height: 100vh;
-					padding: 16px 0px 16px 16px;
+					padding: 0px 16px 0px 0px;
 				}
 
 				:global(.a-sider) {
 					height: 100%;
-					border-radius: 4px;
 					background: #ffffff;
 				}
 
@@ -157,7 +156,6 @@ export const Application = observer(function Application({
 				:global(.a-body) {
 					width: 100%;
 					min-height: 100vh;
-					padding: 16px;
 					background: #eceff1;
 				}
 
@@ -170,7 +168,7 @@ export const Application = observer(function Application({
 					align-items: center;
 					padding: 8px 16px 8px 16px;
 					margin-bottom: 16px;
-					border-radius: 4px;
+					border-radius: 0px 0px 0px 4px;
 					background: #ffffff;
 				}
 

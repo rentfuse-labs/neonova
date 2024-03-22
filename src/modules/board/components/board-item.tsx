@@ -30,8 +30,7 @@ export const BoardItem = observer(function BoardItem({
 	invocation: Invocation;
 }) {
 	const { viewStore, settingsStore, projectStore } = useRootStore();
-	const { address, connected, invoke, invokeMulti } = useWallet();
-	const { account } = useLocalWallet();
+	const { address, connected, invokeMulti } = useWallet();
 
 	const { observe: argsListRef, height: argsListHeight } = useDimensions<HTMLDivElement>();
 	const { observe: jsonViewRef, height: jsonViewHeight } = useDimensions<HTMLDivElement>();
@@ -83,12 +82,28 @@ export const BoardItem = observer(function BoardItem({
 							args: values.args.map((_arg: any) => toInvocationArgument(_arg.type, _arg.value)),
 						});
 					}
+
+					// Extract scope
+					const scopes = values.scope ? (values.scope as WitnessScope) : WitnessScope.CalledByEntry;
+					// Extract allowedContracts if needed
+					let allowedContracts = undefined;
+					// If custom contracts scope try to define it
+					if (scopes === 16) {
+						try {
+							allowedContracts = JSON.parse(values.allowedContracts);
+						} catch (e) {
+							console.error('Cannot parse allowed contracts as JSON array', e);
+						}
+					}
+
+					// Execute write invoke
 					const result = await invokeMulti({
 						invocations,
 						signers: [
 							{
 								account: wallet.getScriptHashFromAddress(address),
-								scopes: WitnessScope.CalledByEntry,
+								scopes,
+								allowedContracts,
 							},
 						],
 					});
@@ -113,6 +128,11 @@ export const BoardItem = observer(function BoardItem({
 			operation: allValues.operation,
 			args: allValues.args.filter((_arg: any) => _arg !== undefined),
 			quantity: allValues.quantity || 1,
+			scope: allValues.type === 'write' && allValues.scope ? allValues.scope : 1,
+			allowedContracts:
+				allValues.type === 'write' && allValues.scope === 16 && allValues.allowedContracts
+					? allValues.allowedContracts
+					: '',
 		} as Invocation);
 	};
 
@@ -180,6 +200,8 @@ export const BoardItem = observer(function BoardItem({
 								operation: invocation.operation,
 								args: invocation.args,
 								quantity: invocation.quantity,
+								scope: invocation.scope,
+								allowedContracts: invocation.allowedContracts,
 							}}
 							layout={'vertical'}
 							onFinish={onFinish}
@@ -192,7 +214,7 @@ export const BoardItem = observer(function BoardItem({
 										style={{ width: '100%', display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}
 									>
 										<div style={{ flex: 1 }}>
-											<Form.Item name={'type'} label={'Type'} rules={[{ required: true }]}>
+											<Form.Item name={'type'} label={'Type'} rules={[{ required: true }]} style={{ marginBottom: 12 }}>
 												<Radio.Group>
 													<Radio.Button value={'read'}>{'Read'}</Radio.Button>
 													<Radio.Button value={'write'}>{'Write'}</Radio.Button>
@@ -206,6 +228,7 @@ export const BoardItem = observer(function BoardItem({
 													name={'quantity'}
 													label={'Quantity'}
 													rules={[{ required: true, type: 'number', min: 1 }]}
+													style={{ marginBottom: 12 }}
 												>
 													<InputNumber />
 												</Form.Item>
@@ -213,11 +236,21 @@ export const BoardItem = observer(function BoardItem({
 										)}
 									</div>
 
-									<Form.Item name={'scriptHash'} label={'ScriptHash'} rules={[{ required: true }]}>
+									<Form.Item
+										name={'scriptHash'}
+										label={'ScriptHash'}
+										rules={[{ required: true }]}
+										style={{ marginBottom: 12 }}
+									>
 										<Input />
 									</Form.Item>
 
-									<Form.Item name={'operation'} label={'Operation'} rules={[{ required: true }]}>
+									<Form.Item
+										name={'operation'}
+										label={'Operation'}
+										rules={[{ required: true }]}
+										style={{ marginBottom: 12 }}
+									>
 										<Input />
 									</Form.Item>
 								</div>
@@ -290,6 +323,45 @@ export const BoardItem = observer(function BoardItem({
 											</>
 										)}
 									</Form.List>
+								</div>
+
+								<div
+									style={{
+										width: '100%',
+										height: 80,
+										display: 'flex',
+										flexDirection: 'row',
+										justifyContent: 'space-between',
+									}}
+								>
+									<div style={{ flex: 1, marginRight: 8 }}>
+										{invocation.type === 'write' && (
+											<Form.Item name={'scope'} label={'Scope'} rules={[{ required: invocation.type === 'write' }]}>
+												<Select allowClear={false}>
+													<Select.Option value={1}>{'Called by entry'}</Select.Option>
+													<Select.Option value={16}>{'Custom contracts'}</Select.Option>
+													<Select.Option value={128}>{'Global'}</Select.Option>
+												</Select>
+											</Form.Item>
+										)}
+									</div>
+
+									<div
+										style={{
+											flex: 1,
+											marginLeft: 8,
+										}}
+									>
+										{invocation.type === 'write' && invocation.scope === 16 && (
+											<Form.Item
+												name={'allowedContracts'}
+												label={'Allowed contracts'}
+												rules={[{ required: invocation.type === 'write' && invocation.scope === 16 }]}
+											>
+												<Input />
+											</Form.Item>
+										)}
+									</div>
 								</div>
 
 								<div>

@@ -39,6 +39,8 @@ export const InvocationModel = types
 		operation: types.string,
 		args: types.array(InvocationArgModel),
 		quantity: types.optional(types.number, 1),
+		scope: types.optional(types.number, 1),
+		allowedContracts: types.optional(types.string, ''),
 	})
 	.actions((self) => ({}));
 
@@ -50,5 +52,7 @@ export function getDefaultInvocation() {
 		operation: '',
 		args: [],
 		quantity: 1,
+		scope: 1,
+		allowedContacts: '',
 	} as any;
 }
