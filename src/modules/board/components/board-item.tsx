@@ -10,7 +10,7 @@ import { observer } from 'mobx-react-lite';
 import dynamic from 'next/dynamic';
 import { useRef, useState } from 'react';
 import useDimensions from 'react-cool-dimensions';
-import { OnSelectProps } from 'react-json-view';
+import { OnCopyProps, OnSelectProps } from 'react-json-view';
 
 // Use this trick to correctly load react-json-view in nextjs
 const DynamicReactJson = dynamic(import('react-json-view'), { ssr: false });
@@ -133,6 +133,18 @@ export const BoardItem = observer(function BoardItem({
 					? allValues.allowedContracts
 					: '',
 		} as Invocation);
+	};
+
+	const onCopyClipboard = (props: OnCopyProps) => {
+		// Check if props.src is a string
+		if (typeof props.src === 'string') {
+			try {
+				// If so copy it as a string without quotes
+				navigator.clipboard.writeText(props.src);
+			} catch (error) {
+				console.error('An error occurred copying the string', error);
+			}
+		}
 	};
 
 	const onSelectJson = (props: OnSelectProps) => {
@@ -385,7 +397,7 @@ export const BoardItem = observer(function BoardItem({
 							indentWidth={2}
 							displayDataTypes={false}
 							displayObjectSize={false}
-							enableClipboard={true}
+							enableClipboard={onCopyClipboard}
 							onSelect={onSelectJson}
 							theme={'google'}
 							style={{ padding: 16, borderRadius: 4, height: jsonViewHeight, overflow: 'auto' }}
