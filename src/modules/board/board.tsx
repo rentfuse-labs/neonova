@@ -76,32 +76,43 @@ export const Board = observer(function Board() {
 				break;
 			case 'remove':
 				if (selectedProject) {
-					const projectToUpdate = {
-						...selectedProject,
-						invocations: selectedProject.invocations.filter(
-							(_invocation) => _invocation.id !== targetKey,
-						) as Invocation[],
-					} as Project;
-					// If i'm removing last one prompt with a new blank starter to avoid having all empty
-					if (!projectToUpdate.invocations.length) {
-						projectToUpdate.invocations.push(getDefaultInvocation());
-					}
+					Modal.confirm({
+						title:
+							'Delete invocation [' +
+							(selectedProject.invocations.find((_invocation) => _invocation.id === targetKey)?.operation || 'New') +
+							']',
+						icon: <ExclamationCircleOutlined style={{ color: '#ff4d4f' }} />,
+						onOk() {
+							const projectToUpdate = {
+								...selectedProject,
+								invocations: selectedProject.invocations.filter(
+									(_invocation) => _invocation.id !== targetKey,
+								) as Invocation[],
+							} as Project;
+							// If i'm removing last one prompt with a new blank starter to avoid having all empty
+							if (!projectToUpdate.invocations.length) {
+								projectToUpdate.invocations.push(getDefaultInvocation());
+							}
 
-					// Update project
-					projectStore.updateProject(projectToUpdate);
+							// Update project
+							projectStore.updateProject(projectToUpdate);
 
-					// Calculate the new selected key after removing this one
-					let newSelectedKey = viewStore.selectedInvocationId || selectedProject.invocations[0].id;
-					if (newSelectedKey === targetKey) {
-						const targetIndex = projectToUpdate.invocations.findIndex((invocation) => invocation.id === targetKey);
-						if (targetIndex - 1 >= 0) {
-							newSelectedKey = selectedProject.invocations[targetIndex - 1].id;
-						} else {
-							newSelectedKey = selectedProject.invocations[0].id;
-						}
-					}
-					// Set the new selected key
-					viewStore.setSelectedInvocationId(newSelectedKey);
+							// Calculate the new selected key after removing this one
+							let newSelectedKey = viewStore.selectedInvocationId || selectedProject.invocations[0].id;
+							if (newSelectedKey === targetKey) {
+								const targetIndex = projectToUpdate.invocations.findIndex((invocation) => invocation.id === targetKey);
+								if (targetIndex - 1 >= 0) {
+									newSelectedKey = selectedProject.invocations[targetIndex - 1].id;
+								} else {
+									newSelectedKey = selectedProject.invocations[0].id;
+								}
+							}
+							// Set the new selected key
+							viewStore.setSelectedInvocationId(newSelectedKey);
+						},
+						okText: 'Delete',
+						okType: 'danger',
+					});
 				}
 				break;
 		}

@@ -36,11 +36,13 @@ export const BoardItem = observer(function BoardItem({
 
 	const [form] = Form.useForm();
 	const [resultJson, setResultJson] = useState<any | null>(null);
+	const [onegateLink, setOnegateLink] = useState<string | null>(null);
 
 	const jsonMutationMap = useRef<any>({});
 
 	const onFinish = async (values: any) => {
 		setResultJson(null);
+		setOnegateLink(null);
 		jsonMutationMap.current = {};
 
 		viewStore.setLoadingVisible(true);
@@ -108,6 +110,11 @@ export const BoardItem = observer(function BoardItem({
 					});
 					if (result.data?.txId) {
 						setResultJson(result);
+						setOnegateLink(
+							(settingsStore.network.type === 'MainNet'
+								? 'https://explorer.onegate.space/transactionInfo/'
+								: 'https://testmagnet.explorer.onegate.space/transactionInfo/') + result.data?.txId,
+						);
 					}
 				}
 			}
@@ -150,6 +157,11 @@ export const BoardItem = observer(function BoardItem({
 	const onSelectJson = (props: OnSelectProps) => {
 		// Only if something in namespace
 		if (!props.namespace.length) {
+			return;
+		}
+
+		// If txid do nothing
+		if (props.name === 'txId' && props.namespace?.[0] === 'data') {
 			return;
 		}
 
@@ -402,6 +414,21 @@ export const BoardItem = observer(function BoardItem({
 							theme={'google'}
 							style={{ padding: 16, borderRadius: 4, height: jsonViewHeight, overflow: 'auto' }}
 						/>
+
+						{onegateLink && (
+							<div
+								style={{
+									position: 'absolute',
+									top: 16,
+									right: 24,
+									zIndex: 1,
+								}}
+							>
+								<a href={onegateLink} target={'_blank'} rel={'noreferrer'} className={'g-link-no-border'}>
+									<Button type={'default'}>{'View on Onegate'}</Button>
+								</a>
+							</div>
+						)}
 					</Col>
 				</Row>
 			</div>

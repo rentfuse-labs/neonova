@@ -65,7 +65,7 @@ const GlobalWalletProvider = observer(function GlobalWalletProvider({ children }
 
 	return (
 		<>
-			<WalletProvider wallets={wallets} autoConnect={false}>
+			<WalletProvider wallets={wallets} autoConnect={true}>
 				<WalletModalProvider centered={false}>
 					<LocalWalletProvider>{children}</LocalWalletProvider>
 				</WalletModalProvider>
