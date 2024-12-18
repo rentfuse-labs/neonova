@@ -117,11 +117,14 @@ export const ContractDeployPanel = observer(function ContractDeployPanel() {
 					scriptHash: NETWORK_DATA_MAP[settingsStore.network.type].nativeContracts['contractManagement'],
 					operation: 'deploy',
 					args: [
-						toInvocationArgument(
-							'ByteArray',
-							u.HexString.fromHex(sc.NEF.fromBuffer(contractBytecode).serialize(), true),
-						),
-						toInvocationArgument('String', JSON.stringify(contractManifest.toJson())),
+						{
+							type: 'ByteArray',
+							value: u.HexString.fromHex(sc.NEF.fromBuffer(contractBytecode).serialize(), false).toBase64(),
+						},
+						{
+							type: 'String',
+							value: JSON.stringify(contractManifest.toJson()),
+						},
 					],
 					signers: [
 						{
