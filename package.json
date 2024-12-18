@@ -1,6 +1,6 @@
 {
 	"name": "neonova",
-	"version": "1.5.4",
+	"version": "1.5.5",
 	"author": "Rentfuse Labs",
 	"scripts": {
 		"dev": "next dev",
@@ -11,7 +11,7 @@
 	},
 	"dependencies": {
 		"@ant-design/icons": "4.6.4",
-		"@cityofzion/neon-js": "^5.2.0",
+		"@cityofzion/neon-js": "^5.6.0",
 		"@rentfuse-labs/neo-wallet-adapter-ant-design": "^0.4.0",
 		"@rentfuse-labs/neo-wallet-adapter-base": "^0.4.0",
 		"@rentfuse-labs/neo-wallet-adapter-react": "^0.4.0",
