@@ -31,7 +31,7 @@ export const NETWORK_DATA_MAP = {
 			'http://seed4t5.neo.org:20332',
 			'http://seed5t5.neo.org:20332',
 		],
-		networkMagic: 894710606,
+		networkMagic: 877933390,
 		nativeContracts: {
 			contractManagement: '0xfffdc93764dbaddd97c48f252a53ea4643faa3fd',
 			neo: '0xef4073a0f2b305a38ec4050e4d3d28bc40ea63f5',
