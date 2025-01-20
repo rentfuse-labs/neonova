@@ -1,6 +1,6 @@
 {
 	"name": "neonova",
-	"version": "1.5.5",
+	"version": "1.5.6",
 	"author": "Rentfuse Labs",
 	"scripts": {
 		"dev": "next dev",

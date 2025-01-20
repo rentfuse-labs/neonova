@@ -121,6 +121,7 @@ export const ContractUpdatePanel = observer(function ContractUpdatePanel() {
 							u.HexString.fromHex(sc.NEF.fromBuffer(contractBytecode).serialize(), true),
 						),
 						toInvocationArgument('String', JSON.stringify(contractManifest.toJson())),
+						toInvocationArgument('Any', null)
 					],
 					signers: [
 						{
